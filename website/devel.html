@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>HPComm.org development</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+  <hr><h1>www.HPComm.org development</h1><hr>
+
+This page is for software developers who want to help develop HPComm and
+HPComm38, or for people who want to obtain the source, as entitled under
+the GNU General Public License.
+
+<p> HPComm is a free program which allows you to transfer data between a
+PC, and <a href="http://www.hp.com/calculators/">HP graphing
+calculators</a>.  The latest released version of HPComm is HPComm 3.0r4.
+The latest version of HPComm38 (which works with the HP38G, HP39G and HP40G
+calculators) is 1.0r4.
+<!--
+We're currently developing HPComm 3.1.  See the <a
+href="beta.html">beta-testing page</a> for more information.
+-->
+We're not currently beta-testing either program.
+
+<p> We use <a href="http://www.cvshome.org/">CVS</a> to manage
+our source code.  See our <a href="cvs.html">getting the latest source</a>
+page for how to use CVS under Unix or WinCVS under Windows to get the
+latest HPComm source.
+
+<p> Please note, while HPComm is compiled using 
+<a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ 6</a>,
+our development process uses tools which come from the Unix world
+(such as diff, patch etc.).
+
+<p> Unix has a number of differences to Windows and DOS.  Unix filenames
+are case sensitive (eg, "<tt>CVS</tt>" is not the same as "<tt>cvs</tt>")
+and line ends are denoted by a single <tt>^J</tt>, instead of the
+<tt>^M^J</tt> line ends which are common in the DOS/Windows world.
+
+<p> Because of this, care must be taken to get these things right.
+Either of these two setups are known to work:
+
+<ul>
+ <li>
+  Have two machines, one running Unix and the other running Windows.
+  The files can either be stored on the Unix box and shared to the Windows
+  PC using Samba, or (if the Unix box is running Linux) the files can be
+  stored under Windows, and shared to the Linux box using smbfs.
+
+  <p> If you'd like to learn more, visit our <a
+href="devsetup.html">development setup</a> page.
+ </li>
+ <li>
+  The other setup requires just one PC running Windows, with WinCVS
+  installed.
+ </li>
+</ul>
+
+<h3>Source code</h3>
+
+<p> We do not release the source using the <tt>.zip</tt> format, as
+programs which understand the <tt>.zip</tt> format are not strict enough
+about line ends and filename case sensitivity.  This causes our tools
+(such as CVS) to break.  Instead, we follow the Unix tradition and use
+<tt>tar</tt> and a compression program, which in this case is 
+<a href="http://sourceware.cygnus.com/bzip2/"><tt>bzip2</tt></a>.
+For people new to these programs, step-by-step 
+<a href="untarring.html">instructions</a> are available.  (Yes, it's
+possible to view the source code if you've only got Windows).
+
+<p>
+<table border=2>
+<tr>
+ <td>
+  Version:
+ </td>
+ <td>
+  Release date:
+ </td>
+ <td>
+  <a href="untarring.html">Source code, in <tt>.tar.bz2</tt> format</a>
+ </td>
+</tr>
+<tr>
+ <td>
+  HPComm 3.0r4
+ </td>
+ <td>
+  2-Jun-00
+ </td>
+ <td>
+  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r4-src.tar.bz2"><tt>HPComm-30r4-src.tar.bz2</tt> (145k)</a>
+ </td>
+</tr>
+ <td>
+  HPComm38 1.0r4
+ </td>
+ <td>
+  2-Jun-00
+ </td>
+ <td>
+  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r4-src.tar.bz2"><tt>HPComm38-10r4-src.tar.bz2</tt> (80k)</a>
+ </td>
+</tr>
+</table>
+
+<!--
+<p>
+<font size="-1">
+Note, that two simultaneous versions of HPComm will be released in the
+future.  One will be branded with HP's logo, and the other will not.  If
+you make modifications to HPComm, we ask that you do not release your
+modifications as an HP-branded version, as per para 6, sentence 2 of the
+GPL Preamble.
+</font>
+-->
+
+<!--
+<h3>News</h3> Sun Sep 19 1999 mjd:
+First page.
+-->
+<h3>Coming soon!</h3>
+- Oh, lots of stuff.  If there's something you'd really like to see,
+  mail <a href="mailto:mjd@hpcomm.org">me</a>.
+<p>
+<center>
+<a href="index.html">Home</a> |
+<a href="devsetup.html">Development setup</a> |
+<a href="cvs.html">Get the latest sources</a>
+</center>
+<p>
+<hr>
+<a href="mailto:mjd@hpcomm.org">Mitch Davis</a>
+<br><a href="mailto:james@hpcomm.org">James Bergamin</a>
+<br>
+<!-- Created: Fri Sep 17 12:16:14 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Sun Jun 18 07:28:33 EST 2000
+<!-- hhmts end -->
+<a href="http://validator.w3.org/"><img border=0 src="images/vh40.gif" alt="Valid HTML 4.0!" height=31 width=88></a>
+  </body>
+</html>

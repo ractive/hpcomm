@@ -1,0 +1,256 @@
+H: cable
+My cable works with an HP48GX, but not the HP49G!
+
+Q:
+My cable works fine with an HP48GX, but when I
+connect the cable to my HP49G, the screen goes funny, or if the
+calculator is on, it turns off.  When I turn the calculator on again it
+says "Invalid Card Data".  What's happening?
+
+A:
+Chances are you're using the F1015A or F1016A cable or something similar.
+These cables were originally designed for the 
+<a href="http://www.hp.com/pressrel/feb97/03feb97e.htm">200LX</a>, and
+were shipped with HP's previous kits.  While the connectors are the same,
+the signals are not.  <em><b>DO NOT USE A 200LX/F1015/F1016 CABLE WITH THE
+HP38G or HP49G</b></em>, as it may damage your calculator.  See here for
+more information:
+<pre>
+<a href="http://www.hpcalc.org/hp49/docs/faq/#ss5.9">http://www.hpcalc.org/hp49/docs/faq/#ss5.9</a>
+</pre> 
+The easiest solution is to use a cable you know is suitable for the
+HP38G, or buy HP's new PC Connectivity Kit, which includes a cable.
+Visit the <a href="products.html">products page</a> for a listing of cable
+makers.
+
+H:connect
+My cable works with other programs, but I can't start or run HPComm!
+
+Q:
+I'm using the right cable, but I still can't connect.  Any ideas?
+
+A:
+First, are you able to use other programs such as 
+<a href="http://www.hpcalc.org/pc/link/">HP Explorer</a>
+or Kermit successfully?  This will help you determine if the
+problem is with your computer or setup, or with the HPComm software.
+
+<p> If HP Explorer and HPComm both don't work, then check these things:
+<ul>
+ <li>Have you selected the right port?  (See 
+  <a href="#ports">below</a>).</li>
+ <li>Are you SURE you're not using an HP 200LX cable?  (See 
+  <a href="#cable">above</a>).</li>
+ <li>Are the settings for speed (see <a href="#slow">below</a>), 
+  translation and checksum the same on both?  Do they match the settings
+  on the calculator?
+ </li>
+ <li>Have you tried fresh batteries in the calculator?</li>
+</ul>
+
+<p> If HP Explorer works but HPComm doesn't, then it may be a software
+problem in HPComm.
+
+<ul>
+ <li>Are HP Explorer and HPComm set to use the same port?</li>
+ <li>How far does HPComm progress through the startup procedure?</li>
+</ul>
+
+When HPComm starts, it shows what stage it's up to.  If everything is
+correct, all five stages are displayed in green.  When there's a problem
+in a particular stage, that stage is displayed in red.  If you need help
+to resolve your problem, we need to know the colour of each stage.  Send
+this information to the <a href="mailto:hpcomm@complete.org">hpcomm
+mailing list</a>.  You can find out more about our mailing lists here:
+<pre>
+<a href="http://www.hpcomm.org/lists.html">http://www.hpcomm.org/lists.html</a>
+</pre> 
+
+H:platforms
+Why is HPComm only for Windows?  What about other platforms?
+
+Q:
+Why does the HP PC Connectivity Kit only run under Windows 95 and higher?
+What about users of DOS, Windows 3.1, Macs, and Linux?
+
+A:
+Simply, the market is biggest for Win32 apps.  Also, there are many good
+third party apps to suit the needs of DOS, Mac and Unix users.  Visit
+the <a href="http://www.hpcalc.org/pc/link/">HP-PC Link Programs</a>
+section of <a href="mailto:eric@hpcalc.org">Eric Rechlin</a>'s 
+<a href="http://www.hpcalc.org">http://www.hpcalc.org</a> site 
+for some good ones.
+
+<p> One of the biggest challenges I had while co-writing HPComm
+3.0 was to get HP to make it <a href="http://www.opensource.org">Open
+Source</a>.  Having done so, I hope this paves the way for people to
+use the source code and make equivalent programs available on other
+platforms.  So far, I've received a couple of offers, but we
+need to generate more interest, so please let me know.
+
+<p> We encourage anyone who would benefit from a program like HPComm
+on other platforms, to participate in <a href="devel.html">HPComm
+development</a>.  Subscribe to the 
+<a href="lists.html"><b>hpcomm-dev</b> mailing list</a> and help us
+make this happen.
+
+<!--
+<p> We do have plans to produce a Mac Connectivity Kit.  Like the PC Kit,
+this would use a serial port, so iMac owners would have to purchase a USB
+serial port.
+-->
+
+<p> If you're a Mac owner and want to upgrade your HP49G ROM, you
+presently have three options:
+<ul>
+ <li>If you have a Mac G3, see if HPComm works with a PC Emulator.</li>
+ <li>Use a friend's PC.</li>
+ <li>Starting with ROM versions 1.14 and higher, it's possible to
+transfer a ROM from one HP49G calculator to another.</li>
+</ul>
+
+<p> Upgrading the ROM doesn't happen very often.  Using a friend's
+PC or transferring it from another HP49G is probably the best option.
+</td>
+</tr>
+
+H:ports
+I can't select the COM port I want to use.  Any ideas?
+
+Q:
+I can't select the COM port I want to use.  Any ideas?
+
+A:
+HPComm determines which serial ports are available by trying to
+open COM ports 1 through 4.  If the open is successful, HPComm
+allows you to select it.
+
+<ul>
+ <li>
+  If you think a port should <em>not</em> be shown and is, it's usually
+  because that device is not being used at the moment, for instance, a port
+  with a modem attached.
+ </li>
+ <li>
+  If you think a port should be listed and isn't, the usual cause is
+  that some other software package or device is already using that port.
+  You may have a modem attached, or some device like the docking cradle for
+  a Palm Pilot&reg; or an
+  <a href="http://www.hp.com/jornada/">HP Jornada</a>.
+ </li>
+</ul>
+
+<p> The first thing to do is to check if the port you want is installed
+correctly.  In Windows 95/98, do this:
+<tt>Start</tt>-><tt>Settings</tt>-><tt>Control Panel</tt>, then
+<tt>System</tt>-><tt>Device Manager</tt>.  Under the "<tt>Ports</tt>"
+section, you should see "<tt>Communications Port (<i>COMx</i>)</tt>",
+where "<tt><i>COMx</i></tt>" is the COM port you want to use.  Make sure
+the icon does not have a yellow exclamation mark, or a similar icon which
+indicates that the device has a problem.
+
+<p> If you are using Windows NT, do this:
+
+<tt>Start</tt>-><tt>Settings</tt>-><tt>Control Panel</tt>, then
+select "<tt>Ports</tt>".  You should see "<tt>Ports</tt>" and
+a list of the installed ports on this machine.  Ports starting with
+"<tt>COM<i>x</i></tt>" are ports installed on this computer.
+
+<p> The next step is to check if you have some software running that
+uses the COM port you need.  There's no easy way to check this, but many
+programs put a small icon in the "system tray", which is usually in the
+right-hand corner of the Windows taskbar.
+
+<p> If you are using Windows 2000, do this:
+
+<tt>Start</tt>-><tt>Settings</tt>-><tt>Control Panel</tt>, then
+<tt>System</tt>-><tt>Hardware</tt>-><tt>Device Manager</tt>.
+Under the "<tt>Ports</tt>" section, you should see 
+"<tt>Communications Port (<i>COMx</i>)</tt>",
+where "<tt><i>COMx</i></tt>" is the COM port you want to use.  Make sure
+the icon does not have a yellow exclamation mark, or a similar icon which
+indicates that the device has a problem.
+
+<p> The next step is to check if you have some software running that
+uses the COM port you need.  There's no easy way to check this, but many
+programs put a small icon in the "system tray", which is usually in the
+right-hand corner of the Windows taskbar.
+
+<p> If this is the case, you have three choices:
+
+<ul>
+ <li>Choose another serial port (if you have one free).</li>
+ <li>Purchase and install another serial port.</li>
+ <li>Stop the other software program before running HPComm.</li>
+</ul>
+
+<p> Is the above helpful?  Comments?  Your feedback would be appreciated.
+
+H:win95
+The toolbar looks funny, and I can't double-click on the <tt>.flash</tt> file when upgrading the ROM.  Why?
+
+Q:
+The toolbar looks funny, and I can't upgrade the ROM by
+double-clicking on the <tt>.flash</tt> file.  Why?  (Alternatively, you
+get a box asking which application to use).</a>
+
+A:
+The ROM file <em>must</em> end with "<tt>.flash</tt>", so check this.
+(We strongly suggest starting Windows Explorer, selecting the
+"View-&gt;Options" pulldown menu, and ensuring the "Hide file extensions
+for known file types" option is <b>unchecked</b>.
+
+<p> Also, sometimes a "<tt>.flash</tt>" file may have been renamed by
+Windows, PKUnzip or some other program to end with "<tt>.fla</tt>".  If
+this is the case, rename it to end with "<tt>.flash</tt>".
+
+<p> If you get the "Open with..." box, it means you're using Windows
+Explorer, rather than HPComm.  You need to double-click on the
+"<tt>.flash</tt>" file while using HPComm, <i>not</i> Windows
+Explorer.
+
+<p> Finally, some versions of Microsoft Windows (especially Windows 95)
+were shipped with a faulty system library.  You can 
+<a href="comctl32.html">upgrade this library</a> here.
+
+H:badcapture
+I'm trying to do a screen capture with my HP49G, but 
+the screen is corrupted.  Why?
+
+Q:
+I'm trying to do a screen capture with my HP49G, but
+the screen is corrupted.  Why?
+
+A:
+Does your screen look like this? <a href="images/badcapture.gif">[bad
+capture]</a> Early versions of the HP49G had a bug which corrupted
+screenshots.  
+<a href="http://www.hp.com/calculators/graphing/rom/">Upgrading to version
+1.10 or later</a> will fix this.
+
+H:slow
+9600 baud doesn't work for me, but slower speeds do.  Any ideas?
+Q:
+9600 baud doesn't work for me, but slower speeds do.
+Any ideas?
+A:
+There may be three causes:
+<ul>
+ <li>
+  Using the serial port on the calculator uses lots of power.  Unless
+  the batteries are in good condition, the calculator may not be able
+  to generate good, clean signals.  Try new batteries.
+ </li>
+ <li>
+  Make sure your cable is of good quality.  (See the 
+  <a href="products.html">products page</a> for some good cables).
+  Home-made cables will usually work, but haven't been subjected to the
+  same level of testing and R&amp;D as professional cables, and may cause
+  signal degradation.
+ </li>
+ <li>
+  For some reason, some laptops and PC motherboards just don't generate
+  clean signals.  Some have suggested early Intel Pentium motherboards.
+  In order to determine whether this is the problem, try it on one or two
+  other computers.
+ </li>

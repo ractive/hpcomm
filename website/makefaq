@@ -1,0 +1,159 @@
+#! /bin/bash
+#
+
+stderr()
+{
+  echo "$*" 1>&2
+}
+
+error()
+{
+  stderr "$0: $*"
+
+  rm -f /tmp/mfaq-*-$$
+  exit 1
+}
+
+# main
+h=/tmp/mfaq-h-$$
+q=/tmp/mfaq-q-$$
+
+MODE=start
+
+while read; do
+  LINE="$REPLY"
+  case "$LINE" in
+    H:*) # echo H found.
+        [ "$MODE" != "start" -a "$MODE" != "a" ] && stderr "Unexpected H."
+        NAME=`echo $LINE | sed -e 's/^H:[ ]*//g'`
+        (
+          if [ "$MODE" = "a" ]; then
+            echo " </td>"
+            echo "</tr>"
+            echo
+            echo "<td><br></td>"
+            echo
+          fi
+        ) >> $q
+        (
+          echo "<tr>"
+          echo " <td valign=\"top\" align=\"right\"><a href=\"#$NAME\"><img border=\"1\" src=\"images/garrow.gif\" width=\"8\" height=\"12\" alt=\">\"></a></td>"
+          echo " <td>"
+        ) >> $h
+        MODE=h
+        ;;
+
+    Q:) # echo Q found.
+        [ "$MODE" != "h" ] && stderr "Unexpected Q."
+        (
+          echo " </td>"
+          echo "</tr>"
+        ) >> $h
+        (
+          echo "<tr valign=top>"
+          echo "<td>"
+          echo "<img src=\"images/q.gif\" width=\"20\" height=\"20\" alt=\"Q:\">"
+          echo "</td>"
+          echo "<td>"
+          echo "<a name=\"$NAME\">"
+        ) >> $q
+        MODE=q
+        ;;
+
+    A:) # echo A found.
+        [ "$MODE" != "q" ] && stderr "Unexpected A."
+        (
+          echo "  </a>"
+          echo " </td>"
+          echo "</tr>"
+	  echo
+          echo "<tr valign=top>"
+          echo " <td>"
+          echo "  <img src=\"images/a.gif\" width=\"21\" height=\"18\" alt=\"A:\">"
+          echo " </td>"
+          echo " <td>"
+        ) >> $q
+        MODE=a
+        ;;
+
+    *)  # echo A normal line found.
+        if [ "$MODE" = "h" ]; then
+          echo "$LINE" >> $h
+        else
+          echo "$LINE" | sed -e 's/^/  /g' -e 's/^  $//g' >> $q
+        fi
+        ;;
+
+  esac
+done
+
+cat <<EOF
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>HPComm.org FAQs</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+<table width="100%"><tr><td bgcolor="#6699ff"><font size="-2" color="#6699ff">_</font></td></tr></table>
+<font size="+4">www.HPComm.org FAQs</font>
+<table width="100%"><tr><td bgcolor="#6699ff" align="right">
+<font size="-2" color="#3300cc">
+<!-- Created: Fri Sep 17 12:16:14 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Tue Jan 11 03:04:09 EST 2000
+<!-- hhmts end -->
+<br>Last generated: `date`
+</font></td></tr></table>
+
+<h1>Frequently Asked Questions</h1>
+
+<font size="-2">
+ All these questions have come from real news articles and emails.
+ Thanks to HPComm users everywhere for providing ideas.
+</font>
+
+<p>Note that "HPComm" implies both the HPComm program, and the HPComm38
+program.
+
+<h3>Quick Index:</h3>
+
+<table>
+<tr>
+ <td><img src="images/jump.gif" border="0" height="12" width="39" alt="">
+</tr>
+EOF
+
+cat $h
+
+cat <<EOF
+</table>
+
+<h3>In Detail:</h3>
+
+<table>
+EOF
+
+cat $q
+
+cat <<EOF
+ </td>
+</tr>
+
+</table>
+
+<hr>
+Got a question not answered here?  Write to 
+<a href="mailto:mjd@hpcomm.org">Mitch Davis</a>.
+</body>
+</html>
+
+EOF
+stderr Done.
+
+# Delete the temporary files after 2 minutes.  This is in case we
+# want to check or save the temporary files.
+FSPEC="/tmp/mfaq-*-$$"
+(sleep 120; rm $FSPEC > /dev/null 2>&1 ) &
+
+exit 0

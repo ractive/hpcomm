@@ -1,0 +1,166 @@
+Index: beta.html
+===================================================================
+RCS file: /home/hpcomm/CVS-Repository/HPComm-web/beta.html,v
+retrieving revision 1.17
+diff -u -r1.17 beta.html
+--- beta.html	2000/06/17 16:28:28	1.17
++++ beta.html	2000/06/18 14:04:36
+@@ -46,23 +46,23 @@
+ 
+ <!--
+ <p>The latest beta version of HPComm is 
+-<a href="ftp://ftp.hpcomm.org/pub/HPComm-3.0r4b2.exe">HPComm <b>3.0r4b2</b></a>.
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-3.0r4b2.exe">HPComm <b>3.0r4b2</b></a>.
+ After testing has finished, this will be released as <b>3.0r4</b>.
+ -->
+ 
+ <p> The latest released version of HPComm is 
+-<a href="ftp://ftp.hpcomm.org/pub/HPComm-30r4.exe">HPComm <b>3.0r4</b></a>.
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r4.exe">HPComm <b>3.0r4</b></a>.
+ No betas of HPComm are available at this time.
+ 
+ <!--
+ The latest beta version of HPComm38 is
+-<a href="ftp://ftp.hpcomm.org/pub/HPComm38-1.0r4b3.exe">HPComm38 
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-1.0r4b3.exe">HPComm38 
+ <b>1.0r4b3</b></a>.  
+ After testing has finished, this will be released as <b>1.0r4</b>.
+ -->
+ 
+ The latest released version of HPComm38 is 
+-<a href="ftp://ftp.hpcomm.org/pub/HPComm38-10r4.exe">HPComm38 <b>1.0r4</b></a>.
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r4.exe">HPComm38 <b>1.0r4</b></a>.
+ No betas of HPComm38 are available at this time.
+ 
+ <p>If you have any queries, suggestions or improvements regarding <i>this
+@@ -163,7 +163,7 @@
+ wonderful world of the HP38G)</h6>
+ 
+ I'll assume you've installed and run <a
+-href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm-30r2.zip">HPComm 3.0r2</a>,
++href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r2.zip">HPComm 3.0r2</a>,
+ and are familiar with how to use it.
+ 
+ <p> When you select the "Comms settings" dialog, it's now possible
+@@ -234,7 +234,7 @@
+ 
+ <p> One problem I found with the aplets.zip file from HP is that it's not
+ easy to expand all the ApLets at one time, so I've rebundled these <a
+-href="ftp://ftp.hpcomm.org/pub/hpcomm/ApLets.zip">here
++href="ftp://hpcomm.sourceforge.net/pub/hpcomm/ApLets.zip">here
+ [<tt>ApLets.zip</tt>]</a>.  When extracting this file, ensure you tell
+ your decompressor to preserve the subdirectories, otherwise all files
+ will be extracted into a single directory, and mayhem will ensue.
+@@ -251,9 +251,9 @@
+ 
+ HPComm and HPComm38 require the most recent versions of Microsoft's
+ system libraries.  These libraries are shipped standard with
+-<a href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm-30r3.zip">HPComm 3.0r3</a>
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r3.zip">HPComm 3.0r3</a>
+ and
+-<a href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm38-10r3.zip">HPComm38 1.0r3</a>.
++<a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r3.zip">HPComm38 1.0r3</a>.
+ So before downloading the beta versions, please download and install
+ the previous released versions, to ensure these libraries are up-to-date.
+ 
+@@ -275,7 +275,7 @@
+ -->
+ <!--
+  <td>Thu May 25 06:37:31 EST 2000</td>
+- <td><a href="ftp://ftp.hpcomm.org/pub/HPComm-3.0r4b2.exe">HPComm-3.0r4b2.exe</a></td>
++ <td><a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-3.0r4b2.exe">HPComm-3.0r4b2.exe</a></td>
+ -->
+ <!--
+ </tr>
+@@ -288,7 +288,7 @@
+ -->
+ <!--
+  <td>Tue May 30 11:13:32 EST 2000</td>
+- <td><a href="ftp://ftp.hpcomm.org/pub/HPComm38-1.0r4b3.exe">HPComm38-1.0r4b3.exe</a></td>
++ <td><a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-1.0r4b3.exe">HPComm38-1.0r4b3.exe</a></td>
+ </tr>
+ </table>
+ 
+Index: comctl32.html
+===================================================================
+RCS file: /home/hpcomm/CVS-Repository/HPComm-web/comctl32.html,v
+retrieving revision 1.3
+diff -u -r1.3 comctl32.html
+--- comctl32.html	2000/01/10 15:32:42	1.3
++++ comctl32.html	2000/06/18 14:04:36
+@@ -74,7 +74,7 @@
+ <p> As a convenience to you, you may download this file here:
+ 
+ <pre>
+-  <a href="ftp://ftp.hpcomm.org/pub/hpcomm/com32upd.exe">ftp://ftp.hpcomm.org/pub/hpcomm/com32upd.exe</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/com32upd.exe">ftp://hpcomm.sourceforge.net/pub/hpcomm/com32upd.exe</a>
+ 
+ </pre>
+ 
+Index: devel.html
+===================================================================
+RCS file: /home/hpcomm/CVS-Repository/HPComm-web/devel.html,v
+retrieving revision 1.10
+diff -u -r1.10 devel.html
+--- devel.html	2000/06/14 18:09:55	1.10
++++ devel.html	2000/06/18 14:04:36
+@@ -89,7 +89,7 @@
+   2-Jun-00
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm-30r4-src.tar.bz2"><tt>HPComm-30r4-src.tar.bz2</tt> (145k)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r4-src.tar.bz2"><tt>HPComm-30r4-src.tar.bz2</tt> (145k)</a>
+  </td>
+ </tr>
+  <td>
+@@ -99,7 +99,7 @@
+   2-Jun-00
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm38-10r4-src.tar.bz2"><tt>HPComm38-10r4-src.tar.bz2</tt> (80k)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r4-src.tar.bz2"><tt>HPComm38-10r4-src.tar.bz2</tt> (80k)</a>
+  </td>
+ </tr>
+ </table>
+Index: index.html
+===================================================================
+RCS file: /home/hpcomm/CVS-Repository/HPComm-web/index.html,v
+retrieving revision 1.19
+diff -u -r1.19 index.html
+--- index.html	2000/06/17 16:21:27	1.19
++++ index.html	2000/06/18 14:04:36
+@@ -33,7 +33,7 @@
+   -->
+   <br><a href="images/ss1.gif"><img border="0" height="8" width="8" alt="o" src="images/bluediamond.gif">Screenshot</a>
+ <!--
+-  <br><a href="ftp://ftp.hpcomm.org/pub/hpcomm/HPComm-30r2.zip"><img border="0" height="8" width="8" alt="o" src="images/bluediamond.gif">Download</a>
++  <br><a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r2.zip"><img border="0" height="8" width="8" alt="o" src="images/bluediamond.gif">Download</a>
+ -->
+   <br><a href="#download"><img border="0" height="8" width="8" alt="o" src="images/bluediamond.gif">Download</a>
+   <br><a href="products.html"><img border="0" height="8" width="8" alt="o" src="images/bluediamond.gif">Products</a>
+@@ -141,10 +141,10 @@
+   2-Jun-00
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/HPComm-30r4.zip"><tt>HPComm-30r4.zip</tt> (1677k)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r4.zip"><tt>HPComm-30r4.zip</tt> (1677k)</a>
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/HPComm-30r4.exe"><tt>HPComm-30r4.exe</tt> (1698)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm-30r4.exe"><tt>HPComm-30r4.exe</tt> (1698)</a>
+  </td>
+  <td>
+   <a href="images/ss1.gif"><img width="64" height="47" alt="screenshot" border="0" src="images/ss1small.gif"></a>
+@@ -159,10 +159,10 @@
+   2-Jun-00
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/HPComm38-10r4.zip"><tt>HPComm38-10r4.zip</tt> (1256k)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r4.zip"><tt>HPComm38-10r4.zip</tt> (1256k)</a>
+  </td>
+  <td>
+-  <a href="ftp://ftp.hpcomm.org/pub/HPComm38-10r4.exe"><tt>HPComm38-10r4.exe</tt> (1277k)</a>
++  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/HPComm38-10r4.exe"><tt>HPComm38-10r4.exe</tt> (1277k)</a>
+  </td>
+  <td>
+   <a href="images/ss2.gif"><img width="64" height="67" alt="screenshot" border="0" src="images/ss2small.gif"></a>
