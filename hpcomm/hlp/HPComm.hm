@@ -1,0 +1,92 @@
+ 
+// Commands (ID_* and IDM_*) 
+HID_SEND                                0x108E0
+HID_TREEPOPUPCALC_SEND                  0x10900
+HID_BORDERADD                           0x11490
+HID_BORDERSIZE                          0x114A0
+HID_THICKBORDER                         0x114B0
+HID_THINBORDER                          0x114C0
+HID_BORDERWHITE                         0x114D0
+HID_BORDERBLACK                         0x114E0
+HID_BORDERTHIN                          0x114F0
+HID_BORDERTHICK                         0x11500
+HID_GRAYIMAGE                           0x11510
+HID_BWGROB                              0x11520
+HID_GRAYGROB                            0x11530
+HID_BWIMAGE                             0x11540
+HID_STANDARDSIZE                        0x11550
+HID_CUSTOMSIZE                          0x11560
+HID_HELPLANGUAGE                        0x11570
+HID_DELETE                              0x18010
+HID_REFRESH                             0x18020
+HID_RENAME                              0x18030
+HID_DIRPOPUP_EXPLORE                    0x18100
+HID_DIRPOPUP_OPENINEXPLORER             0x18110
+HID_DIRPOPUP_SEND                       0x18120
+HID_POPUP_DELETE                        0x18130
+HID_POPUP_OPEN                          0x18140
+HID_FILE_NEWFOLDER                      0x18200
+HID_FILE_RENAME                         0x18210
+HID_FILE_PROPERTIES                     0x18220
+HID_FILE_SET38GFOLDER                   0x18230
+HID_BOOKMARK                            0x18240
+HID_COMMSET                             0x18250
+HID_CALCULATOR_XMODEM                   0x18260
+HID_CALCULATOR_KERMIT                   0x18270
+HID_ASCII                               0x18280
+HID_BINARY                              0x18290
+HID_CALCULATOR_BACKUP                   0x182A0
+HID_CALCULATOR_RESTORE                  0x182B0
+HID_CALCULATOR_UPGRADEHP49G             0x182C0
+HID_CAPTURE                             0x182D0
+HID_VIEW_SETUP                          0x182E0
+HID_POPUP_OPENWITHNOTEPAD               0x18400
+HID_PROPERTIES                          0x18410
+HID_POPUP_SEND_KERMIT                   0x18420
+HID_POPUP_SEND_XMODEM                   0x18430
+HID_TREEPOPUP_DELETE                    0x18500
+HID_TREEPOPUP_EXPLORE                   0x18510
+HID_TREEPOPUP_OPEN                      0x18520
+HID_TREEPOPUP_OPENINEXPLORER            0x18530
+HID_TREEPOPUP_SEND                      0x18540
+HID_FAV                                 0x18600
+HID_MONOCHROMEIMAGE                     0x18610
+HID_GRAYSCALEIMAGE                      0x18620
+HID_POPUP_PASTE                         0x18630
+HID_DIRPOPUPCALC_PASTE                  0x18640
+HID_HELP_LICENSE                        0x18650
+HID_SELECTALL                           0x18660
+ 
+// Prompts (IDP_*) 
+ 
+// Resources (IDR_*) 
+HIDR_DIRPOPUP                           0x20800
+HIDR_GROBVIEW                           0x20810
+HIDR_MAINFRAME                          0x20820
+HIDR_POPUP                              0x20830
+HIDR_TREEPOPUP                          0x20840
+HIDR_DIRPOPUPCALC                       0x208C0
+HIDR_POPUPCALC                          0x208D0
+HIDR_TREEPOPUPCALC                      0x208F0
+HIDR_CALCPOPUP                          0x20910
+ 
+// Dialogs (IDD_*) 
+HIDD_ABOUTBOX                           0x20400
+HIDD_CAPTURE                            0x20410
+HIDD_COMINFO                            0x20420
+HIDD_COMMSET                            0x20430
+HIDD_FILENAME                           0x20440
+HIDD_GROBVIEW                           0x20450
+HIDD_MANTRANS                           0x20460
+HIDD_OVERWRITE                          0x20470
+HIDD_PROGRESSDLG                        0x20480
+HIDD_PROPERTIES                         0x20490
+HIDD_TRANSFER                           0x204A0
+HIDD_TRANSPROG                          0x204B0
+HIDD_HELPFILEDLG                        0x204C0
+HIDD_RESIZEDLG                          0x20850
+HIDD_ARCHIVENAME                        0x20860
+HIDD_GROBFORMATDLG                      0x208B0
+HIDD_CONNECTFAILED                      0x21190
+ 
+// Frame Controls (IDW_*) 

@@ -1,0 +1,64 @@
+1. [mjd May-13] Do we need to provide hp48.ttf?  Where do we get this?
+                What is the license on it?  How will we install it?
+
+2. [mjd Jul-06] To do list for beta (roughly in order of importance):
+
+ [ ]  Need to make sure that pressing refresh does what we expect,
+      rather than failing a VERIFY, which is what happens at the moment.
+    
+ [ ]  Transfer files to and from the calculator.
+    
+ [ ]  Test that copy copies and move moves.  Test native methods (cross
+      filespace copies and moves are not implemented yet).
+    
+ [ ]  Need to check that all 16 forms of intra-HPComm d-n-d/c-n-p
+      work.  At the moment, d-n-d to trees doesn't.  And d-n-d between
+      different filespaces doesn't because CFiler::cp still needs work.
+      (Shouldn't be hard).
+    
+ [ ]  Test that program works Ok when cannot connect initially.  Can we
+      reconnect later?  What about when the connection is broken
+      mid-operation?
+
+      === first beta, tuesday 6th.
+    
+ [ ]  We need to test that pressing F1 and choosing Help-> Contents
+      shows the help file.  It is not necessary for it to be context
+      sensitive.
+    
+ [ ]  Registry code.
+
+ [ ]  As per 3.1.6.2, we need an internal file viewer.  Hex or ascii
+      mode determines what the user sees.
+    
+ [ ]  There's a dialog box which determines the viewer preferences.  If
+      they select external, then they have to be given a text bar and a
+      browse button so they can choose an external viewer.
+    
+ [ ]  The image viewer needs to have another pulldown set which chooses
+      no border, white border, or black border.  This border affects
+      what is copied to the clipboard.
+    
+      === second beta, wednesday 7th.
+
+ [ ]  Prompting on recursive deleting of directories should be tested.
+    
+ [ ]  Capture image needs testing, from start to copied into clipboard.
+    
+ [ ]  Need code with activates and deactivates menu options depending on
+      whether they are valid.
+    
+ [ ]  File translation options need testing.
+    
+ [ ]  Properties dialog needs writing/testing.
+
+      === third beta, thursday 8th.
+    
+ [ ]  Backup and restore needs coding and testing.
+    
+ [ ]  We need to code and test for the flash upgrade module.
+    
+ [ ]  Need to check that every operation can be performed by the
+      keyboard, and that all appropriate hotkeys are in.
+    
+      === fourth beta, saturday/sunday.

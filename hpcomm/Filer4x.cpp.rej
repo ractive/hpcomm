@@ -1,0 +1,292 @@
+***************
+*** 9,14 ****
+  #include "Prot.h"
+  #include "ProgressDlg.h"
+  #include "ProtException.h"
+  
+  const CString CFiler4x::home_("HOME");
+  
+--- 9,15 ----
+  #include "Prot.h"
+  #include "ProgressDlg.h"
+  #include "ProtException.h"
++ #include "CalcTypes.h"
+  
+  const CString CFiler4x::home_("HOME");
+  
+***************
+*** 255,263 ****
+  		return 0;
+  	}
+  
+  	fe->user1(0);
+- 	fe->IconIndex(false, 16);
+- 	fe->IconIndex(true, 16);
+  
+  	// We know that the new dir is empty, so we add a 0 entry to
+  	// "initialise" the directory.
+--- 256,265 ----
+  		return 0;
+  	}
+  
++     CCalcTypes *ct = CCalcTypes::instance();
+  	fe->user1(0);
++ 	fe->IconIndex(false, ct->directoryIcon());
++ 	fe->IconIndex(true, ct->openDirectoryIcon());
+  
+  	// We know that the new dir is empty, so we add a 0 entry to
+  	// "initialise" the directory.
+***************
+*** 311,316 ****
+  	TRACE("CFiler4x::readDir: dir=%s\n", toString(dir));
+  #endif
+  
+  	// Have we already read this directory?
+  	if (!reRead && hasBeenRead(dir))
+  	{
+--- 313,320 ----
+  	TRACE("CFiler4x::readDir: dir=%s\n", toString(dir));
+  #endif
+  
++     CCalcTypes *ct = CCalcTypes::instance();
++ 
+  	// Have we already read this directory?
+  	if (!reRead && hasBeenRead(dir))
+  	{
+***************
+*** 319,326 ****
+  		// CFiler::findFirst, put a call to calcIcons.  Then make CFiler4x
+  		// have another think about what icon a directory should be.  By
+  		// the time findFirst returns, the icons should have been updated.
+- 		dir->IconIndex(false, 18);
+- 		dir->IconIndex(true, 20);
+  
+  		return true;
+  	}
+--- 323,330 ----
+  		// CFiler::findFirst, put a call to calcIcons.  Then make CFiler4x
+  		// have another think about what icon a directory should be.  By
+  		// the time findFirst returns, the icons should have been updated.
++ 		dir->IconIndex(false, ct->directoryIcon());
++ 		dir->IconIndex(true, ct->openDirectoryIcon());
+  
+  		return true;
+  	}
+***************
+*** 393,417 ****
+  		sLine = sLine.Mid(sLine.ReverseFind(' ') + 1);
+  		sscanf(sLine, "%u", &nCheckSum);
+  
+- 		// Unfortunately the type is called "Real Number" (with whitespace)
+- 		// so that nChecksum has a wrong value, cause it expects "Number"
+- 		// as argument :-(
+- #if 0
+-         if (strcmp(sType, "Real") == 0)
+- 		{
+- 			sscanf(sRemoteDir, "%s %lf %s %s %u",
+- 				   name, &lSize, sType, sType, &nCheckSum);
+- 			strcpy(sType, "Real Number");
+- 		}
+- #endif
+  		sa.Add(name);
+  
+  		CFilerEntry *fe;
+  		if (reRead && ((fe = dir->findEntry((CString)name)) != 0))
+  		{
+  			// The dir already contains this entry, so we update it.
+- 			if (fe->Directory() != (strcmp(sType, "Directory") == 0)) {
+- 				// Check if the file was a directory before.
+  				if (fe->Directory()) {
+  					// The entry changed from a directory to a file, so we
+  					// have to make a CFilerEntry from the CFilerDir
+--- 397,422 ----
+  		sLine = sLine.Mid(sLine.ReverseFind(' ') + 1);
+  		sscanf(sLine, "%u", &nCheckSum);
+  
+  		sa.Add(name);
+  
+  		CFilerEntry *fe;
+  		if (reRead && ((fe = dir->findEntry((CString)name)) != 0))
+  		{
+  			// The dir already contains this entry, so we update it.
++             bool b = ct->known(sType);
++             if (b == false)
++             {
++                 CString msg;
++                 msg.Format("CFiler4x: Entry \"%s\" has unknown type \"%s\".  Please report this!\n",
++                     name, sType);
++                 AfxMessageBox(msg, MB_ICONEXCLAMATION | MB_OK);
++                 // By default leave b as false, to indicate it's not a dir.
++             }
++             else
++                 b = ct->isADirectory(sType);
++ 
++             // Check if the file was a directory before.
++ 			if (fe->Directory() != b) {
+  				if (fe->Directory()) {
+  					// The entry changed from a directory to a file, so we
+  					// have to make a CFilerEntry from the CFilerDir
+***************
+*** 444,450 ****
+  		else
+  		{
+  			// Create the new CFilerEntry.
+- 			fe = newCFilerEntry(name, strcmp(sType, "Directory") == 0, nSize);
+  			// Add it to the dir.
+  			dir->add(fe);
+  		}
+--- 449,455 ----
+  		else
+  		{
+  			// Create the new CFilerEntry.
++ 			fe = newCFilerEntry(name, ct->isADirectory(sType), nSize);
+  			// Add it to the dir.
+  			dir->add(fe);
+  		}
+***************
+*** 454,467 ****
+  		// Now we calculate the icons.
+  		while (1)  // This trick is so we can use break instead of if-else-if.
+  		{
+- 			if (strcmp(sType, "Directory") == 0)
+  			{
+- 				fe->IconIndex(false, 18);
+- 				fe->IconIndex(true, 20);
+  				break;
+  			}
+  
+- 			int icon = iconFromType(sType);
+  			fe->IconIndex(false, icon);
+  			fe->IconIndex(true, icon);
+  
+--- 459,472 ----
+  		// Now we calculate the icons.
+  		while (1)  // This trick is so we can use break instead of if-else-if.
+  		{
++ 			if (ct->isADirectory(sType))
+  			{
++ 				fe->IconIndex(false, ct->directoryIcon());
++ 				fe->IconIndex(true, ct->openDirectoryIcon());
+  				break;
+  			}
+  
++ 			int icon = ct->icon(sType);
+  			fe->IconIndex(false, icon);
+  			fe->IconIndex(true, icon);
+  
+***************
+*** 477,484 ****
+  	{
+  		// The dir is read, but isn't the root. Update the icons for this
+  		// directory.
+- 		dir->IconIndex(false, 18);
+- 		dir->IconIndex(true, 20);
+  	}
+  
+  	if (reRead)
+--- 482,489 ----
+  	{
+  		// The dir is read, but isn't the root. Update the icons for this
+  		// directory.
++ 		dir->IconIndex(false, ct->directoryIcon());
++ 		dir->IconIndex(true, ct->openDirectoryIcon());
+  	}
+  
+  	if (reRead)
+***************
+*** 500,572 ****
+      if (isRoot(entry))
+      {
+  		// These are the icons for the HP HOME dir.
+- 		entry->IconIndex(false, 21);
+- 		entry->IconIndex(true, 22);
+  
+  		return;
+      }
+  }
+  
+  
+- // Convert an object type string into an icon index.
+- int CFiler4x::
+- iconFromType(CString sType)
+- {
+- 	int icon;
+- 
+- 	if (strcmp(sType, "Real Number") == 0) {
+- 		icon = 1;
+- 	}
+- 	else if (strcmp(sType, "Complex Number") == 0) {
+- 		icon = 2;
+- 	}
+- 	else if (strcmp(sType, "String") == 0) {
+- 		icon = 3;
+- 	}
+- 	else if (strcmp(sType, "List") == 0) {
+- 		icon = 4;
+- 	}
+- 	else if (strcmp(sType, "Real Array") == 0) {
+- 		icon = 5;
+- 	}
+- 	else if (strcmp(sType, "Complex Array") == 0) {
+- 		icon = 6;
+- 	}
+- 	else if (strcmp(sType, "Program") == 0) {
+- 		icon = 8;
+- 	}
+- 	else if (strcmp(sType, "Algebraic") == 0) {
+- 		icon = 9;
+- 	}
+- 	else if (strcmp(sType, "Binary") == 0) {
+- 		icon = 10;
+- 	}
+- 	else if (strcmp(sType, "Graphic") == 0) {
+- 		icon = 11;
+- 	}
+- 	else if (strcmp(sType, "Unit") == 0) {
+- 		icon = 12;
+- 	}
+- 	else if (strcmp(sType, "Library") == 0) {
+- 		icon = 13;
+- 	}
+- 	else if (strcmp(sType, "Global") == 0) {
+- 		icon = 15;
+- 	}
+- 	else if (strcmp(sType, "Code") == 0) {
+- 		icon = 16;
+- 	}
+- 	else
+- 		icon = 14;
+- 
+- 	return icon;
+- }
+- 
+- 
+  int CFiler4x::
+  getDirIcon()
+  {
+- 	return 18;
+  }
+  
+  
+--- 505,525 ----
+      if (isRoot(entry))
+      {
+  		// These are the icons for the HP HOME dir.
++         CCalcTypes *ct = CCalcTypes::instance();
+  
++         int icon = ct->icon("HOME");
++ 		entry->IconIndex(false, icon);
++ 		entry->IconIndex(true, icon);
++ 
+  		return;
+      }
+  }
+  
+  
+  int CFiler4x::
+  getDirIcon()
+  {
++     return CCalcTypes::instance()->directoryIcon();
+  }
+  
+  

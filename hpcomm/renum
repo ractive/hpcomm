@@ -1,0 +1,86 @@
+#! /bin/awk -f
+#
+# AWK filter to assist with the renumbering of Microsoft resource.h
+# resource ID files.  
+#
+# Author:  Mitch Davis <mjd@alphalink.com.au>.
+# License: Public domain, no rights reserved.
+#
+# Version: $Id: renum,v 1.4 1999/07/30 04:06:39 mjd Exp $
+
+function fromhex(val)
+{
+    hex="0123456789abcdef";
+
+    gsub(/^0x/, "", val);
+    val = tolower(val);
+    # printf("fromhex: val=%s\n", val);
+    ret = 0;
+    while(length(val) > 0)
+    {
+        ch = substr(val, 1, 1);
+        i = index(hex, ch);
+        if (i==0)
+        {
+            printf("Illegal char '%c' found in hex digit.\n", ch);
+            exit 2;
+        }
+        val = substr(val, 2);
+        ret = ret * 16 + (i - 1);
+        # ret = sprintf("%s%s", ret, t)
+        # printf("fromhex: val=%s ch=%c i=%d ret=%d\n", val, ch, i, ret);
+    }
+
+    return ret
+}
+
+BEGIN {
+    donum =1;
+    STEP = 1
+}
+
+
+NR==1 {
+}
+
+{
+    LINE=$0;
+
+    gsub(/$/, "", LINE);
+
+    if (match(LINE, /#if/))
+        donum = 0;
+
+    if (match(LINE, /#endif/))
+        donum = 1;
+
+    if (match(LINE, /\/\/ RENUM:/))
+    {
+        ARG=LINE;
+        gsub(/\/\/ RENUM: /, "0x", ARG);
+        # printf("RENUM: ARG=%s ARG=%d\n", ARG, fromhex(ARG));
+        RENUM = fromhex(ARG);
+    }
+
+    if (match(LINE, /\/\/ STEP:/))
+    {
+        ARG=LINE;
+        gsub(/\/\/ STEP: /, "0x", ARG);
+        STEP = fromhex(ARG);
+    }
+
+    if (match(LINE, /^#define [A-Z]/) && donum == 1)
+    {
+        if (RENUM == "")
+        {
+            printf("RENUM was never set.\n");
+            exit 2
+        }
+        # gsub(/[\t ]*/, " ", LINE)
+        split(LINE, ARGS, " ")
+        printf("%-7s %-31s %d\r\n", ARGS[1], ARGS[2], RENUM);
+        RENUM = RENUM + STEP;
+    }
+    else
+        printf("%s\r\n", LINE);
+}

@@ -1,0 +1,100 @@
+PC Connectivity Kit
+Project Plan
+
+$Id: ProjectPlan.txt,v 1.1 1999/05/10 12:05:59 mjd Exp $
+
+Major tasks:
+               |May                Jun                       July
+               |11111 11122 22222 3        11 11111 22222 223
+               |01234 78901 45678 11234 78901 45678 12345 89012 3
+Contract       |--   .     .     .     .     .     .     .     .
+Merge/CVS      |-    .     .     .     .     .     .     .     .    - 1 person
+Plan           |-    .     .     .     .     .     .     .     .    = 2 people
+Requirements1  | -   .     .     .     .     .     .     .     .    ~ slip pt
+Review/Signoff |  -- .     .     .     .     .     .     .     .
+Requirements2  |   --.     .     .     .     .     .     .     .
+Design         |    -.===--.     .     .     .     .     .     .
+Coding         |---- .   --.===--.----=.===--.~~~  .     .     .
+Alpha Test     |     .     .   --.---- .     .     .     .     .
+Documentation  |     .     .     .     .-----.-----.-----.     .
+Beta Test      |     .     .     .     .   --.-----.~~   .     .
+Installer      |     .     .     .     .     .-----.~    .     .
+CD Mastering   |     .     .     .     .     .     .    -.     .
+Retail Integrt |     .     .     .     .     .     .     .=====.
+Shipping       |     .     .     .     .     .     .     .     .-
+
+Deliverables/Reviews:
+
+Requirements 1 | #   .     .     .     .     .     .     .     .
+Feature List   |   # .     .     .     .     .     .     .     .
+AlphaCandidate |     .     .#    .     .     .     .     .     .
+BetaCandidate  |     .     .     .     .#    .     .     .     .
+FinalCandidate |     .     .     .     .     .    #.     .     .
+Installer      |     .     .     .     .     .     .     .     .
+CD             |     .     .     .     .     .     .    #.     .
+Retail         |     .     .     .     .     .     .     .    #.
+
+Description of tasks:
+
+Contract:
+
+  Get contract checked, signed and sorted.
+  
+Merge/CVS:
+
+  Get source code firmly under CVS.
+
+Plan:
+
+  Formulate this project plan.
+
+Requirements 1:
+
+  Update requirements document and circulate.
+
+Review/Signoff:
+
+  Get feedback from reviewers, and collate priorities of features.
+
+Requirements 2:
+
+  Update requirements document according to feedback.
+
+Design:
+
+  Take feature list and establish how to structure program to accomodate
+  the features.
+
+Coding:
+
+  Writing of software.
+
+Alpha Test:
+
+  Release program to testers, then fix reported bugs.
+
+Documentation:
+
+  Manual and online help, to be produced by technical writer.
+
+Beta Test:
+
+  Release program to testers, then fix reported bugs.
+
+Installer:
+
+  Learn InstallShield, then write installer for 3 products,
+  HP Companion, hpcalc.org, and the HP49G manuals.
+
+CD Mastering:
+
+  Generate ISO9660 CD image.
+
+Retail Integration:
+
+  Put software, documentation and packaging together and 
+  ensure it forms a complete product.
+
+Shipping:
+
+  Ship the product off to manufacturing.

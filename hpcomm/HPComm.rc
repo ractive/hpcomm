@@ -1,0 +1,967 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resrc1.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "version.h"
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "A",            ID_SELECTALL,           VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_DELETE,              VIRTKEY, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_F1,          ID_HELP_FINDER,         VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F2,          ID_RENAME,              VIRTKEY, NOINVERT
+    VK_F5,          ID_REFRESH,             VIRTKEY, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    VK_RETURN,      ID_PROPERTIES,          VIRTKEY, ALT, NOINVERT
+    VK_TAB,         ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_TAB,         ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_HPITEMS             BITMAP  DISCARDABLE     "res\\HPItems.bmp"
+IDB_HPITEMSBIG          BITMAP  DISCARDABLE     "res\\hpitemsb.bmp"
+IDB_TICK                BITMAP  DISCARDABLE     "res\\tick.bmp"
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+IDB_SPLASH              BITMAP  DISCARDABLE     "res\\Splash.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_MAGNI               CURSOR  DISCARDABLE     "res\\magni.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ARCHIVENAME DIALOGEX 0, 0, 170, 151
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Archive name"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ARCHIVENAME,14,30,124,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,37,130,27,14
+    PUSHBUTTON      "Cancel",IDCANCEL,85,130,27,14
+    LTEXT           "Enter the name of the backup file:",IDC_STATIC,14,16,
+                    102,8
+    LTEXT           "Press OK, then press:",IDC_STATIC,14,51,80,8
+    LTEXT           "EVAL\nrshift + P",IDC_STATIC,20,62,46,18
+    LTEXT           "on the HP48 series\non the HP49G",IDC_STATIC,70,61,64,
+                    19
+    GROUPBOX        "",IDC_STATIC,7,7,156,116
+    LTEXT           "to start the backup.",IDC_STATIC,14,83,136,8
+    LTEXT           "NB: The HP49G must be in RPN mode.  If\nyou need to change it, ensure you restart server mode.",
+                    IDC_STATIC,14,94,143,25
+END
+
+IDD_CAPTURE DIALOG DISCARDABLE  0, 0, 189, 194
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Screenshot"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Make sure the calculator is properly connected to the PC\nand that the settings are OK.\n\nLeave server mode by pressing the ON key, then\ngo to the desired screen on the calculator.\n\n(If you're using a HP48S(X), execute PR1 once)",
+                    IDC_STATIC,14,7,167,65
+    LTEXT           "\non the HP 48 S(X)\n\non the HP 48 G(X)\n\non the HP 49G",
+                    IDC_STATIC,70,76,77,51
+    LTEXT           "Press:\nOn + [MTH]\n\nOn + 1\n\nOn + up-arrow",
+                    IDC_STATIC,14,76,56,50
+    LTEXT           "The transfer will begin automatically.",IDC_STATIC,14,
+                    135,167,11
+    GROUPBOX        "",IDC_STATIC,7,69,174,62
+    PUSHBUTTON      "Cancel",IDCANCEL,76,150,50,14
+    LTEXT           "If you're having problems, please refer to the\nonline help section for important information.",
+                    IDC_STATIC,14,168,165,19
+END
+
+IDD_COMINFO DIALOGEX 0, 0, 290, 166
+STYLE DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
+FONT 11, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "S0",IDC_STAGE0,151,38,90,8
+    LTEXT           "S1",IDC_STAGE1,151,48,90,8
+    LTEXT           "S2",IDC_STAGE2,151,58,90,8
+    LTEXT           "S3",IDC_STAGE3,151,68,90,8
+    LTEXT           "S4",IDC_STAGE4,151,78,90,8
+    CONTROL         2208,IDC_TICK0,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+                    39,4,4
+    CONTROL         2208,IDC_TICK1,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+                    49,4,4
+    CONTROL         2208,IDC_TICK2,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+                    59,4,4
+    CONTROL         2208,IDC_TICK3,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+                    69,4,4
+    CONTROL         2208,IDC_TICK4,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+                    79,4,4
+    PUSHBUTTON      "OK",IDOK,232,19,30,12,NOT WS_VISIBLE
+END
+
+IDD_COMMSET DIALOG DISCARDABLE  0, 0, 169, 143
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Communication settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "COM1",IDC_COM1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,17,28,33,10
+    CONTROL         "COM2",IDC_COM2,"Button",BS_AUTORADIOBUTTON,17,42,35,10
+    CONTROL         "COM3",IDC_COM3,"Button",BS_AUTORADIOBUTTON,17,56,36,10
+    CONTROL         "COM4",IDC_COM4,"Button",BS_AUTORADIOBUTTON,17,70,35,10
+    COMBOBOX        IDC_CALC,108,19,45,55,CBS_DROPDOWN | CBS_SORT | 
+                    WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_TRANSIO,108,36,45,56,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CHECKSUM,108,53,45,44,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BAUDRATE,108,70,45,55,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,27,122,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,91,122,50,14
+    GROUPBOX        "Port",IDC_STATIC,13,18,42,70,WS_GROUP
+    LTEXT           "Translation:",IDC_STATIC,65,39,38,8
+    LTEXT           "Checksum:",IDC_STATIC,65,56,36,8
+    LTEXT           "Speed:",IDC_STATIC,65,73,24,8
+    LTEXT           "Type:",IDC_STATIC,65,22,32,8,WS_DISABLED
+    CONTROL         "End Kermit server when HPComm is closed:",IDC_FINISH,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,17,
+                    93,141,26
+END
+
+IDD_CONNECTFAILED DIALOG DISCARDABLE  0, 0, 195, 140
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Connection failed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,73,119,50,14
+    LTEXT           "Could not connect to the calculator.",IDC_STATIC,40,6,
+                    114,8
+    CTEXT           "Please make sure your calculator is in server mode:",
+                    IDC_STATIC,7,19,181,8,SS_CENTERIMAGE
+    LTEXT           "rshift + PRG\n\nrshift + right arrow\n\nrshift and right arrow\ntogether",
+                    IDC_STATIC,33,38,61,59
+    LTEXT           "on the HP 48 S(X)\n\non the HP 48 G(X)\n\non the HP 49 G ",
+                    IDC_STATIC,101,38,63,56
+    GROUPBOX        "",IDC_STATIC,7,27,181,80
+END
+
+IDD_FILENAME DIALOG DISCARDABLE  0, 0, 186, 93
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Confirm the new filename"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_FILENAME,87,48,63,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,72,50,14
+    PUSHBUTTON      "&Skip file",IDC_SKIP,68,72,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,72,50,14
+    LTEXT           "New filename:",IDC_STATIC,36,51,46,8
+    LTEXT           "",IDC_INFO,7,7,172,30
+END
+
+IDD_GROBFORMATDLG DIALOGEX 0, 0, 175, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "GROB format"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,109,39,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,109,64,50,14
+    GROUPBOX        "GROB format",IDC_STATIC,7,29,79,59
+    LTEXT           "In what format would you like to save the GROB file?",
+                    IDC_STATIC,7,7,161,16
+    CONTROL         "Monochrome",IDC_BWRADIO,"Button",BS_AUTORADIOBUTTON,13,
+                    40,57,10
+    CONTROL         "Old grayscale",IDC_OLDRADIO,"Button",BS_AUTORADIOBUTTON,
+                    13,56,59,10
+    CONTROL         "HP49G grayscale",IDC_NEWRADIO,"Button",
+                    BS_AUTORADIOBUTTON,13,72,66,10
+END
+
+IDD_GROBVIEW DIALOGEX 0, 0, 131, 77
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "GROB Viewer"
+MENU IDR_GROBVIEW
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_GROB,"Static",SS_BITMAP | SS_NOTIFY | SS_SUNKEN,3,
+                    3,19,17,WS_EX_CLIENTEDGE
+END
+
+IDD_HELPFILEDLG DIALOG DISCARDABLE  0, 0, 132, 116
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Help file..."
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,95,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,90,95,35,14
+    LISTBOX         IDC_HELPFILES,7,34,117,54,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Please select the language\nof your help file.",
+                    IDC_STATIC,7,0,117,21
+    LTEXT           "These languages were found:",IDC_STATIC,7,22,95,8
+END
+
+IDR_MAINFRAME DIALOG DISCARDABLE  0, 0, 330, 16
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "TODO: layout dialog bar ",IDC_STATIC,12,4,300,8
+END
+
+IDD_OVERWRITE DIALOG DISCARDABLE  0, 0, 214, 74
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Confirm Overwrite"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         352,IDC_OVERWRITE,"Static",SS_BITMAP,14,13,16,16
+    DEFPUSHBUTTON   "&Yes",IDYES,94,53,50,14
+    PUSHBUTTON      "&No",IDNO,152,53,50,14
+    LTEXT           """Directory"" already contains an entry called ""entry"".",
+                    IDC_OVER1,38,14,164,21
+    LTEXT           "Would you like to replace the existing entry?",
+                    IDC_OVER2,38,37,164,10
+END
+
+IDD_PROGRESSDLG DIALOG DISCARDABLE  0, 0, 233, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "File Transfer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,129,105,50,14
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | 
+                    WS_BORDER,7,58,214,11
+    CONTROL         "Progress1",IDC_PROGRESSALL,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,7,85,214,11
+    LTEXT           "All files:",IDC_STATIC,7,74,24,8
+    LTEXT           "Current file:",IDC_STATIC,7,48,36,8
+    LTEXT           "Filename:",IDC_STATIC,7,8,31,8
+    LTEXT           "",IDC_FILENAME,44,5,175,12,SS_CENTERIMAGE | SS_SUNKEN
+    PUSHBUTTON      "&Skip file",IDC_SKIP,55,105,50,14
+    LTEXT           "Packet:",IDC_STATIC,7,29,26,8
+    LTEXT           "Errors:",IDC_STATIC,160,28,21,8
+    LTEXT           "Speed:",IDC_STATIC,81,28,24,8
+    CTEXT           "waiting..",IDC_PACKETNO,44,27,29,12,SS_CENTERIMAGE | 
+                    SS_SUNKEN
+    CTEXT           "",IDC_ERRORS,190,27,29,12,SS_CENTERIMAGE | SS_SUNKEN
+    CTEXT           "",IDC_SPEED,110,27,41,12,SS_CENTERIMAGE | SS_SUNKEN
+END
+
+IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 224, 169
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,86,144,50,14
+    LTEXT           "Calculator type:",IDC_STATIC,7,116,50,8
+    LTEXT           "File size:",IDC_STATIC,7,64,50,8
+    LTEXT           "Creation date:",IDC_STATIC,7,86,50,8
+    LTEXT           "File type:",IDC_STATIC,7,128,50,8
+    LTEXT           "File location:",IDC_STATIC,7,53,50,8
+    GROUPBOX        "",IDC_STATIC,7,73,210,9,WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,7,103,210,9,WS_DISABLED
+    GROUPBOX        "",IDC_STATIC,7,31,210,9,WS_DISABLED
+    CTEXT           "",IDC_FILENAME,7,15,210,13
+    LTEXT           "",IDC_LOCATION,59,53,158,8
+    LTEXT           "",IDC_FILESIZE,59,64,158,8
+    LTEXT           "",IDC_DATE,59,86,158,8
+    LTEXT           "",IDC_CALCTYPE,59,116,158,8
+    LTEXT           "",IDC_FILETYPE,59,128,158,8
+    LTEXT           "Last write:",IDC_STATIC,7,95,50,8
+    LTEXT           "",IDC_LASTWRITE,59,95,158,8
+    LTEXT           "DOS name:",IDC_STATIC,7,42,50,8
+    LTEXT           "",IDC_DOSFILENAME,59,42,158,8
+END
+
+IDD_RESIZEDLG DIALOGEX 0, 0, 80, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Resize"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,39,25,12
+    PUSHBUTTON      "Cancel",IDCANCEL,48,39,25,12
+    EDITTEXT        IDC_WIDTH,48,6,25,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "New width:",IDC_STATIC,7,8,36,8
+    LTEXT           "New height:",IDC_STATIC,7,23,39,8
+    EDITTEXT        IDC_HEIGHT,48,21,25,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ARCHIVENAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 144
+    END
+
+    IDD_CAPTURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 181
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 187
+    END
+
+    IDD_COMINFO, DIALOG
+    BEGIN
+        RIGHTMARGIN, 273
+        BOTTOMMARGIN, 164
+    END
+
+    IDD_COMMSET, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 162
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_CONNECTFAILED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 188
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 133
+    END
+
+    IDD_FILENAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 86
+    END
+
+    IDD_GROBFORMATDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 168
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_GROBVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 128
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_HELPFILEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 125
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_OVERWRITE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_PROGRESSDLG, DIALOG
+    BEGIN
+        VERTGUIDE, 7
+    END
+
+    IDD_PROPERTIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 217
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
+    END
+
+    IDD_RESIZEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 73
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_COMMSET DLGINIT
+BEGIN
+    IDC_CALC, 0x403, 7, 0
+0x5048, 0x3320, 0x4738, "\000" 
+    IDC_CALC, 0x403, 6, 0
+0x5048, 0x3420, 0x0038, 
+    IDC_CALC, 0x403, 7, 0
+0x5048, 0x3420, 0x4739, "\000" 
+    IDC_TRANSIO, 0x403, 7, 0
+0x6f4d, 0x6564, 0x3020, "\000" 
+    IDC_TRANSIO, 0x403, 7, 0
+0x6f4d, 0x6564, 0x3120, "\000" 
+    IDC_TRANSIO, 0x403, 7, 0
+0x6f4d, 0x6564, 0x3220, "\000" 
+    IDC_TRANSIO, 0x403, 7, 0
+0x6f4d, 0x6564, 0x3320, "\000" 
+    IDC_CHECKSUM, 0x403, 7, 0
+0x7954, 0x6570, 0x3120, "\000" 
+    IDC_CHECKSUM, 0x403, 7, 0
+0x7954, 0x6570, 0x3220, "\000" 
+    IDC_CHECKSUM, 0x403, 7, 0
+0x7954, 0x6570, 0x3320, "\000" 
+    IDC_BAUDRATE, 0x403, 5, 0
+0x3639, 0x3030, "\000" 
+    IDC_BAUDRATE, 0x403, 5, 0
+0x3834, 0x3030, "\000" 
+    IDC_BAUDRATE, 0x403, 5, 0
+0x3432, 0x3030, "\000" 
+    IDC_BAUDRATE, 0x403, 5, 0
+0x3231, 0x3030, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Spot.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_GROBVIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Save as...",                 IDC_SAVE
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy to clipboard",          IDC_COPY
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Reload",                     IDC_RELOAD
+        POPUP "Reload &GROB as"
+        BEGIN
+            MENUITEM "&B/W GROB",                   ID_BWGROB
+            MENUITEM "&Grayscale GROB",             ID_GRAYGROB
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Mirror",                     IDC_MIRROR
+        MENUITEM "&Flip",                       IDC_FLIP
+        MENUITEM "Ro&tate",                     IDC_ROTATE
+        MENUITEM "&Invert",                     IDC_INVERT
+        MENUITEM SEPARATOR
+        MENUITEM "M&agnify",                    IDC_MAGNIFY
+        MENUITEM "&Shrink",                     IDC_SHRINK
+        POPUP "Resi&ze to"
+        BEGIN
+            MENUITEM "&Standard size",              ID_STANDARDSIZE
+            MENUITEM "&Custom size",                ID_CUSTOMSIZE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&With border",                ID_BORDERADD
+        POPUP "&Border style"
+        BEGIN
+            MENUITEM "&Thick",                      ID_BORDERTHICK
+            MENUITEM "Th&in",                       ID_BORDERTHIN
+        END
+        POPUP "Border co&lor"
+        BEGIN
+            MENUITEM "&White",                      ID_BORDERWHITE
+            MENUITEM "&Black",                      ID_BORDERBLACK
+        END
+    END
+END
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "New &Folder",                 ID_FILE_NEWFOLDER
+        MENUITEM "&Open in Explorer",           ID_FILE_OPEN
+        MENUITEM "Ren&ame",                     ID_RENAME
+        MENUITEM "&Delete",                     ID_DELETE
+        MENUITEM "&Properties...",              ID_PROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Set &38G Folder",             ID_FILE_SET38GFOLDER, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Set &bookmark",               ID_BOOKMARK
+        MENUITEM "",                            ID_FILE_MRU_FILE1
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT, GRAYED
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "&Select all",                 ID_SELECTALL
+    END
+    POPUP "&Calculator"
+    BEGIN
+        MENUITEM "Comm &settings...",           ID_COMMSET
+        POPUP "&Protocol", GRAYED
+        BEGIN
+            MENUITEM "&XModem",                     ID_CALCULATOR_XMODEM
+            MENUITEM "&Kermit",                     ID_CALCULATOR_KERMIT
+            , CHECKED
+        END
+        POPUP "&Mode"
+        BEGIN
+            MENUITEM "&ASCII",                      ID_ASCII, CHECKED
+            MENUITEM "&Binary",                     ID_BINARY
+        END
+        POPUP "&Archive"
+        BEGIN
+            MENUITEM "&Backup...",                  ID_CALCULATOR_BACKUP
+            MENUITEM "&Restore",                    ID_CALCULATOR_RESTORE
+        END
+        MENUITEM "&Capture Image...",           ID_CAPTURE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "&Refresh",                    ID_REFRESH
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Contents",                   ID_HELP_FINDER
+        MENUITEM "&Index",                      ID_HELP_INDEX
+        MENUITEM "Choose help language...",     ID_HELPLANGUAGE
+        MENUITEM "&License",                    ID_HELP_LICENSE
+        MENUITEM SEPARATOR
+        MENUITEM "&About this program...",      ID_APP_ABOUT
+    END
+END
+
+IDR_CALCPOPUP MENU DISCARDABLE 
+BEGIN
+    POPUP "CalcPopup"
+    BEGIN
+        MENUITEM "&Copy",                       ID_EDIT_COPY
+        MENUITEM "&Paste",                      ID_EDIT_PASTE
+        MENUITEM "&Delete",                     ID_DELETE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      ID_COMMSET
+    SEPARATOR
+    BUTTON      ID_REFRESH
+    SEPARATOR
+    BUTTON      ID_CAPTURE
+    SEPARATOR
+    BUTTON      ID_DELETE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_VIEW_LARGEICON
+    BUTTON      ID_VIEW_SMALLICON
+    BUTTON      ID_VIEW_LIST
+    BUTTON      ID_VIEW_DETAILS
+    SEPARATOR
+    BUTTON      ID_HELP_FINDER
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Visit us at http://www.hpcomm.org!!\0"
+            VALUE "CompanyName", "HP & The HPComm Project\0"
+            VALUE "FileDescription", "HPComm\0"
+            VALUE "FileVersion", "3.0r3\0"
+            VALUE "InternalName", "HPComm\0"
+            VALUE "LegalCopyright", "Copyright (C) 2000 Hewlett Packard and Jean-Pierre Bergamin.\0"
+            VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
+            VALUE "OriginalFilename", "HPComm.exe\0"
+            VALUE "PrivateBuild", "Thu Mar 23 01:23:07 EST 2000\0"
+            VALUE "ProductName", "Hewlett Packard Graphing Calculator PC Connectivity Kit\0"
+            VALUE "ProductVersion", "3.0r3\0"
+            VALUE "SpecialBuild", "3.0r3\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "HPComm\n\nHPComm\n\n\nHPComm.Document\nHPComm Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "HPComm"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEWFOLDER       "Create a new folder\nNew Folder"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open the directory in Windows Explorer\nOpen"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_RENAME               "Rename a file or directory\nRename"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_DELETE               "Delete the selected files\nDelete"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_PROPERTIES      "Inspect file properties\nProperties"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_SET38GFOLDER    "Set the HP38G virtual folder\nHP38G Folder"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_BOOKMARK             "Saves the current directory for easy access later.\nSet bookmark"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+    ID_HELP_INDEX           "Search Help index\nHelp Index"
+    ID_HELP_FINDER          "List Help topics\nHelp Topics"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_COMMSET              "Change the communication settings\nSettings"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CALCULATOR_XMODEM    "Use the XModem transfer protocol\nXModem"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CALCULATOR_KERMIT    "Use the Kermit transfer protocol\nKermit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_ASCII                "Transfer files in ASCII mode\nASCII"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_BINARY               "Transfer files in Binary mode\nBinary"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CALCULATOR_BACKUP    "Back up the calculator to the PC\nBackup"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CALCULATOR_RESTORE   "Restore to the calculator from the PC\nRestore"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CALCULATOR_UPGRADEHP49G 
+                            "Upgrade the HP49G operating system\nUpgrade HP49G"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_CAPTURE              "Capture screen image\nCapture"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToolbar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nStatusbar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_SETUP           "File viewer setup\nViewer setup"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_SELECTALL            "Select all entries in the list\nSelect all"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_REFRESH              "Refresh the contents of a window\nRefresh"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_SMALLICON       "Display items by using small icons.\nSmall Icons"
+    ID_VIEW_LARGEICON       "Display items by using large icons.\nLarge Icons"
+    ID_VIEW_LIST            "Displays items in a list.\nList"
+    ID_VIEW_DETAILS         "Displays detailed information about each item in the window.\nDetails"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_HELPLANGUAGE         "Select the language for the help file\nHelp language"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_HELP_LICENSE         "Display the GNU General Public License\nLicense info"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this directory"
+    ID_FILE_MRU_FILE2       "Open this directory"
+    ID_FILE_MRU_FILE3       "Open this directory"
+    ID_FILE_MRU_FILE4       "Open this directory"
+    ID_FILE_MRU_FILE5       "Open this directory"
+    ID_FILE_MRU_FILE6       "Open this directory"
+    ID_FILE_MRU_FILE7       "Open this directory"
+    ID_FILE_MRU_FILE8       "Open this directory"
+    ID_FILE_MRU_FILE9       "Open this directory"
+    ID_FILE_MRU_FILE10      "Open this directory"
+    ID_FILE_MRU_FILE11      "Open this directory"
+    ID_FILE_MRU_FILE12      "Open this directory"
+    ID_FILE_MRU_FILE13      "Open this directory"
+    ID_FILE_MRU_FILE14      "Open this directory"
+    ID_FILE_MRU_FILE15      "Open this directory"
+    ID_FILE_MRU_FILE16      "Open this directory"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_STANDARDSIZE         "Resizes the image to 131 x 64"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_MONOCHROMEIMAGE      "Convert the image to a black and white image."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_GRAYSCALEIMAGE       "Convert the image to a grayscale image with 4 colors."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Switzerland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resrc1.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""resource.h""\r\n"
+    "#include ""version.h""\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // German (Switzerland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
