@@ -35,8 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Serial.h"
 #include "HPComm38.h"
-#include "TransferThread.h"
+//#include "TransferThread.h"
 
+class CTransferInfo;
 
 class CProt : public CSerial  
 {
@@ -96,8 +97,7 @@ public:
 
 	BOOL m_bTransfering;
 	CString m_sCurPCPath;
-	//CTransferInfo * m_pInfoDlg;
-	CTransferThread * m_pDlgThread;
+	CTransferInfo * m_pTransferDlg;
 private:
 	bool m_bWasReadonly;
 	bool m_bFirst;
@@ -109,7 +109,7 @@ private:
 protected:
 	void SetSendPos(unsigned long ulBytes);
 	void FileInfo(LPCTSTR sFilename, BOOL bRecv);
-	void CloseTransferWnd();
+	void CloseTransferWnd(UINT nWait = 3000);
 	void SetPos(unsigned long ulEffBytes, unsigned long ulTotal);
 	void SetRange(unsigned long ulRange);
 	BOOL m_bIsXModem;

@@ -112,7 +112,7 @@ IDC_MAGNI               CURSOR  DISCARDABLE     "res\\magni.cur"
 IDD_ABOUTBOX DIALOGEX 0, 0, 282, 114
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About HPComm38"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     LTEXT           "HPGComm 2 beta 4\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software licensed under the GNU GPL:",
                     IDC_STATIC,106,10,164,42,SS_NOPREFIX
@@ -154,7 +154,7 @@ IDD_HPCOMM38_DIALOG DIALOGEX 0, 0, 235, 215
 STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
     WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "HPGComm 2b4"
+CAPTION "HPGComm 2b5"
 FONT 8, "MS Sans Serif"
 BEGIN
     PUSHBUTTON      "...",IDC_CHANGEDIR,163,105,16,15,BS_ICON | BS_FLAT | 
@@ -199,8 +199,8 @@ BEGIN
 END
 
 IDD_TRANSFERINFO DIALOGEX 0, 0, 148, 173
-STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
-FONT 8, "MS Sans Serif"
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     CTEXT           "\n\nInitializing file transfer....",IDC_INFO,7,36,134,
                     42,SS_SUNKEN
@@ -372,12 +372,10 @@ IDR_GROBVIEW MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Save as...",                 IDC_SAVE
+        MENUITEM "&Save",                       IDC_SAVE
+        MENUITEM "&Open",                       IDC_OPEN
     END
-    POPUP "&Edit"
-    BEGIN
-        MENUITEM "&Copy to clipboard",          IDC_COPY
-    END
+    MENUITEM "&Copy",                       IDC_COPY
     POPUP "&Options"
     BEGIN
         MENUITEM "&Reload",                     IDC_RELOAD
@@ -472,15 +470,15 @@ BEGIN
             VALUE "Comments", "Visit us at http://www.hpcomm.org\0"
             VALUE "CompanyName", "HP & The HPComm Project\0"
             VALUE "FileDescription", "HPComm\0"
-            VALUE "FileVersion", "2 beta 4\0"
+            VALUE "FileVersion", "2 beta 5\0"
             VALUE "InternalName", "HPGComm\0"
             VALUE "LegalCopyright", "Copyright (C) 2001 Hewlett Packard and Jean-Pierre Bergamin.\0"
             VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
             VALUE "OriginalFilename", "HPGComm.exe\0"
-            VALUE "PrivateBuild", "15. Jan 2001\0"
+            VALUE "PrivateBuild", "15. Feb 2001\0"
             VALUE "ProductName", "Hewlett Packard Graphing Calculator HP38G/HP39G PC Connectivity Kit\0"
             VALUE "ProductVersion", "2\0"
-            VALUE "SpecialBuild", "2 beta 4\0"
+            VALUE "SpecialBuild", "2 beta 5\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -570,6 +568,16 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     IDC_CHANGEDIR           "Change directory"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_COPY                "Copy the image to the clipboard"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_SAVE                "Save picture as BMP file"
 END
 
 #endif    // English (U.S.) resources

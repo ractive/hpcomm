@@ -49,7 +49,7 @@ CSerial::CSerial()
 CSerial::~CSerial()
 {
 	KillComDaemon();
-	ClosePort();
+	//ClosePort();
 }
 
 void CSerial::OpenPort(int nComPort)
@@ -177,7 +177,7 @@ DWORD CSerial::ReadBufferFromCom(char *buf, DWORD dwBufLen)
 	bool bWaitingOnRead = false;
 	DWORD dwRes;
 	OVERLAPPED osRead = {0};
-	// Create the overlapped event. This event is signeale if the read operation
+	// Create the overlapped event. This event is signaled if the read operation
 	// is completed.
 	osRead.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 

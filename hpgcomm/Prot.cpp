@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "Prot.h"
 #include "VD.h"
-#include "TransferThread.h"
+#include "TransferInfo.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -58,19 +58,15 @@ CProt::CProt()
 
 	m_pPseudoThis = this;
 
-	m_pDlgThread = 0;
-
 	m_bTransfering = FALSE;
 
 	m_hStop = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	m_pTransferDlg = NULL;
 }
 
 CProt::~CProt()
 {
-	CloseTransferWnd();
-
-	ClosePort();
-
 	CloseFile();
 }
 
@@ -232,22 +228,11 @@ void CProt::Transfer(bool bRecv /* = false */)
 	m_bCancel = false;
 	m_bSkipFile = false;
 	
+
 	unsigned int nSize = 0;
 	threadinfo ti;
 
 	ti.pEx = NULL;
-
-	if (m_pDlgThread == NULL) {
-		m_pDlgThread = (CTransferThread *)AfxBeginThread(RUNTIME_CLASS(CTransferThread));
-		VERIFY(m_pDlgThread);
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_INIT, 0, m_bIsXModem);
-		m_pDlgThread->m_hCancelEvent = m_hStop;
-	}
-	else {
-		m_pDlgThread->Pump();
-	}
-
-
 
 	// This method also can be called with a Null-ptr to IOReq from within
 	// the method ClientRequest.
@@ -265,14 +250,17 @@ void CProt::Transfer(bool bRecv /* = false */)
 	handleArray[1] = m_hStop;
 
 	m_bTransfering = TRUE;
+	m_pTransferDlg->PostMessage(WM_TRANSFER_INIT, 0, m_bIsXModem);
+	m_pTransferDlg->m_bVisible = TRUE;
+	m_pTransferDlg->ShowWindow(SW_SHOW);
 
 	// Hmm, not sure but here could occur a "deadlock". If the Window gets not messages
 	// any more and we call Pump at the wrong time, Pump will wait will a new
 	// message arrives. Very unlikely, but possible.
 	DWORD dwSigHandle;
-	while (dwSigHandle = WaitForMultipleObjects(2, handleArray, FALSE, 50)) {
+	while (dwSigHandle = WaitForMultipleObjects(2, handleArray, FALSE, 100)) {
 		if (dwSigHandle == WAIT_TIMEOUT) {
-			m_pDlgThread->Pump();
+			m_pTransferDlg->Pump();
 			continue;
 		}
 		else if (dwSigHandle - WAIT_OBJECT_0 == 1) {
@@ -296,14 +284,11 @@ void CProt::Transfer(bool bRecv /* = false */)
 	
 	delete pThread;
 
-
 	if ((m_bTransactionFinished || m_bSendingOnly) /*&& m_pInfoDlg*/) {
 		CloseTransferWnd();
-
 	}
-	else if (m_bVDFilesSent/* && m_pInfoDlg*/) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_INFO, 0, 0);
-		m_pDlgThread->Pump();
+	else if (m_bVDFilesSent) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_INFO, 0, 0);
 	}
 
 	// If the thread exited successfully, it returns SUCCESS;	
@@ -352,47 +337,38 @@ void CProt::SetPointerBack(int nOffset, BOOL bSendFile /* = TRUE */)
 
 void CProt::SetRange(unsigned long ulRange)
 {
-	if (m_pDlgThread) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_RANGE, 0, ulRange);
+	if (m_pTransferDlg) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_RANGE, 0, ulRange);
 	}
 }	
 
 void CProt::SetPos(unsigned long ulEffBytes, unsigned long ulTotal)
 {
-	if (m_pDlgThread) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_POS, ulEffBytes, ulTotal);
-
+	if (m_pTransferDlg) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_POS, ulEffBytes, ulTotal);
 	}
 }
 
 void CProt::SetSendPos(unsigned long ulBytes)
 {
-	if (m_pDlgThread) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_SENDPOS, 0, ulBytes);
+	if (m_pTransferDlg) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_SENDPOS, 0, ulBytes);
 	}
-
 }
 
 
-void CProt::CloseTransferWnd()
+void CProt::CloseTransferWnd(UINT nWait /* = 3000 */)
 {
-	if (m_pDlgThread) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_QUIT, 0, 0);
-
-		if (WaitForSingleObject(m_pDlgThread->m_hThread, 1000) != WAIT_OBJECT_0) {
-			TRACE("TransferThread could not be stopped\r\n");
-		}
-		m_pDlgThread = NULL;
+	if (m_pTransferDlg) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_HIDE, 0, nWait);
 	}
 }
 
 void CProt::FileInfo(LPCTSTR sFilename, BOOL bRecv)
 {
-	if (m_pDlgThread) {
-		m_pDlgThread->PostThreadMessage(WM_TRANSFER_FILEINFO, (UINT)(LPCTSTR)sFilename, bRecv);
-
+	if (m_pTransferDlg) {
+		m_pTransferDlg->PostMessage(WM_TRANSFER_FILEINFO, (UINT)(LPCTSTR)sFilename, bRecv);
 	}
-	
 }
 
 void CProt::StopAll()
@@ -401,6 +377,6 @@ void CProt::StopAll()
 		SetEvent(m_hStop);
 	}
 	else {
-		CloseTransferWnd();
+		CloseTransferWnd(50);
 	}
 }

@@ -1202,7 +1202,7 @@ void CKermit::Reset(bool bCloseInfoDlg /* = true */)
 	m_bCancel = false;
 
 	if (bCloseInfoDlg) {
-		CloseTransferWnd();
+		CloseTransferWnd(50);
 	}
 
 	m_bTransactionFinished = false;
@@ -1221,7 +1221,6 @@ void CKermit::SendError(CString sError)
 		SendPacket('E', sError.GetLength(), (LPTSTR)(LPCTSTR)sError);
 	}
 	catch (CProtException * pEx) {
-		pEx->sMessage;
 		pEx->Delete();
 	}
 }
@@ -1230,12 +1229,14 @@ void CKermit::Cancel()
 {
 	char type;
 	TRACE("CANCELLING...\r\n");
-	m_bCancel = false;
-	SendPacket('Z', 1, "D");
-	type = RecvPacket();
-	TRACE("AFTER DISCARD: %c\r\n", type);
-	SendError("TRANSFER CANCELLED ON PC");
-	type = RecvPacket();
-	TRACE("AFTER ERRORPACKET: %c\r\n", type);
+	if (m_bCancel) {
+		m_bCancel = false;
+		//SendPacket('Z', 1, "D");
+		type = RecvPacket();
+		TRACE("AFTER DISCARD: %c\r\n", type);
+		SendError("TRANSFER CANCELLED ON PC");
+		type = RecvPacket();
+		TRACE("AFTER ERRORPACKET: %c\r\n", type);
+	}
 	ThrowProtException(CProtException::CANCELLED);
 }

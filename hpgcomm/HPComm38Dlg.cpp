@@ -34,8 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <imagehlp.h>
 #include "VD.h"
 #include "XModem.h"
-#include <afxpriv.h>              // For WM_KICKIDLE
-
+#include "TransferInfo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,6 +43,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 CHPComm38Dlg *CHPComm38Dlg::m_pPseudoThis = 0;
+CTransferInfo * CHPComm38Dlg::m_pTransferWnd = 0;
 
 /////////////////////////////////////////////////////////////////////////////
 // CHPComm38Dlg dialog
@@ -76,6 +76,9 @@ CHPComm38Dlg::CHPComm38Dlg(CWnd* pParent /*=NULL*/)
 
 	m_bDirInexistent = FALSE;
 
+	m_pProt = NULL;
+
+	m_pTransferWnd = NULL;
 }
 
 void CHPComm38Dlg::DoDataExchange(CDataExchange* pDX)
@@ -123,7 +126,6 @@ BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
 	ON_MESSAGE(WM_COMDAEMON, OnComdaemonMsg)
 	ON_MESSAGE(WM_TRANSFERINFOCLOSED, OnTransferInfoClosed)
 	ON_MESSAGE(WM_DIRECTORYCHANGE, OnChangeDir)
-	ON_MESSAGE(WM_KICKIDLE, OnKickIdle)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -132,6 +134,10 @@ END_MESSAGE_MAP()
 BOOL CHPComm38Dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+
+	CreateTransferWnd();
+
+	//m_pTransferWnd->PostMessage(WM_TRANSFER_HIDE, 0, 1);
 
 	// Add "About..." menu item to system menu.
 
@@ -174,8 +180,12 @@ BOOL CHPComm38Dlg::OnInitDialog()
 
 	m_pProt = new CKermit();
 
-	if (m_pProt == NULL)
+
+	if (m_pProt == NULL) {
 		return false;
+	}
+
+	m_pProt->m_pTransferDlg = m_pTransferWnd;
 
 	try {
 		m_pProt->OpenPort(m_nComPort);
@@ -259,6 +269,10 @@ BOOL CHPComm38Dlg::OnInitDialog()
 
 	SetCalcPic(FALSE);
 
+	EnableWindow(TRUE);
+	SetForegroundWindow();
+	SetFocus();
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -331,21 +345,24 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
             char cFirstChar;
             char cSecondChar;
             if (!m_pProt->ReadCharFromCom(&cFirstChar)) {
-                throw new CProtException(CProtException::TIMEOUT, 0, "");
+				throw new CProtException(CProtException::TIMEOUT, 0, "");
             }
             if (cFirstChar == 0x15 || cFirstChar == 'D') {
-				CXModem XModem;
+				CXModem XModem(m_pProt->hComPort);
+				XModem.m_pTransferDlg = m_pTransferWnd;
 				bIsXModem = TRUE;
-				m_pProt->ClosePort();
-				XModem.OpenPort(m_nComPort);
+				/*m_pProt->ClosePort();
+				XModem.OpenPort(m_nComPort);*/
 				XModem.m_sCurPCPath = m_sPath;
 				XModem.Transfer(true);
-				XModem.ClosePort();
+
+				/*XModem.ClosePort();
 				m_pProt->OpenPort(m_nComPort);
 				m_pProt->Reset();
 				m_pProt->KillComDaemon();
-				m_pProt->CreateComDaemon(m_hWnd);
-				//m_pProt->UnleashDaemon();
+				m_pProt->CreateComDaemon(m_hWnd);*/
+				m_pProt->FlushComPort();
+				m_pProt->UnleashDaemon();
 				bIsXModem = FALSE;
 				//return;
 			}
@@ -372,19 +389,9 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
 
 		catch (CProtException * pEx) {
 			ExceptionHandler(pEx);
-			if (bIsXModem) {
-				/*XModem.ClosePort();
-				m_pProt->OpenPort(m_nComPort);
-				m_pProt->Reset();
-				m_pProt->KillComDaemon();
-				m_pProt->CreateComDaemon(m_hWnd);
-				m_pProt->UnleashDaemon();
-				bIsXModem = FALSE;*/
-			}
-			else {
-				m_pProt->Reset();
-				m_pProt->UnleashDaemon();
-			}
+			m_pProt->Reset();
+			m_pProt->UnleashDaemon();
+
 			return;
 		}
 
@@ -490,9 +497,9 @@ void CHPComm38Dlg::ExceptionHandler(CProtException *pEx)
 
 	if (m_pProt) {
 		m_pProt->Reset();
-		m_pProt->FlushComPort();
+		/*m_pProt->FlushComPort();
 		m_pProt->KillComDaemon();
-		m_pProt->CreateComDaemon(m_hWnd);
+		m_pProt->CreateComDaemon(m_hWnd);*/
 		m_pProt->UnleashDaemon();
 	}
 
@@ -715,6 +722,7 @@ void CHPComm38Dlg::OnClose()
 
 	if (m_pScreenData != 0) {
 		delete [] m_pScreenData;
+		m_pScreenData = 0;
 	}
 
     if (m_pProt != 0)
@@ -724,10 +732,17 @@ void CHPComm38Dlg::OnClose()
         m_pProt = 0;
     }
 
-	if (m_pMenu != 0)
+	if (m_pMenu != 0) {
 		delete m_pMenu;
+		m_pMenu = 0;
+	}
 
 	UpdateData(TRUE);
+
+	if (m_pTransferWnd) {
+		m_pTransferWnd->EndDialog(0);
+		m_pTransferWnd = 0;
+	}
 
 	CDialog::OnClose();
 }
@@ -737,6 +752,12 @@ void CHPComm38Dlg::OnOK()
     // We deliberately don't call the base here, as otherwise this
     // causes the app to exit.
 	// CDialog::OnOK();
+}
+
+void CHPComm38Dlg::OnCancel()
+{
+	OnClose();
+	CDialog::OnCancel();
 }
 
 void CHPComm38Dlg::OnHelpAbout() 
@@ -1247,28 +1268,50 @@ BOOL CHPComm38Dlg::PathExists(CString sPath)
 void CHPComm38Dlg::OnGetXModem()
 {
 	try {
-		m_pProt->ClosePort();
-		CXModem XModem;
-		XModem.OpenPort(m_nComPort);
+		m_pProt->KillComDaemon();
+		CXModem XModem(m_pProt->hComPort);
+		XModem.m_pTransferDlg = m_pTransferWnd;
 		XModem.m_sCurPCPath = m_sPath;
 		XModem.Transfer(false);
-		XModem.ClosePort();
-
-		m_pProt->OpenPort(m_nComPort);
+		//m_pProt->CreateComDaemon(m_hWnd);
+		//m_pProt->UnleashDaemon();
 		m_pProt->Reset();
-		m_pProt->KillComDaemon();
-		m_pProt->CreateComDaemon(m_hWnd);
-		m_pProt->UnleashDaemon();
 	}
 	catch (CProtException * pEx) {
 		ExceptionHandler(pEx);
 	}
 }
 
-LRESULT CHPComm38Dlg::OnKickIdle(WPARAM, LPARAM lCount)
+
+
+void CHPComm38Dlg::CreateTransferWnd()
 {
-       // Do idle processing here, just like CWinApp::OnIdle
-       //
-       TRACE("CMyDlg::OnKickIdle, do priority %d stuff\n", lCount);
-       return (lCount <= 2);
+	m_pTransferWndThread = AfxBeginThread(TransferWndThreadProc, NULL);
+
+	VERIFY(m_pTransferWndThread);
+	//Sleep(1000);
+	// Wait until the dialog is created
+	while (m_pTransferWnd == NULL) {
+		Sleep(0);
+	}
+	/*Sleep(1000);
+	while (m_pTransferWnd->m_hWnd == NULL) {
+		Sleep(0);
+	}*/
+	while (!::IsWindow(m_pTransferWnd->m_hWnd)) {
+		m_pTransferWnd->Pump();
+	}
+}
+
+UINT CHPComm38Dlg::TransferWndThreadProc(LPVOID lParam)
+{
+	if (m_pTransferWnd == NULL) {
+		m_pTransferWnd = new CTransferInfo(AfxGetMainWnd());
+	}
+
+	m_pTransferWnd->DoModal();
+	delete m_pTransferWnd;
+	m_pTransferWnd = NULL;
+
+	return 0;
 }

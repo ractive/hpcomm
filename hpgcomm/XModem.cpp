@@ -16,8 +16,9 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CXModem::CXModem()
+CXModem::CXModem(HANDLE hPort /* = NULL */)
 {
+	hComPort = hPort;
 	SOH = '\1';
 	STX = '\2';
 	ACK = '\6';
@@ -33,7 +34,7 @@ CXModem::CXModem()
 
 CXModem::~CXModem()
 {
-
+	return;
 }
 
 BOOL CXModem::SendFile()

@@ -48,8 +48,10 @@ CTransferInfo::CTransferInfo(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 
 	rb.Bind(m_bShowDetails, "Transfer details", FALSE);
-
+	
 	TimerID = 1;
+	QuitTimerID = 2;
+	m_bVisible = FALSE;
 }
 
 
@@ -69,9 +71,19 @@ BEGIN_MESSAGE_MAP(CTransferInfo, CDialog)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 	ON_WM_CLOSE()
+	ON_WM_WINDOWPOSCHANGING()
+	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_CLOSE, OnClose)
 	ON_BN_CLICKED(IDC_DETAILS, OnDetails)
-	//}}AFX_MSG_MAP
+	ON_MESSAGE(WM_TRANSFER_POS, OnPos)
+	ON_MESSAGE(WM_TRANSFER_RANGE, OnRange)
+	ON_MESSAGE(WM_TRANSFER_SENDPOS, OnSendPos)
+	ON_MESSAGE(WM_TRANSFER_HIDE, OnHide)
+	ON_MESSAGE(WM_TRANSFER_QUIT, OnQuit)
+	ON_MESSAGE(WM_TRANSFER_INFO, OnInfo)
+	ON_MESSAGE(WM_TRANSFER_FILEINFO, OnFileInfo)
+	ON_MESSAGE(WM_TRANSFER_INIT, OnInit)
+
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -176,7 +188,7 @@ void CTransferInfo::SetPos(unsigned long unEffBytes, unsigned long unTotalBytes)
 	pseudoThis->SetDlgItemInt(IDC_BYTES, pseudoThis->m_unPos);
 	pseudoThis->SetDlgItemInt(IDC_PACKETS, pseudoThis->m_nPackets);
 	if (nSec > 0) {
-		int nCPS = pseudoThis->m_unPos / nSec;
+		int nCPS = pseudoThis->m_unPos / nSec * 8 / 10; // * 8 / 10 "substracts" the start and stop bit
 		pseudoThis->SetDlgItemInt(IDC_CPS, nCPS);
 		pseudoThis->SetDlgItemInt(IDC_BPS, pseudoThis->m_unTotalBytes * 8 / nSec);
 
@@ -212,8 +224,7 @@ void CTransferInfo::SetSendPos(unsigned long ulBytes)
 
 }
 
-
-void CTransferInfo::Pump()
+BOOL CTransferInfo::Pump()
 {
 	MSG msg;
 
@@ -222,9 +233,10 @@ void CTransferInfo::Pump()
 	while (::PeekMessage (&msg, NULL, 0, 0, PM_NOREMOVE)) {
 		if (!AfxGetApp ()->PumpMessage ()) {
 			::PostQuitMessage (0);
-			return;
+			return FALSE;
 		}
 	}
+	return TRUE;
 }
 
 void CTransferInfo::ShowUserInfo()
@@ -254,6 +266,10 @@ BOOL CTransferInfo::OnInitDialog()
 	m_unPos = 0;
 	m_ulSize = 0;
 
+	ShowInitScreen(FALSE);
+
+	AfxGetMainWnd()->EnableWindow(TRUE);
+	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -305,6 +321,15 @@ void CTransferInfo::OnTimer(UINT nIDEvent)
 
 		//SetEvent(m_hUpdate);
 	}
+	else if (nIDEvent == QuitTimerID) {
+		KillTimer(nIDEvent);
+		OnClose();
+	}
+	else if (nIDEvent == HideTimerID) {
+		KillTimer(nIDEvent);
+		ShowWindow(SW_HIDE);
+		TRACE("Hide window\r\n");
+	}
 
 	CDialog::OnTimer(nIDEvent);
 }
@@ -312,6 +337,7 @@ void CTransferInfo::OnTimer(UINT nIDEvent)
 void CTransferInfo::OnClose() 
 {
 	//AfxGetMainWnd()->EnableWindow(m_bMainWndWasEnabled);
+
 	if (m_hCancelEvent != NULL) {
 		SetEvent(m_hCancelEvent);
 	}
@@ -321,6 +347,8 @@ void CTransferInfo::OnClose()
 	}
 
 	m_bShowDetails = m_bDetailsShown;
+
+	ShowWindow(SW_HIDE);
 
 	CDialog::OnClose();
 }
@@ -366,3 +394,58 @@ void CTransferInfo::ShowDetails(BOOL bShow /* = TRUE */)
 
 
 }
+
+void CTransferInfo::OnRange(UINT pParam, long lParam)
+{
+	SetRange(lParam);
+}
+
+void CTransferInfo::OnPos(UINT pParam, long lParam)
+{
+	SetPos(pParam, lParam);
+}
+
+void CTransferInfo::OnSendPos(UINT pParam, long lParam)
+{
+	SetSendPos(lParam);
+}
+
+void CTransferInfo::OnQuit(UINT pParam, long lParam)
+{
+	SetTimer(QuitTimerID, 1000, NULL);
+}
+
+void CTransferInfo::OnHide(UINT pParam, long lParam)
+{
+	KillTimer(HideTimerID);
+	SetTimer(HideTimerID, lParam, NULL);
+}
+
+void CTransferInfo::OnInfo(UINT pParam, long lParam)
+{
+	ShowUserInfo();
+}
+
+void CTransferInfo::OnFileInfo(UINT pParam, long lParam)
+{
+	CString s((LPTSTR)pParam);
+	UpdateDlg(s, lParam);
+}
+
+void CTransferInfo::OnInit(UINT pParam, long lParam)
+{
+	if (lParam == TRUE) {
+		ShowInitScreen(lParam);
+	}
+}
+
+
+void CTransferInfo::OnWindowPosChanging(WINDOWPOS FAR* lpwndpos) 
+{
+	if (!m_bVisible) {
+		lpwndpos->flags &= ~SWP_SHOWWINDOW;
+	}
+	
+	CDialog::OnWindowPosChanging(lpwndpos);
+}
+

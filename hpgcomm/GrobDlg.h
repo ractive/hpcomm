@@ -66,6 +66,8 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CGrobDlg)
 	public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual BOOL DestroyWindow();
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
@@ -99,9 +101,13 @@ protected:
 	afx_msg void OnBorderthin();
 	afx_msg void OnBwgrob();
 	afx_msg void OnGraygrob();
+	afx_msg void OnOpen();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	CString m_sTempFileName;
+	HACCEL m_hAccel;
+	void AssureVisible();
 	bool bPosFirst;
 };
 

@@ -18,7 +18,7 @@ public:
 	void SendFiles();
 	BOOL SendFile();
 	void ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath);
-	CXModem();
+	CXModem(HANDLE hPort = NULL);
 	virtual ~CXModem();
 protected:
 	void Reset(bool bCloseInfoDlg = true);

@@ -59,7 +59,6 @@ void CGrobDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CGrobDlg, CDialog)
 	//{{AFX_MSG_MAP(CGrobDlg)
-	ON_BN_CLICKED(IDC_COPY, OnCopy)
 	ON_COMMAND(IDC_COPY, OnCopy)
 	ON_BN_CLICKED(IDC_SAVE, OnSave)
 	ON_BN_CLICKED(IDC_ROTATE, OnRotate)
@@ -77,9 +76,10 @@ BEGIN_MESSAGE_MAP(CGrobDlg, CDialog)
 	ON_COMMAND(ID_BORDERWHITE, OnBorderwhite)
 	ON_COMMAND(ID_BORDERTHICK, OnBorderthick)
 	ON_COMMAND(ID_BORDERTHIN, OnBorderthin)
-	ON_WM_MOUSEMOVE()
 	ON_COMMAND(ID_BWGROB, OnBwgrob)
 	ON_COMMAND(ID_GRAYGROB, OnGraygrob)
+	ON_WM_MOUSEMOVE()
+	ON_COMMAND(IDC_OPEN, OnOpen)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -102,12 +102,8 @@ BOOL CGrobDlg::OnInitDialog()
 		SetWindowText(sFileName);
 	}
 
-    // Load the menu...
-    //pMenu = new CMenu;
-    //pMenu->LoadMenu(IDR_GROBVIEW);
-	// and set it.
-    //SetMenu(pMenu);
 	CMenu * pMenu = GetMenu();
+
 	BOOL bRet;
 
 	if (sFileName.IsEmpty() && screendata != NULL) {
@@ -149,6 +145,9 @@ BOOL CGrobDlg::OnInitDialog()
 	bBorderThin = true;
 	pMenu->GetSubMenu(2)->GetSubMenu(13)->CheckMenuItem(ID_BORDERTHIN, MF_BYCOMMAND | MF_CHECKED);
 	
+	m_hAccel = LoadAccelerators(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDR_MAINFRAME));
+
+	AssureVisible();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -198,7 +197,7 @@ void CGrobDlg::PosPic()
 		dlgrect.right = nPicWidth + 20;		
 	}
 	else {
-		dlgrect.right = nMenuLength;
+		dlgrect.right = nMenuLength + 15;
 	}
 
 	// Get the screen coord. to display the window.
@@ -474,4 +473,73 @@ void CGrobDlg::OnGraygrob()
 	}
 	m_Pic.SetBitmap(image.GetHandle());	
 	PosPic();	
+}
+
+void CGrobDlg::AssureVisible()
+{
+	RECT rect;
+	RECT desk_rect;
+	
+	// Get the rect of the visible area of the primary screen
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &desk_rect, 0);
+	// Get the rect of the screenshot window
+	GetWindowRect(&rect);
+
+	if (rect.right > desk_rect.right || rect.bottom > desk_rect.bottom) {
+		// We have to move the screenshot window to the visible part of the screen
+		RECT new_rect;
+		new_rect.top = 0;
+		new_rect.bottom = rect.bottom - rect.top;
+		new_rect.left = 0;
+		new_rect.right = rect.right - rect.left;
+		MoveWindow(&new_rect, FALSE);
+	}
+}
+
+BOOL CGrobDlg::PreTranslateMessage(MSG* pMsg) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if(pMsg->message == WM_CHAR) {
+		if (pMsg->wParam == 3 && pMsg->lParam == 3014657) {
+			//SendMessage(WM_COMMAND, 0, IDC_COPY);
+			image.CopyToClipboard(this);
+		}
+		/*if (TranslateAccelerator(m_hWnd, m_hAccel, pMsg) == 0) {
+			DWORD dwError = GetLastError();
+			int x = 3;
+		}*/
+	}
+	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CGrobDlg::OnOpen() 
+{
+	// Create a tempfilename if we don't already have one
+	if (m_sTempFileName.IsEmpty()) {
+		CString sTempPath;
+		LPCTSTR pTempPath = sTempPath.GetBuffer(_MAX_PATH);
+		GetTempPath(_MAX_PATH, (LPTSTR)pTempPath);
+		sTempPath.ReleaseBuffer();
+		LPCTSTR pTempFile = m_sTempFileName.GetBuffer(_MAX_PATH);
+		GetTempFileName(sTempPath, "hpg", 0, (LPTSTR)pTempFile);
+		m_sTempFileName.ReleaseBuffer();
+		m_sTempFileName += ".bmp";
+	}
+	// Save the pic in the temp file
+	if (image.SaveBMP(&m_sTempFileName)) {
+		// Try to open the created BMP file with the standard program
+		ShellExecute(m_hWnd, "open", m_sTempFileName, NULL, NULL, SW_NORMAL);
+	}
+}
+
+BOOL CGrobDlg::DestroyWindow() 
+{
+	if (!m_sTempFileName.IsEmpty()) {
+		DeleteFile(m_sTempFileName);
+		CString s = m_sTempFileName.Left(m_sTempFileName.GetLength() - 4);
+		BOOL b = DeleteFile(m_sTempFileName.Left(m_sTempFileName.GetLength() - 4));
+		int x = 3;
+	}
+	
+	return CDialog::DestroyWindow();
 }

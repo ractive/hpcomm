@@ -29,6 +29,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // TransferInfo.h : header file
 //
 
+#define WM_TRANSFER_UPDATE (WM_USER + 33)
+#define WM_TRANSFER_RANGE (WM_USER + 34)
+#define WM_TRANSFER_POS (WM_USER + 35)
+#define WM_TRANSFER_QUIT (WM_USER + 36)
+#define WM_TRANSFER_INFO (WM_USER + 37)
+#define WM_TRANSFER_FILEINFO (WM_USER + 38)
+#define WM_TRANSFER_INIT (WM_USER + 39)
+#define WM_TRANSFER_SENDPOS (WM_USER + 40)
+#define WM_TRANSFER_HIDE (WM_USER + 41)
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CTransferInfo dialog
 
@@ -39,13 +50,14 @@ class CTransferInfo : public CDialog
 {
 // Construction
 public:
+	BOOL m_bVisible;
 	void SetSendPos(unsigned long ulBytes);
 	BOOL m_bDetailsShown;
 
 	CString m_sPath;
 	void ShowInitScreen(BOOL bXModem);
 	void ShowUserInfo();
-	void Pump();
+	static BOOL Pump();
 	static void UpdateDlg(CString& sFileName, BOOL bRecv, int nPackets = -1);
 	static void SetRange(unsigned long unSize);
 	static void SetPos(unsigned long unEffBytes, unsigned long unTotalBytes);
@@ -76,8 +88,19 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnClose();
-	afx_msg void OnDetails();
+	afx_msg void OnWindowPosChanging(WINDOWPOS FAR* lpwndpos); 
+
 	//}}AFX_MSG
+	afx_msg void OnPos(UINT pParam, long lParam);
+	afx_msg void OnSendPos(UINT pParam, long lParam);
+	afx_msg void OnRange(UINT pParam, long lParam);
+	afx_msg void OnQuit(UINT pParam, long lParam);
+	afx_msg void OnInfo(UINT pParam, long lParam);
+	afx_msg void OnFileInfo(UINT pParam, long lParam);
+	afx_msg void OnInit(UINT pParam, long lParam);
+	afx_msg void OnHide(UINT pParam, long lParam);
+	afx_msg void OnDetails();
+
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -90,6 +113,8 @@ private:
 	void ShowDetails(BOOL bShow = TRUE);
 	BOOL m_bPlaying;
 	UINT TimerID;
+	UINT QuitTimerID;
+	UINT HideTimerID;
 	bool m_bMainWndWasEnabled;
 	static CTransferInfo * pseudoThis;
 	CRegBinding rb;

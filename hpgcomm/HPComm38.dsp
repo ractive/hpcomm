@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /machine:I386 /out:"Release\HPGComm.exe"
 # SUBTRACT LINK32 /debug
 
 !ELSEIF  "$(CFG)" == "HPComm38 - Win32 Debug"
@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug\HPGComm.exe" /pdbtype:sept
 
 !ENDIF 
 
@@ -163,10 +163,6 @@ SOURCE=.\StdAfx.cpp
 # Begin Source File
 
 SOURCE=.\TransferInfo.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\TransferThread.cpp
 # End Source File
 # Begin Source File
 
@@ -315,10 +311,6 @@ SOURCE=.\StdAfx.h
 # Begin Source File
 
 SOURCE=.\TransferInfo.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\TransferThread.h
 # End Source File
 # Begin Source File
 

@@ -84,6 +84,7 @@ protected:
 	afx_msg void OnChangeDir();
 	afx_msg void OnClose();
 	afx_msg void OnOK();
+	afx_msg void OnCancel();
 	afx_msg void OnHelpAbout();
 	afx_msg void OnShowVD();
     afx_msg void OnHelpFinder();
@@ -103,9 +104,12 @@ protected:
 	afx_msg void OnComdaemonMsg(UINT pParam, long lParam);
 	afx_msg void OnTransferInfoClosed(UINT pParam, long lParam);
 	afx_msg BOOL ToolTipCallback( UINT id, NMHDR * pTTTStruct, LRESULT * pResult );
-	afx_msg LRESULT OnKickIdle(WPARAM, LPARAM);   
 	DECLARE_MESSAGE_MAP()
 private:
+	static CTransferInfo * m_pTransferWnd;
+	CWinThread * m_pTransferWndThread;
+	static UINT TransferWndThreadProc(LPVOID lParam);
+	void CreateTransferWnd();
 	BOOL PathExists(CString sPath);
 	CString m_sShownDir;
 	BOOL m_bDirInexistent;
