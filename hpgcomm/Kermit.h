@@ -32,8 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif // _MSC_VER > 1000
 
 #include "Prot.h"
-#include "HPComm38.h"
-#include "TransferInfo.h"
 
 // Threadfunctiondeclaration.
 //UINT transferthread(LPVOID lParam);
@@ -41,15 +39,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CKermit : public CProt
 {
 public:
-	void StopAll();
 	void SendError(CString sError);
 	void Reset(bool bCloseInfoDlg = true);
 	void ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath);
 	void Notify(CString &sFileName, bool bRecv, int nPackets = -1);
 
-	void (*ProtCallback)(CString &sFileName, bool bRecv, int nPackets);
-
-	void Transfer(bool bRecv = false);
 	void Finish();
 
 
@@ -130,8 +124,6 @@ public:
 	unsigned int nBufLen;
 	//char * buf;
 	//char * cursor;
-	bool bCancel;
-	bool bSkipFile;
 	int nErrors;
 	BOOL bCRC;
 	HWND hTransWnd;
@@ -158,13 +150,9 @@ public:
 
 	char SendPack[1031];
 	char RecvPack[1031];
-	CTransferInfo * pInfoDlg;
 	BOOL PathExists(CString sPath);
-	BOOL m_bTransfering;
 private:
 	void Cancel();
-	static HANDLE m_hStop;
-	static UINT TransferThreadProc(LPVOID lParam);
 	char cFirstChar;
     char cSecondChar;
 	int nChk;
@@ -178,12 +166,5 @@ protected:
 	bool bNotify;
 	void PacketType(char& type, bool bFirstPacket = false);
 };
-
-struct threadinfo {
-	CProtException * pEx;
-	bool write;
-	CKermit * pKermit;
-}; // I always forget this ";"
-
 
 #endif // !defined(AFX_KERMIT_H__E0221B82_07D0_11D3_AE2A_0000E8627120__INCLUDED_)

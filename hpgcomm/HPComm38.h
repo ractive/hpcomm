@@ -35,7 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #include "resource.h"		// main symbols
+//#include "HPComm38Dlg.h"
 
+class CHPComm38Dlg;
 
 // A WM_COMDAEMON message is sent to the window which created this thread to
 // indicate that the thread ended.

@@ -32,21 +32,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////
 // CTransferInfo dialog
 
+#include "RegBinding.h"
+
+
 class CTransferInfo : public CDialog
 {
 // Construction
 public:
-	CString m_sPath;
-	void ShowInitScreen();
-	void ShowUserInfo();
-	void Close();
-	void Pump();
-	static void UpdateDlg(CString& sFileName, bool bRecv, int nPackets = -1);
-	CTransferInfo(CWnd* pParent = NULL);   // standard constructor
+	void SetSendPos(unsigned long ulBytes);
+	BOOL m_bDetailsShown;
 
+	CString m_sPath;
+	void ShowInitScreen(BOOL bXModem);
+	void ShowUserInfo();
+	void Pump();
+	static void UpdateDlg(CString& sFileName, BOOL bRecv, int nPackets = -1);
+	static void SetRange(unsigned long unSize);
+	static void SetPos(unsigned long unEffBytes, unsigned long unTotalBytes);
+	CTransferInfo(CWnd* pParent = NULL);   // standard constructor
+	HANDLE m_hCancelEvent;
 // Dialog Data
 	//{{AFX_DATA(CTransferInfo)
 	enum { IDD = IDD_TRANSFERINFO };
+	CButton	m_DetailsGroup;
+	CProgressCtrl	m_ProgressBar;
 	CAnimateCtrl	m_Animation;
 	//}}AFX_DATA
 
@@ -67,14 +76,24 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnClose();
+	afx_msg void OnDetails();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
 private:
+	BOOL m_bShowDetails;
+	unsigned long m_ulSize;
+	unsigned long m_unPos;
+	unsigned long m_unTotalBytes;
+	time_t m_StartTime;
+	unsigned int m_nPackets;
+	void ShowDetails(BOOL bShow = TRUE);
 	BOOL m_bPlaying;
 	UINT TimerID;
-	bool bMainWndWasEnabled;
+	bool m_bMainWndWasEnabled;
 	static CTransferInfo * pseudoThis;
+	CRegBinding rb;
+
 };
 
 //{{AFX_INSERT_LOCATION}}

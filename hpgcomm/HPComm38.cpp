@@ -83,7 +83,7 @@ BOOL CHPComm38App::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
-	const char *HPComm38WindowTitle = "HPGComm 2b1";
+	const char *HPComm38WindowTitle = "HPGComm 2b4";
 
 	SetRegistryKey(_T("www.hpcomm.org"));
 
@@ -97,10 +97,12 @@ BOOL CHPComm38App::InitInstance()
 #endif
 
 	// This mutex prevents that another instance of the app can be created.
-	CreateMutex(NULL, TRUE, _T("HPComm38"));
+	CreateMutex(NULL, TRUE, _T("HPGComm"));
 	BOOL bAlreadyRunning = (GetLastError() == ERROR_ALREADY_EXISTS);
     if(bAlreadyRunning) {
-        SetForegroundWindow(FindWindow(NULL, HPComm38WindowTitle));
+		HWND hWnd = FindWindow(NULL, HPComm38WindowTitle);
+		ShowWindow(hWnd, SW_SHOWNORMAL);
+        SetForegroundWindow(hWnd);
 		return FALSE;
     }
 
@@ -109,6 +111,7 @@ BOOL CHPComm38App::InitInstance()
 
 	CHPComm38Dlg dlg;
 	m_pMainWnd = &dlg;
+	
 	int nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{
@@ -138,3 +141,4 @@ void CHPComm38App::RemoveMRU(int nIndex)
 {
 	m_pRecentFileList->Remove(nIndex);
 }
+

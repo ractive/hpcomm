@@ -34,10 +34,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif // _MSC_VER > 1000
 
 #include "Serial.h"
+#include "HPComm38.h"
+#include "TransferThread.h"
+
 
 class CProt : public CSerial  
 {
 public:
+	BOOL m_bShowTransDetails;
+	int GetBufferFromFile(char * buf, int nLen);
+	int PutBufferToFile(char * buf, int nLen);
+
 	//virtual void ClientRequest(CString &sCurPath) = 0;
 	CProt();
 	virtual ~CProt();
@@ -47,6 +54,16 @@ public:
 
 	// Receive the files which are defined with pIOReq
 	virtual void RecvFiles() = 0;
+
+	// Reset the internal setting of the class
+	virtual void Reset(bool bCloseInfoDlg = true) = 0;
+
+	// Stops ongoing transfers and closes the info dialog
+	void StopAll(void);
+
+	// The protocol handles the request
+	virtual void ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath) = 0;
+
 
 	// This opens the com-port and tries to get information about the calculator
 
@@ -61,30 +78,48 @@ public:
 
 	// These variables are used to hint to the MainFrame whether it should
 	// refresh the windows.
-	bool bTransactionFinished;
-	bool bNewFileCreated;
+	bool m_bTransactionFinished;
+	bool m_bNewFileCreated;
 
 	// If HP38DIR.CUR and HP38DIR.xxx was sent this bool is set to true
-	bool bVDFilesSent;
+	bool m_bVDFilesSent;
 
 	// This variable says CMainFrame if the 38G has sent some files or if it
 	// was just requesting files.
 	// CMainFrame then can decide to be enabled or not.
-	bool bSendingOnly;
-	
-	void (*pfnTransferInfo)(CString &sFileName, bool bRecv);
+	bool m_bSendingOnly;
 
+	/*void (*ProtCallback)(CString &sFileName, bool bRecv, int nPackets);
+	void (*SetRange)(unsigned long unSize);
+	void (*SetPos)(unsigned long unEffBytes, unsigned long unTotalBytes);*/
+	void Transfer(bool bRecv = false);
+
+	BOOL m_bTransfering;
+	CString m_sCurPCPath;
+	//CTransferInfo * m_pInfoDlg;
+	CTransferThread * m_pDlgThread;
 private:
-	bool bWasReadonly;
-	bool bFirst;
-	bool bRecv;
-	HANDLE hRecvFile;
-	HANDLE hSendFile;
-	bool bUseBuffer;
+	bool m_bWasReadonly;
+	bool m_bFirst;
+	bool m_bRecv;
+	HANDLE m_hRecvFile;
+	HANDLE m_hSendFile;
+	bool m_bUseBuffer;
 	POSITION pos;
 protected:
+	void SetSendPos(unsigned long ulBytes);
+	void FileInfo(LPCTSTR sFilename, BOOL bRecv);
+	void CloseTransferWnd();
+	void SetPos(unsigned long ulEffBytes, unsigned long ulTotal);
+	void SetRange(unsigned long ulRange);
+	BOOL m_bIsXModem;
+	void SetPointerBack(int nOffset, BOOL bSendFile = TRUE);
+	static HANDLE m_hStop;
+	static UINT TransferThreadProc(LPVOID lParam);
+
+	static CProt * m_pPseudoThis;
+	BOOL m_bCancel, m_bSkipFile;
 	CString sReqFileName;
-	CString sCurPCPath;
 	bool OpenFile();
 	bool CloseFile();
 	bool CreateFile();
@@ -94,5 +129,11 @@ protected:
 	bool GetFileName(CString & sFileName);
 	unsigned int GetFileSize();
 };
+
+struct threadinfo {
+	CProtException * pEx;
+	bool write;
+}; // I always forget this ";"
+
 
 #endif // !defined(AFX_PROT_H__E0221B81_07D0_11D3_AE2A_0000E8627120__INCLUDED_)

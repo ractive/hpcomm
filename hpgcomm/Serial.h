@@ -65,6 +65,7 @@ public:
 	CSerial();
 	virtual ~CSerial();
 	HANDLE hComPort;
+	unsigned long m_ulBytesSent;
 private:
 	static UINT ComDaemon(LPVOID lParam);
 	HANDLE hKill;

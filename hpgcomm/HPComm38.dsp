@@ -54,6 +54,7 @@ BSC32=bscmake.exe
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
 # ADD LINK32 imagehlp.lib /nologo /subsystem:windows /machine:I386
+# SUBTRACT LINK32 /debug
 
 !ELSEIF  "$(CFG)" == "HPComm38 - Win32 Debug"
 
@@ -69,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x407 /d "_DEBUG" /d "_AFXDLL"
@@ -165,11 +166,19 @@ SOURCE=.\TransferInfo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\TransferThread.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\VD.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\VDDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\XModem.cpp
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -309,11 +318,19 @@ SOURCE=.\TransferInfo.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\TransferThread.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\VD.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\VDDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XModem.h
 # End Source File
 # End Group
 # Begin Source File

@@ -38,16 +38,15 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-HANDLE CKermit::m_hStop = NULL;
-
 CKermit::CKermit()
 {
 	MAXRP = 200;
 	MAXSP = 200;
-	bCancel = FALSE;
-	ProtCallback = 0;
-	bCancel = false;
-	bSkipFile = false;
+	/*ProtCallback = 0;
+	SetPos = 0;
+	SetRange = 0;*/
+	m_bCancel = false;
+	m_bSkipFile = false;
 	bConnected = false;
 
 	nSpad = 0;
@@ -90,22 +89,12 @@ CKermit::CKermit()
 
 	bClientRequest = false;
 
-	pInfoDlg = 0;
-
-	m_bTransfering = FALSE;
-
-	m_hStop = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_bIsXModem = FALSE;
 }
 
 CKermit::~CKermit()
 {
-	if (pInfoDlg != 0) {
-		pInfoDlg->Close();
-		delete pInfoDlg;
-		pInfoDlg = 0;
-	}
 
-	ClosePort();
 }
 
 void CKermit::Encode(char a, char next)
@@ -312,9 +301,11 @@ void CKermit::SendEOT()
 void CKermit::SendFiles()
 {
 	nBlockChkType = 1;
+	
+	m_ulBytesSent = 0;
 
-	bSkipFile = false;
-	bCancel = false;
+	m_bSkipFile = false;
+	m_bCancel = false;
 
 	BOOL bStart = TRUE;
 	char type;
@@ -363,7 +354,7 @@ void CKermit::SendFile()
 {
 	static int nFileNo = 0;
 
-	CVD vd(sCurPCPath);
+	CVD vd(m_sCurPCPath);
 	if (!OpenFile()) {
 		DWORD dwError = GetLastError();
 		char type;
@@ -387,7 +378,7 @@ void CKermit::SendFile()
 		// Check if the directory exists...
 		
 
-		if (!PathExists(sCurPCPath)) {
+		if (!PathExists(m_sCurPCPath)) {
 			ThrowProtException(CProtException::DIRERROR, dwError, sReqFileName);
 			return;
 		}
@@ -416,10 +407,10 @@ void CKermit::SendFile()
 		}
 	}
 
-	// FIXME: Need to make sure that directory handling is correct.
-
 	unsigned int size = GetFileSize();
-
+	//if (SetRange) {
+		SetRange(size);
+	//}
 	CString sFileName;
 	GetFileName(sFileName);
 
@@ -537,9 +528,11 @@ BOOL CKermit::SendData()
 	int x;
 	if ((x = GetPacket(nMaxDataLen)) == 0)
 		return FALSE;
+
 	NextPacket();
-	//Notify(CProgressDlg::FILEPOS, &nCount);
-	//Notify(sReqFileName, FALSE, nSeqAll);
+
+	SetPos(nCount, m_ulBytesSent);
+
 	return SendPacket('D', x, Data);
 }
 
@@ -561,6 +554,8 @@ void CKermit::RecvFiles()
 	nCount = 0;
 	state = recvfile;
 
+	m_ulBytesSent = 0;
+
 	s = ReqPar();
 
 	if (!bClientRequest) {
@@ -570,6 +565,8 @@ void CKermit::RecvFiles()
 	nSeqAll = 0;
 	nErrors = -1;
 	
+	SetRange(0);
+
 	while (true) {
 		try {
 			PacketType(type);
@@ -582,6 +579,8 @@ void CKermit::RecvFiles()
 				ThrowProtException(pEx);
 			}
 		}
+
+		SetSendPos(strlen(pRecvData));
 
 		if (type == 'Q') {
 			Nak();
@@ -759,11 +758,11 @@ int CKermit::RecvPacket(bool bFirstPacket /* = false */)
 
 	*RecvPack = '\0';
 
-	if (bCancel) {
+	if (m_bCancel) {
 		ThrowProtException(CProtException::CANCELLED);
 	}
 
-	if (bSkipFile) {
+	if (m_bSkipFile) {
 		return CProtException::SKIPPED;
 	}
 	
@@ -1013,6 +1012,7 @@ void CKermit::PacketType(char &type, bool bFirstPacket /* = false */)
 	int tries;
 
 	type = RecvPacket(bFirstPacket);
+
 	TRACE("Received no.: %d Type: %c RecvPack: %s\n", nRecvSeq, type, RecvPack);
 	for (tries = 0; nRecvSeq != nSeq || !strchr("FXDZBYSIR", type); tries++) {
 
@@ -1027,7 +1027,10 @@ void CKermit::PacketType(char &type, bool bFirstPacket /* = false */)
 		}
 
 		else if (type == 'E') {
+			DecodeString();
 			CString sError = pRecvData;
+			sError.TrimLeft();
+			sError.TrimRight();
 			if (sError == "Invalid Syntax") {
 				// Let the use know that the file he tried to send was not a valid one.
 				//MessageBox(NULL, "Invalid Syntax\n\nThe file you tried to send does not\ncontain valid data or a valid program.", "Error Message from the calculator", MB_OK | MB_ICONSTOP);
@@ -1040,6 +1043,9 @@ void CKermit::PacketType(char &type, bool bFirstPacket /* = false */)
 			}
 			else if (sError == "Insufficient memory") {
 				ThrowProtException(CProtException::MEMORY);
+			}
+			else if (sError == "Interrupted") {
+				ThrowProtException(CProtException::CANCELLED, 0, sError);
 			}
 			else {
 				// Another error occured which we can't process.
@@ -1066,7 +1072,7 @@ int CKermit::ReadLineFromCom()
 	int i;
 	char ch;
 
-	if (bCancel) {
+	if (m_bCancel) {
 		ThrowProtException(CProtException::CANCELLED);
 	}
 	for (i = 0; i < MAXRP; i++) {
@@ -1082,111 +1088,12 @@ int CKermit::ReadLineFromCom()
 	return i;
 }
 
-void CKermit::Transfer(bool bRecv /* = false */)
-{
-	//CWaitCursor wait;
-	bCancel = false;
-	bSkipFile = false;
-	
-	unsigned int nSize = 0;
-	threadinfo ti;
-
-	ti.pEx = NULL;
-
-	if (pInfoDlg == 0) {
-		pInfoDlg = new CTransferInfo;
-		pInfoDlg->m_sPath = sCurPCPath;
-		pInfoDlg->Create(IDD_TRANSFERINFO, AfxGetMainWnd());
-	}
-
-	pInfoDlg->ShowInitScreen();
-
-	HWND * hInfoWnd = &pInfoDlg->m_hWnd;
-
-	ProtCallback = &(pInfoDlg->UpdateDlg);
-
-	// This method also can be called with a Null-ptr to IOReq from within
-	// the method ClientRequest.
-	ti.write = bRecv;
-
-	ti.pKermit = this;
-	DWORD exit;
-	CWinThread * pThread = AfxBeginThread(TransferThreadProc, &ti, 0, CREATE_SUSPENDED, NULL);
-	pThread->m_bAutoDelete = false;
-	pThread->ResumeThread();
-
-	HANDLE * handleArray = new HANDLE[2];
-
-	handleArray[0] = pThread->m_hThread;
-	handleArray[1] = m_hStop;
-
-	m_bTransfering = TRUE;
-
-	// Hmm, not sure but here could occur a "deadlock". If the Window gets not messages
-	// any more and we call Pump at the wrong time, Pump will wait will a new
-	// message arrives. Very unlikely, but possible.
-	DWORD dwSigHandle;
-	while (dwSigHandle = WaitForMultipleObjects(2, handleArray, FALSE, 50)) {
-		if (dwSigHandle == WAIT_TIMEOUT) {
-			pInfoDlg->Pump();
-			continue;
-		}
-		else if (dwSigHandle - WAIT_OBJECT_0 == 1) {
-			bCancel = true;
-			continue;
-		}
-		else if (dwSigHandle - WAIT_OBJECT_0 == 0) {
-			break;
-		}
-	}
-
-	WaitForSingleObject(pThread->m_hThread, INFINITE);
-
-	delete [] handleArray;
-
-	m_bTransfering = FALSE;
-
-	if (!::GetExitCodeThread(pThread->m_hThread, &exit)) {
-		ThrowProtException(CProtException::UNKNOWN, GetLastError());
-	}
-	
-	delete pThread;
-
-	if(!IsWindow(*hInfoWnd)) {
-		pInfoDlg = 0;
-	}
-
-	if ((bTransactionFinished || bSendingOnly) && pInfoDlg) {
-		pInfoDlg->Close();
-		delete pInfoDlg;
-		pInfoDlg = 0;
-	}
-	else if (bVDFilesSent && pInfoDlg) {
-		pInfoDlg->ShowUserInfo();
-	}
-
-	// If the thread exited successfully, it returns SUCCESS;	
-	
-	CProtException::ERRCODE errcode = (CProtException::ERRCODE)exit;
-	if (errcode != CProtException::SUCCESS) {
-		// If the thread ended without success we check if we
-		// have a non NULL exception pointer.
-		// If yes, throw this exception, if not, throw one with
-		// the corresponding error code.
-		if (ti.pEx != NULL) {
-			ThrowProtException(ti.pEx);
-		}
-		else {
-			ThrowProtException(errcode);
-		}
-	}
-}
-
 void CKermit::Notify(CString &sFileName, bool bRecv, int nPackets)
 {
-	if (ProtCallback != 0) {
-		ProtCallback(sFileName, bRecv, nPackets);
-	}
+	/*if (ProtCallback != 0) {
+		//ProtCallback(sFileName, bRecv, nPackets);
+	}*/
+	FileInfo(sFileName, bRecv);
 }
 
 void CKermit::ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath)
@@ -1195,7 +1102,7 @@ void CKermit::ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath
 
 	Reset(false);
 
-	sCurPCPath = sCurPath;
+	m_sCurPCPath = sCurPath;
 
     this->cFirstChar = cFirstChar;
     this->cSecondChar = cSecondChar;
@@ -1262,7 +1169,7 @@ void CKermit::ClientRequest(char cFirstChar, char cSecondChar, CString &sCurPath
 		}
 		else if (type == 'S') {
 			// TRACE("Client sends a File\n");
-			if (!PathExists(sCurPCPath)) {
+			if (!PathExists(m_sCurPCPath)) {
 				SendError("Directory does not exist");
 				ThrowProtException(CProtException::DIRERROR, -1, sReqFileName);
 				return;
@@ -1292,52 +1199,18 @@ void CKermit::Reset(bool bCloseInfoDlg /* = true */)
 {
 	CloseFile();
 
-	bCancel = false;
+	m_bCancel = false;
 
-	if (bCloseInfoDlg && (pInfoDlg != 0)) {
-		pInfoDlg->Close();
-		delete pInfoDlg;
-		pInfoDlg = 0;
+	if (bCloseInfoDlg) {
+		CloseTransferWnd();
 	}
 
-	bTransactionFinished = false;
-	bVDFilesSent = false;
+	m_bTransactionFinished = false;
+	m_bVDFilesSent = false;
 
 	nBlockChkType = 1;
 	nSeq = 0;
 	nSeqAll = 0;
-
-}
-
-void CKermit::StopAll() {
-	if (m_bTransfering) {
-		SetEvent(m_hStop);
-	}
-	else if (pInfoDlg) {
-		pInfoDlg->Close();
-		delete pInfoDlg;
-		pInfoDlg = 0;
-	}
-}
-
-UINT CKermit::TransferThreadProc(LPVOID lParam)
-{
-	threadinfo * ti = (threadinfo *)lParam;
-	try {
-		if (ti->write) {
-			ti->pKermit->SendFiles();
-		}
-		else {
-			ti->pKermit->RecvFiles();	
-		}
-	}
-	catch (CProtException * pEx) {
-		ti->pEx = pEx;
-		CProtException::ERRCODE error = pEx->error;
-		return error;
-	}
-
-	return CProtException::SUCCESS;
 
 }
 
@@ -1357,7 +1230,7 @@ void CKermit::Cancel()
 {
 	char type;
 	TRACE("CANCELLING...\r\n");
-	bCancel = false;
+	m_bCancel = false;
 	SendPacket('Z', 1, "D");
 	type = RecvPacket();
 	TRACE("AFTER DISCARD: %c\r\n", type);

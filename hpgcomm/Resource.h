@@ -54,6 +54,16 @@
 #define IDC_DIRECTORYx                  1209
 #define IDC_DIRECTORY                   1209
 #define IDC_INFOICON                    1210
+#define IDC_PROGRESS                    1213
+#define IDC_PACKETS                     1214
+#define IDC_CPS                         1215
+#define IDC_BYTES                       1216
+#define IDC_DETAILS                     1217
+#define IDC_DETAILSGROUP                1218
+#define IDC_TIMERUNNING                 1219
+#define IDC_BPS                         1220
+#define IDC_REMAINING                   1221
+#define IDC_PERCENT                     1222
 #define IDC_COPY                        5120
 #define IDC_FLIP                        5136
 #define IDC_INVERT                      5152
@@ -78,14 +88,16 @@
 #define ID_ESC                          32790
 #define ID_TRAYMENU_ABOUT               32792
 #define ID_RESTORE                      32793
+#define ID_FILE_GETFILEBYXMODEM         32794
+#define IDC_GETXMODEM                   32795
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        288
-#define _APS_NEXT_COMMAND_VALUE         32794
-#define _APS_NEXT_CONTROL_VALUE         1213
+#define _APS_NEXT_COMMAND_VALUE         32796
+#define _APS_NEXT_CONTROL_VALUE         1223
 #define _APS_NEXT_SYMED_VALUE           256
 #endif
 #endif

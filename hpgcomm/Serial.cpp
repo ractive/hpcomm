@@ -42,6 +42,8 @@ CSerial::CSerial()
 
 	daemoninfo = 0;
 	pThread = 0;
+
+	m_ulBytesSent = 0;
 }
 
 CSerial::~CSerial()
@@ -151,7 +153,7 @@ bool CSerial::WriteBufferToCom(char *buf, DWORD dwBufLen)
 					// Now check if all the bytes could be written.
 					// The only way to check that is to compare the dwWritten and
 					// the dwBufLen. It it's the same, the operatoin was successful.
-
+					m_ulBytesSent += dwWritten;
 					bRet = (dwBufLen == dwWritten);
 				}
 			}
@@ -161,6 +163,7 @@ bool CSerial::WriteBufferToCom(char *buf, DWORD dwBufLen)
 		// The operation completed immediately
 
 		// Check if everything could be written
+		m_ulBytesSent += dwWritten;
 		bRet = (dwBufLen == dwWritten);
 	}
 

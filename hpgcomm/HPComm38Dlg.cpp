@@ -33,6 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "HelpFileDlg.h"
 #include <imagehlp.h>
 #include "VD.h"
+#include "XModem.h"
+#include <afxpriv.h>              // For WM_KICKIDLE
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static char THIS_FILE[] = __FILE__;
 #endif
 
-CHPComm38Dlg *CHPComm38Dlg::pseudoThis = 0;
+CHPComm38Dlg *CHPComm38Dlg::m_pPseudoThis = 0;
 
 /////////////////////////////////////////////////////////////////////////////
 // CHPComm38Dlg dialog
@@ -55,21 +58,21 @@ CHPComm38Dlg::CHPComm38Dlg(CWnd* pParent /*=NULL*/)
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 
-	nComPort = 1;
+	m_nComPort = 1;
 
-	rb.Bind(nComPort, "Com-port", 1);
+	rb.Bind(m_nComPort, "Com-port", 1);
 	rb.Bind(m_sPath, "Last directory", "C:\\");
-	rb.Bind(sHelpLanguage, "Help-language", "");
+	rb.Bind(m_sHelpLanguage, "Help-language", "");
 
-	VERIFY(pseudoThis==0);
-	pseudoThis = this;
+	VERIFY(m_pPseudoThis==0);
+	m_pPseudoThis = this;
 
-	pWaitInfoDlg = 0;
-	pScreenData = 0;
+	m_pWaitInfoDlg = 0;
+	m_pScreenData = 0;
 
 	m_bVDInitInfoShown = false;
 
-	nScreenDlg = 0;
+	m_nScreenDlg = 0;
 
 	m_bDirInexistent = FALSE;
 
@@ -105,6 +108,7 @@ BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMPORT, OnSelchangeComport)
 	ON_BN_CLICKED(IDC_CREATEDIR, OnCreateDir)
 	ON_BN_CLICKED(IDC_HIDEINFO, HideInfo)
+	ON_BN_CLICKED(IDC_GETXMODEM, OnGetXModem)
 	ON_EN_CHANGE(IDC_DIRECTORY, OnChangeDirectory)
 	ON_WM_TIMER()
 	ON_COMMAND(ID_RESTORE, OnRestore)
@@ -119,6 +123,7 @@ BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
 	ON_MESSAGE(WM_COMDAEMON, OnComdaemonMsg)
 	ON_MESSAGE(WM_TRANSFERINFOCLOSED, OnTransferInfoClosed)
 	ON_MESSAGE(WM_DIRECTORYCHANGE, OnChangeDir)
+	ON_MESSAGE(WM_KICKIDLE, OnKickIdle)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -152,12 +157,11 @@ BOOL CHPComm38Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
 	// Create the menu
-    pMenu = new CMenu;
-	if (pMenu && pMenu->LoadMenu(IDR_MAINFRAME)) {
+    m_pMenu = new CMenu;
+	if (m_pMenu && m_pMenu->LoadMenu(IDR_MAINFRAME)) {
 		// and set it.
-		SetMenu(pMenu);
+		SetMenu(m_pMenu);
 	}
-
 
 	HideInfo();
 
@@ -166,21 +170,21 @@ BOOL CHPComm38Dlg::OnInitDialog()
 	// Make sure the directory entry field contains the correct dir.
 	UpdateData(FALSE);
 
-	pScreenData = 0;
+	m_pScreenData = 0;
 
-	pKermit = new CKermit();
+	m_pProt = new CKermit();
 
-	if (pKermit == NULL)
+	if (m_pProt == NULL)
 		return false;
 
 	try {
-		pKermit->OpenPort(nComPort);
+		m_pProt->OpenPort(m_nComPort);
 	}
 	catch (CProtException * pEx) {
 		// Ensure the dialog is friendlier when we first start.
 		if (pEx->error == CProtException::OPENPORT) {
 			CString sMsg;
-			sMsg.Format("Welcome to HPGComm.  I couldn't use your computer's COM%d serial port.\r\nAfter closing this message, please choose a different serial port\r\nfrom the provided list.", nComPort);
+			sMsg.Format("Welcome to HPGComm.  I couldn't use your computer's COM%d serial port.\r\nAfter closing this message, please choose a different serial port\r\nfrom the provided list.", m_nComPort);
 			MessageBox(sMsg, "Welcome", MB_OK | MB_ICONINFORMATION);
 			pEx->Delete();
 		}
@@ -240,10 +244,10 @@ BOOL CHPComm38Dlg::OnInitDialog()
 
 	m_ToolTip.AddTool(this, _T(""), &rect, IDC_CALCPIC);
 
-	pKermit->CreateComDaemon(m_hWnd);
-	pKermit->UnleashDaemon();
+	m_pProt->CreateComDaemon(m_hWnd);
+	m_pProt->UnleashDaemon();
 
-	ComPortCtrl.SetCurSel(nComPort - 1);
+	ComPortCtrl.SetCurSel(m_nComPort - 1);
 
 	/*CString s = "Just testing...\r\n\r\nLine 2";
 	ShowInfo(s);*/
@@ -252,7 +256,6 @@ BOOL CHPComm38Dlg::OnInitDialog()
 
 	//m_TrayIcon.SetNotificationWindow(this, WM_TRAYNOTIFICATION);
 	//m_TrayIcon.SetMenu(IDR_TRAY);
-
 
 	SetCalcPic(FALSE);
 
@@ -310,8 +313,8 @@ HCURSOR CHPComm38Dlg::OnQueryDragIcon()
 
 void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam) 
 {
+	BOOL bIsXModem = FALSE;
 	if (lParam == COMACTIVITY) {
-
 		UpdateData(TRUE);
 
 		// Hide the info window.
@@ -327,17 +330,32 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
             // Otherwise it's a kermit-packet.
             char cFirstChar;
             char cSecondChar;
-            if (!pKermit->ReadCharFromCom(&cFirstChar)) {
+            if (!m_pProt->ReadCharFromCom(&cFirstChar)) {
                 throw new CProtException(CProtException::TIMEOUT, 0, "");
             }
-            
-            if (cFirstChar == 27) {
+            if (cFirstChar == 0x15 || cFirstChar == 'D') {
+				CXModem XModem;
+				bIsXModem = TRUE;
+				m_pProt->ClosePort();
+				XModem.OpenPort(m_nComPort);
+				XModem.m_sCurPCPath = m_sPath;
+				XModem.Transfer(true);
+				XModem.ClosePort();
+				m_pProt->OpenPort(m_nComPort);
+				m_pProt->Reset();
+				m_pProt->KillComDaemon();
+				m_pProt->CreateComDaemon(m_hWnd);
+				//m_pProt->UnleashDaemon();
+				bIsXModem = FALSE;
+				//return;
+			}
+            else if (cFirstChar == 27) {
                 // We have a screen shot waiting to be shown...
 				CWaitCursor wait;
                 ReadScreenData(cFirstChar);
             }
             else {
-                if (!pKermit->ReadCharFromCom(&cSecondChar)) {
+                if (!m_pProt->ReadCharFromCom(&cSecondChar)) {
                     throw new CProtException(CProtException::TIMEOUT, 0, "");
                 }
 
@@ -346,7 +364,7 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
 					ReadScreenData(cSecondChar);
                 }
                 else {
-                    pKermit->ClientRequest(cFirstChar, cSecondChar, m_sPath);
+                    m_pProt->ClientRequest(cFirstChar, cSecondChar, m_sPath);
 					UpdateHistory(m_sPath);
 				}
             }
@@ -354,29 +372,39 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
 
 		catch (CProtException * pEx) {
 			ExceptionHandler(pEx);
-			pKermit->Reset();
-			pKermit->UnleashDaemon();
+			if (bIsXModem) {
+				/*XModem.ClosePort();
+				m_pProt->OpenPort(m_nComPort);
+				m_pProt->Reset();
+				m_pProt->KillComDaemon();
+				m_pProt->CreateComDaemon(m_hWnd);
+				m_pProt->UnleashDaemon();
+				bIsXModem = FALSE;*/
+			}
+			else {
+				m_pProt->Reset();
+				m_pProt->UnleashDaemon();
+			}
 			return;
 		}
 
 		// If the transaction was finished (this means the 38G wrote
 		// a directory file to disk and a new file was created on the
 		// PC, we reread the content of the PC dir, too.
-		if (pKermit->bTransactionFinished) {
-			pKermit->bNewFileCreated = false;
-			pKermit->bTransactionFinished = false;
+		if (m_pProt->m_bTransactionFinished) {
+			m_pProt->m_bNewFileCreated = false;
+			m_pProt->m_bTransactionFinished = false;
 		}
 
 		// The screendata contains something. This means for us to display
 		// The screenshot.
-		if (pScreenData != 0) {
+		if (m_pScreenData != 0) {
 			ShowScreenShot();
 		}
 
 		// TRACE("Daemon resumed by CMainFrame\r\n");
-		pKermit->UnleashDaemon();
+		m_pProt->UnleashDaemon();
 	}
-
 
 }
 
@@ -397,7 +425,7 @@ void CHPComm38Dlg::ExceptionHandler(CProtException *pEx)
 		sError = "The calculator is out of memory.\r\n\r\nPlease delete some unused variables on your calculator\r\nand try again.";
 		break;
 	case CProtException::OPENPORT:
-		sError.Format("The COM%d serial port could not be opened.\r\n\r\nPlease choose another serial port.", nComPort);
+		sError.Format("The COM%d serial port could not be opened.\r\n\r\nPlease choose another serial port.", m_nComPort);
 		break;
 	case CProtException::DEVICE:
 		sError = "The serial port could not be initialized correctly.";
@@ -415,6 +443,7 @@ void CHPComm38Dlg::ExceptionHandler(CProtException *pEx)
 		sError = "An unknown error occured.";
 		break;
 	case CProtException::RETRIES:
+	case CProtException::TIMEOUT:
 		sError = "There was no answer from the calculator.\r\n\r\nPlease try again after checking the connection.";
 		break;
 	case CProtException::CANCELLED:
@@ -459,9 +488,12 @@ void CHPComm38Dlg::ExceptionHandler(CProtException *pEx)
 
 	m_bVDInitInfoShown = vd.IsTheCurFile(pEx->sMessage);
 
-	if (pKermit) {
-		pKermit->Reset();
-		pKermit->FlushComPort();
+	if (m_pProt) {
+		m_pProt->Reset();
+		m_pProt->FlushComPort();
+		m_pProt->KillComDaemon();
+		m_pProt->CreateComDaemon(m_hWnd);
+		m_pProt->UnleashDaemon();
 	}
 
 	if (pEx->error == CProtException::DIRERROR && pEx->dwError != -1) {
@@ -514,9 +546,9 @@ void CHPComm38Dlg::OnChangeDir()
 		binfo.lParam = 0;
 		
 		// Show the little "please wait" dialog.
-		if (pWaitInfoDlg == 0) {
-			pWaitInfoDlg = new CDialog();
-			pWaitInfoDlg->Create(IDD_WAITINFO, this);
+		if (m_pWaitInfoDlg == 0) {
+			m_pWaitInfoDlg = new CDialog();
+			m_pWaitInfoDlg->Create(IDD_WAITINFO, this);
 		}
 
 		EnableWindow(FALSE);
@@ -543,27 +575,27 @@ void CHPComm38Dlg::OnChangeDir()
 
 int CALLBACK CHPComm38Dlg::BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
 {
-	VERIFY(pseudoThis!=0);
+	VERIFY(m_pPseudoThis!=0);
 	switch(uMsg) {
 	case BFFM_INITIALIZED: {
-		if (!pseudoThis->m_sPath.IsEmpty()) {
+		if (!m_pPseudoThis->m_sPath.IsEmpty()) {
 			// We want that the box shows our directory selected in the beginning.
 
 
 			// WParam is TRUE since you are passing a path.
 			// It would be FALSE if you were passing a pidl.
-			::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)pseudoThis->m_sPath);
+			::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)m_pPseudoThis->m_sPath);
 		}
 
 		break;
 	}
 	case BFFM_SELCHANGED: {
-		if (pseudoThis->pWaitInfoDlg != 0) {
+		if (m_pPseudoThis->m_pWaitInfoDlg != 0) {
 			// The window is initialized.
 			// We delete the "wait info" dialog.
-			pseudoThis->pWaitInfoDlg->DestroyWindow();
-			delete pseudoThis->pWaitInfoDlg;
-			pseudoThis->pWaitInfoDlg = 0;		
+			m_pPseudoThis->m_pWaitInfoDlg->DestroyWindow();
+			delete m_pPseudoThis->m_pWaitInfoDlg;
+			m_pPseudoThis->m_pWaitInfoDlg = 0;		
 		}
 
 		CString sFile;
@@ -629,13 +661,13 @@ void CHPComm38Dlg::ReadScreenData( char ScreenType )
         break;
     }
 
-    pScreenData = new unsigned char [nBytesToRead+1];
-    *pScreenData = ScreenType;
+    m_pScreenData = new unsigned char [nBytesToRead+1];
+    *m_pScreenData = ScreenType;
 	DWORD dwRead;
-	if ((dwRead = pKermit->ReadBufferFromCom((char *)(pScreenData + 1), nBytesToRead)) != nBytesToRead) {
+	if ((dwRead = m_pProt->ReadBufferFromCom((char *)(m_pScreenData + 1), nBytesToRead)) != nBytesToRead) {
 		MessageBox("There was a problem collecting the screen image", "Screen image error", MB_OK|MB_ICONEXCLAMATION);
-		delete [] pScreenData;
-		pScreenData = 0;
+		delete [] m_pScreenData;
+		m_pScreenData = 0;
 	}
 }
 void CHPComm38Dlg::ShowScreenShot()
@@ -643,57 +675,57 @@ void CHPComm38Dlg::ShowScreenShot()
 	CGrobDlg grobDlg(this);
 	grobDlg.sFileName.Empty();
 	grobDlg.sCurDir = m_sPath;
-	grobDlg.screendata = pScreenData;
-	grobDlg.nScreenDlg = nScreenDlg;
-	pScreenData = 0;
-	pKermit->UnleashDaemon();
-	nScreenDlg++;
+	grobDlg.screendata = m_pScreenData;
+	grobDlg.nScreenDlg = m_nScreenDlg;
+	m_pScreenData = 0;
+	m_pProt->UnleashDaemon();
+	m_nScreenDlg++;
 	grobDlg.DoModal();
-	nScreenDlg--;
+	m_nScreenDlg--;
 
-	EnableWindow(nScreenDlg == 0);
+	EnableWindow(m_nScreenDlg == 0);
 
 	// We delete the pointer in the dialog, cause when we make more than one screenshot
 	// the pScreenData only contains the last one.
 	// This way every char * is deleted, not only the last one.
 	delete [] grobDlg.screendata;
 	grobDlg.screendata = 0;
-	pScreenData = 0;
+	m_pScreenData = 0;
 }
 
 void CHPComm38Dlg::OnClose() 
 {
 	// Don't close the app if a Transfer takes place
-	if (pKermit && pKermit->m_bTransfering == TRUE) {
+	if (m_pProt && m_pProt->m_bTransfering == TRUE) {
 		return;
 	}
 
-	if (nScreenDlg > 0) {
+	if (m_nScreenDlg > 0) {
 		MessageBox("Please close all screenshot windows before you leave HPGComm", "Error", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
 
-	if (pWaitInfoDlg != 0) {
+	if (m_pWaitInfoDlg != 0) {
 		// The window is initialized.
 		// We delete the "wait info" dialog.
-		pWaitInfoDlg->DestroyWindow();
-		delete pWaitInfoDlg;
-		pWaitInfoDlg = 0;		
+		m_pWaitInfoDlg->DestroyWindow();
+		delete m_pWaitInfoDlg;
+		m_pWaitInfoDlg = 0;		
 	}
 
-	if (pScreenData != 0) {
-		delete [] pScreenData;
+	if (m_pScreenData != 0) {
+		delete [] m_pScreenData;
 	}
 
-    if (pKermit != 0)
+    if (m_pProt != 0)
     {
-        pKermit->ClosePort();
-        delete pKermit;
-        pKermit = 0;
+        m_pProt->ClosePort();
+        delete m_pProt;
+        m_pProt = 0;
     }
 
-	if (pMenu != 0)
-		delete pMenu;
+	if (m_pMenu != 0)
+		delete m_pMenu;
 
 	UpdateData(TRUE);
 
@@ -715,8 +747,8 @@ void CHPComm38Dlg::OnHelpAbout()
 
 void CHPComm38Dlg::OnTransferInfoClosed(UINT pParam, long lParam)
 {
-	if (pKermit) {
-		pKermit->StopAll();
+	if (m_pProt) {
+		m_pProt->StopAll();
 	}
 }
 
@@ -757,14 +789,14 @@ void CHPComm38Dlg::ChooseHelpFileName()
 	int nPos;
 	// Extract the path without the file name, but with trailing backslash
 	if ((nPos = sHelpFilePath.ReverseFind('\\')) == -1) {
-		sHelpLanguage.Empty();
+		m_sHelpLanguage.Empty();
 		return;
 	}
 	
 	sHelpFilePath = sHelpFilePath.Left(nPos + 1);
 
 	// Let's see if we already have a choosen language.
-	if (sHelpLanguage.IsEmpty()) {
+	if (m_sHelpLanguage.IsEmpty()) {
 		// Let the user choose his help file.
 
 		CHelpFileDlg dlg;
@@ -776,7 +808,7 @@ void CHPComm38Dlg::ChooseHelpFileName()
 		CFileFind finder;
 		if (!finder.FindFile(sHelpFilePath + "*.hlp")) {
             MessageBox("There are no help (*.hlp) files available.", "Help language", MB_OK | MB_ICONSTOP);
-			sHelpLanguage.Empty();
+			m_sHelpLanguage.Empty();
 			return;
 		}
 		
@@ -804,14 +836,14 @@ void CHPComm38Dlg::ChooseHelpFileName()
 			if (dlg.m_sHelpFile.IsEmpty())
 				return;
 
-			sHelpLanguage = dlg.m_sHelpFile;
+			m_sHelpLanguage = dlg.m_sHelpFile;
 		}
 	}
 
-    if (sHelpLanguage == "English")
-        sHelpLanguage = "HPComm38";
+    if (m_sHelpLanguage == "English")
+        m_sHelpLanguage = "HPComm38";
 
-	strcpy((char *)pApp->m_pszHelpFilePath, sHelpFilePath + sHelpLanguage + ".hlp");
+	strcpy((char *)pApp->m_pszHelpFilePath, sHelpFilePath + m_sHelpLanguage + ".hlp");
 	// OK, done!
 }
 
@@ -821,17 +853,17 @@ void CHPComm38Dlg::OnHelpLanguage()
 
 	// Store the old strings
 	CString sTmpHelpPath = pApp->m_pszHelpFilePath;
-	CString sTmpHelpLanguage = sHelpLanguage;
+	CString sTmpHelpLanguage = m_sHelpLanguage;
 	// Empty the language string so that it will be updated.
-	sHelpLanguage.Empty();
+	m_sHelpLanguage.Empty();
 	ChooseHelpFileName();
 	// If the setting is the same as before or if it is empty, restore the vars.
 	// This also handles the case where the user cancels the dialog.
-	if ((sTmpHelpPath == pApp->m_pszHelpFilePath) || sHelpLanguage.IsEmpty()) {
-		sHelpLanguage = sTmpHelpLanguage;
-		if (sHelpLanguage.IsEmpty()) {
+	if ((sTmpHelpPath == pApp->m_pszHelpFilePath) || m_sHelpLanguage.IsEmpty()) {
+		m_sHelpLanguage = sTmpHelpLanguage;
+		if (m_sHelpLanguage.IsEmpty()) {
 			// If there is no language at all, we choose the "default" help file.
-			sHelpLanguage = "HPComm38";
+			m_sHelpLanguage = "HPComm38";
 		}
 		strcpy((char *)pApp->m_pszHelpFilePath, sTmpHelpPath);
 	}
@@ -840,14 +872,14 @@ void CHPComm38Dlg::OnHelpLanguage()
 void CHPComm38Dlg::OnSelchangeComport() 
 {
 	int nNewComPort = ComPortCtrl.GetCurSel() + 1;
-	if (nNewComPort != nComPort) {
-		nComPort = nNewComPort;
+	if (nNewComPort != m_nComPort) {
+		m_nComPort = nNewComPort;
 		try {
-			pKermit->ClosePort();
-			pKermit->KillComDaemon();
-			pKermit->OpenPort(nComPort);
-			pKermit->CreateComDaemon(m_hWnd);
-			pKermit->UnleashDaemon();
+			m_pProt->ClosePort();
+			m_pProt->KillComDaemon();
+			m_pProt->OpenPort(m_nComPort);
+			m_pProt->CreateComDaemon(m_hWnd);
+			m_pProt->UnleashDaemon();
 			HideInfo();
 		}
 		catch (CProtException * pEx) {
@@ -928,7 +960,7 @@ void CHPComm38Dlg::OnCreateDir()
 		sPath += "\\";
 	}
 	
-	if (pKermit && pKermit->PathExists(sPath)) {
+	if (PathExists(sPath)) {
 		MessageBox("Please enter the name of the directory you want to create in the edit box and try again.", "Create directory", MB_OK | MB_ICONINFORMATION);
 		return;
 	}
@@ -992,7 +1024,7 @@ void CHPComm38Dlg::HandleCreateDirButton()
 {
 		UpdateData(TRUE);
 		CMenu * pMenu = GetMenu();
-		if (pKermit && !pKermit->PathExists(m_sPath)) {
+		if (!PathExists(m_sPath)) {
 			// If the dir doesn't exist, we enable the createDir button...
 			EnableCreateDir(TRUE);
 			if (pMenu) {
@@ -1191,4 +1223,52 @@ BOOL CHPComm38Dlg::ToolTipCallback(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	return(FALSE);
 
+}
+
+BOOL CHPComm38Dlg::PathExists(CString sPath)
+{
+	// Check if the directory still exists...
+	CFileFind finder;
+	if (sPath.Right(1) != "\\") {
+		sPath += "\\";
+	}
+	sPath += "*.*";
+	BOOL bFound = finder.FindFile(sPath);
+	if (bFound) {
+		// This must be called before calling IsDirectory()
+		finder.FindNextFile();
+	}
+
+	finder.Close();
+
+	return bFound;
+}
+
+void CHPComm38Dlg::OnGetXModem()
+{
+	try {
+		m_pProt->ClosePort();
+		CXModem XModem;
+		XModem.OpenPort(m_nComPort);
+		XModem.m_sCurPCPath = m_sPath;
+		XModem.Transfer(false);
+		XModem.ClosePort();
+
+		m_pProt->OpenPort(m_nComPort);
+		m_pProt->Reset();
+		m_pProt->KillComDaemon();
+		m_pProt->CreateComDaemon(m_hWnd);
+		m_pProt->UnleashDaemon();
+	}
+	catch (CProtException * pEx) {
+		ExceptionHandler(pEx);
+	}
+}
+
+LRESULT CHPComm38Dlg::OnKickIdle(WPARAM, LPARAM lCount)
+{
+       // Do idle processing here, just like CWinApp::OnIdle
+       //
+       TRACE("CMyDlg::OnKickIdle, do priority %d stuff\n", lCount);
+       return (lCount <= 2);
 }

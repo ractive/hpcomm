@@ -109,19 +109,20 @@ IDC_MAGNI               CURSOR  DISCARDABLE     "res\\magni.cur"
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 280, 98
+IDD_ABOUTBOX DIALOGEX 0, 0, 282, 114
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About HPComm38"
 FONT 8, "MS Sans Serif"
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
-    LTEXT           "HPGComm 2001 beta 1\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software licensed under the GNU GPL:",
-                    IDC_STATIC,40,10,174,42,SS_NOPREFIX
-    DEFPUSHBUTTON   "OK",IDOK,223,7,50,14,WS_GROUP
+    LTEXT           "HPGComm 2 beta 4\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software licensed under the GNU GPL:",
+                    IDC_STATIC,106,10,164,42,SS_NOPREFIX
+    DEFPUSHBUTTON   "OK",IDOK,106,93,65,14,WS_GROUP
     LTEXT           "For the source code and other goodies visit:",
-                    IDC_STATIC,40,64,138,8
-    LTEXT           "GNU General Public License",IDC_GPL,40,52,74,8
-    LTEXT           "http://www.hpcomm.org",IDC_WWWHPCOMM,40,75,78,8
+                    IDC_STATIC,106,64,138,8
+    LTEXT           "GNU General Public License",IDC_GPL,106,52,74,8
+    LTEXT           "http://www.hpcomm.org",IDC_WWWHPCOMM,106,75,78,8
+    CONTROL         284,IDC_STATIC,"Static",SS_BITMAP,7,7,94,84,
+                    WS_EX_STATICEDGE
 END
 
 IDD_GROBVIEW DIALOGEX 0, 0, 131, 77
@@ -153,7 +154,7 @@ IDD_HPCOMM38_DIALOG DIALOGEX 0, 0, 235, 215
 STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
     WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "HPGComm 2b2"
+CAPTION "HPGComm 2b4"
 FONT 8, "MS Sans Serif"
 BEGIN
     PUSHBUTTON      "...",IDC_CHANGEDIR,163,105,16,15,BS_ICON | BS_FLAT | 
@@ -197,15 +198,33 @@ BEGIN
     EDITTEXT        IDC_HEIGHT,48,21,25,12,ES_AUTOHSCROLL | ES_NUMBER
 END
 
-IDD_TRANSFERINFO DIALOGEX 0, 0, 148, 103
-STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+IDD_TRANSFERINFO DIALOGEX 0, 0, 148, 173
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+FONT 8, "MS Sans Serif"
 BEGIN
     CTEXT           "\n\nInitializing file transfer....",IDC_INFO,7,36,134,
                     42,SS_SUNKEN
-    PUSHBUTTON      "&Cancel",IDC_CLOSE,55,84,38,12
+    PUSHBUTTON      "&Cancel",IDC_CLOSE,55,93,38,12
     CONTROL         "Animate1",IDC_ANIMATE,"SysAnimate32",ACS_TRANSPARENT | 
                     WS_TABSTOP,18,7,110,20,WS_EX_TRANSPARENT
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH,
+                    7,83,134,7,WS_EX_STATICEDGE
+    GROUPBOX        "Details",IDC_DETAILSGROUP,7,114,134,55
+    LTEXT           "Packets:",IDC_STATIC,11,127,29,8
+    LTEXT           "CPS:",IDC_STATIC,11,139,17,8
+    LTEXT           "Bytes:",IDC_STATIC,74,127,20,8
+    RTEXT           "",IDC_PACKETS,45,127,22,8
+    RTEXT           "",IDC_CPS,45,139,22,8
+    RTEXT           "",IDC_BYTES,113,127,22,8
+    PUSHBUTTON      "Details >>>",IDC_DETAILS,98,95,43,10
+    LTEXT           "Elapsed:",IDC_STATIC,11,151,28,8
+    RTEXT           "",IDC_TIMERUNNING,45,151,22,8
+    LTEXT           "BPS:",IDC_STATIC,74,139,17,8
+    RTEXT           "",IDC_BPS,113,139,22,8
+    LTEXT           "Remaining:",IDC_STATIC,74,151,36,8
+    RTEXT           "",IDC_REMAINING,113,151,22,8
+    CTEXT           "",IDC_PERCENT,7,93,26,12,SS_CENTERIMAGE,
+                    WS_EX_STATICEDGE
 END
 
 IDD_WAITINFO DIALOGEX 0, 0, 177, 46
@@ -254,9 +273,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 273
+        RIGHTMARGIN, 275
         TOPMARGIN, 7
-        BOTTOMMARGIN, 91
+        BOTTOMMARGIN, 107
     END
 
     IDD_GROBVIEW, DIALOG
@@ -295,7 +314,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 141
         TOPMARGIN, 7
-        BOTTOMMARGIN, 96
+        BOTTOMMARGIN, 169
     END
 
     IDD_WAITINFO, DIALOG
@@ -403,6 +422,8 @@ BEGIN
         MENUITEM "C&reate Directory...",        IDC_CREATEDIR
         MENUITEM "&Show calculator files...",   IDC_SHOWVD
         MENUITEM SEPARATOR
+        MENUITEM "Get file by XModem...",       IDC_GETXMODEM, GRAYED
+        MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "&Help"
@@ -451,15 +472,15 @@ BEGIN
             VALUE "Comments", "Visit us at http://www.hpcomm.org\0"
             VALUE "CompanyName", "HP & The HPComm Project\0"
             VALUE "FileDescription", "HPComm\0"
-            VALUE "FileVersion", "2 beta 2\0"
+            VALUE "FileVersion", "2 beta 4\0"
             VALUE "InternalName", "HPGComm\0"
             VALUE "LegalCopyright", "Copyright (C) 2001 Hewlett Packard and Jean-Pierre Bergamin.\0"
             VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
             VALUE "OriginalFilename", "HPGComm.exe\0"
-            VALUE "PrivateBuild", "3. Jan 2001 16:28 EST\0"
+            VALUE "PrivateBuild", "15. Jan 2001\0"
             VALUE "ProductName", "Hewlett Packard Graphing Calculator HP38G/HP39G PC Connectivity Kit\0"
             VALUE "ProductVersion", "2\0"
-            VALUE "SpecialBuild", "2 beta 2\0"
+            VALUE "SpecialBuild", "2 beta 4\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -517,6 +538,8 @@ STRINGTABLE DISCARDABLE
 BEGIN
     ID_TRAYMENU_ABOUT       "About the program..."
     ID_RESTORE              "Restore window"
+    ID_FILE_GETFILEBYXMODEM "Receive a file by XModem"
+    IDC_GETXMODEM           "Receive a file via XModem..."
 END
 
 STRINGTABLE DISCARDABLE 

@@ -98,12 +98,15 @@ protected:
 	afx_msg void OnEditchangeDirectory();
 	afx_msg void OnSelchangeDirectory();
 	afx_msg void OnDropdownDirectory();
+	afx_msg void OnGetXModem();
 	//}}AFX_MSG
 	afx_msg void OnComdaemonMsg(UINT pParam, long lParam);
 	afx_msg void OnTransferInfoClosed(UINT pParam, long lParam);
 	afx_msg BOOL ToolTipCallback( UINT id, NMHDR * pTTTStruct, LRESULT * pResult );
+	afx_msg LRESULT OnKickIdle(WPARAM, LPARAM);   
 	DECLARE_MESSAGE_MAP()
 private:
+	BOOL PathExists(CString sPath);
 	CString m_sShownDir;
 	BOOL m_bDirInexistent;
 	void SetCalcPic(BOOL bAfterSelection);
@@ -116,30 +119,30 @@ private:
 	bool m_bInfoShown;
 	bool m_bVDInitInfoShown;
 	void ShowInfo(CString &sInfoMsg);
-	CMenu * pMenu;
+	CMenu * m_pMenu;
 	void ChooseHelpFileName();
 	// This is kind of a reference counter. It counts how much screenshot
 	// dialogs are opened. The app only exits if this counter is 0, otherwise you'll
 	// see a message box.
 	// In OnClose() it's checked if the reference counter == 0
-	int nScreenDlg;
-	CDialog * pWaitInfoDlg;
-	unsigned char * pScreenData;
+	int m_nScreenDlg;
+	CDialog * m_pWaitInfoDlg;
+	unsigned char * m_pScreenData;
 	void ReadScreenData(char);
 	void ShowScreenShot();
 	static int CALLBACK BrowseCallbackProc(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData);
 	void ExceptionHandler(CProtException * pEx);
-	CKermit * pKermit;
-	int nComPort;
+	CProt * m_pProt;
+	int m_nComPort;
 
 	// Defines the laguage of the help file. This is the same string as the
 	// help file is called (without extension).
 	// If the help file is called Italiano.hlp this string contains "Italiano"
 	// It is stored in the registry and is initially empty.
-	CString sHelpLanguage;
-
+	CString m_sHelpLanguage;
+	
 	CRegBinding rb;
-	static CHPComm38Dlg *pseudoThis;
+	static CHPComm38Dlg *m_pPseudoThis;
 };
 
 //{{AFX_INSERT_LOCATION}}
