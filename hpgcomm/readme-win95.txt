@@ -68,10 +68,5 @@ If you have Internet access, we suggest you visit the
 Microsoft website at the above addresses to find full
 information on correcting this problem.
 
-As a convenience to you, this CD includes the official
-Microsoft upgrade for this system library.  The patch can be
-found in the \msw95patch directory of the CD, and is called
-"com32upd.exe".  The patch may be installed by double-clicking
-on this file when viewed in Windows Explorer.
 
 END

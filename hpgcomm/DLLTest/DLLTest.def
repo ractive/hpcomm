@@ -1,0 +1,7 @@
+; DLLTest.def : Declares the module parameters for the DLL.
+
+LIBRARY      "DLLTest"
+DESCRIPTION  'DLLTest Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here

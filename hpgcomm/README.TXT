@@ -1,5 +1,5 @@
 ======================================================================
- HPGComm Version 2b5 (15.02.2001)
+HPGComm Version 2.01 (1.07.2001)
 ======================================================================
 
 Dear HP calculator users
@@ -10,48 +10,75 @@ support the new calculators, HPComm38 has now been modified and been
 given a new name: HPGComm.
 
 HPGComm has become even more user-friendly and easier to use. New
-features have been added and some bugs were fixed. After internal
-testing we now want to see how the new program works for you, the user.
-For this reason we are lauching this beta-test.
+features have been added and some bugs were fixed.
 
-We encourage you to take part and give us your feedback! First of all
-it's not possible for us to test everything on every system. Even more
-important, we want to know if this software fits your needs.
+After a quite long beta-test phase we decided to release the final
+version 2.0.
+
+If you find any bugs, please report them (address below).
 
 ======================================================================
-How to take part
+Major changes to HPComm38
 ======================================================================
+- Support of HP 39G and 40G calculators added
+- Nicer layout :-)
+- The ability to create directories on the PC from within HPGComm
+- The last six directories used can be recalled for easy re-use
+- File transfers can be cancelled at the PC end
+- Better error handling of directory files
+- Better overall error handling
+- Other bug-fixes
+- XModem support (see below)
 
-Download the program file and put it anywhere you want, but preferably
-in the same directory as HPComm38.exe
+======================================================================
+Changes in 2.01
+======================================================================
+- Fixed a bug where an aplet with many programs/libraries failed to 
+  download completely
 
-Play around with the program and report to us any errors and/or bugs
-that you find. Please also give us feedback about the functionality,
-the look and feel and how user-friendly it is.
-Are you missing a feature? No problem. Drop us a note about what ideas
-you have and what you would like to see in the program.
 
-Subscribe yourself to the HPComm mailinglist at:
-http://gpl.ractive.ch/mailinglist.html to get the latest news about
-this beta test.
+======================================================================
+XModem  (for HP39G and HP40G only)
+======================================================================
+HPGComm now supports the uploading of Aplets to the calculator by
+XModem for HP39G and HP40G calculators. Only specially prepared aplets 
+can be tranferred by XModem. The aplets must be present in binary 
+format. This is the case for most of the games out there ;-)
+
+To upload an aplet by XModem, choose "Recv" on the calculator, then
+"HP39/40 (Wire)". HPGComm opens a dialog where you can choose your
+aplet. When you click on OK, the XModem transfer starts.
+If the aplet is not in binary format the calculator reports "Transfer
+Failed". In this case you have to upload in the normal way.
+
+We (Colin and I) decided not to support XModem beyond this basic level
+(i.e. downloading stuff to the PC etc.), because of lack of support
+from HP and lack of any feedback from users of the need for anything 
+more. You can at least upload most of the games (which is probably 
+the main reason to use XModem :-)
 
 ======================================================================
 !!!!! ATTENTION !!!!!
 ======================================================================
 
 THERE IS A BUG LEFT IN THE PROGRAM WHICH COULD NOT BE FIXED YET. IF YOU
-ARE RUNNING WINDOWS 95/98 IT CAN HAPPEN THAT HPGCOMM OR EVEN THE
-OPERATING SYSTEM CRASHES!
+ARE RUNNING WINDOWS 95/98/ME IT MAY HAPPEN THAT HPGCOMM OR EVEN THE
+OPERATING SYSTEM CRASHES UNDER CERTAIN RARE CIRCUMSTANCES!
+Windows NT/2000 is not affected by this!
 
-So make sure you saved all open documents or ever better, close all
-other programs. Otherwise, data may be lost!
+So make sure you saved all open documents or, even better, close all
+other programs. Otherwise, data may possibly be lost!
 
-This only happens if an ongoing file transfer is interrupted, i.e. by
-pulling out the cable, or by pressing CANCL on the calculator in mid
-transfer. Windows NT/2000 is not affected by this.
+NOTE: This ONLY HAPPENS if an ongoing file transfer is interrupted, 
+i.e. by pulling out the cable, or by pressing CANCEL on the calculator 
+in mid transfer.
+
+HPGComm detects this situation and advises you to close the application
+before doing any further file transfers. To avoid any risk of a crash, hit 
+"Yes" and restart the program. If you do this, the bug won't show up!
 
 We'd be glad to hear if this also happens on your computer! It will
-help us to find out if this is a problem of HPGComm or a bug in Windows
+help us to find out if this is a problem with HPGComm or a bug in Windows
 95/98!
 
 So if you know what you are doing and you are using a Windows 95/98
@@ -76,8 +103,8 @@ any responsibility if you lose data!
 If you tried it, please report this to us. Include the following
 information:
 
-- Did the operation system crash?
-- Operating system (Windows 95/98)
+- Did the operating system crash?
+- Operating system in use (Windows 95/98/ME)
 - Language of the operating system
 - Processor used
 - Do you have other software installed that accesses the COM-Port,
@@ -96,65 +123,6 @@ Colin Croft (The HP38G HOME view):   ccroft@iinet.net.au
 More information can be found here:
 http://www.hpcomm.org
 
-
-======================================================================
-Major changes to HPComm38
-======================================================================
-- Support of HP 39G and 40G calculators
-- Nicer layout :-)
-- The ability to create directories on the PC from within HPGComm
-- The last six used directories with calculator files are stored
-  for easy access
-- File transfers can be cancelled
-- Better error handling of directory files
-- Better overall error handling
-- Other bug-fixes
-======================================================================
-
-
-======================================================================
-Changes to Beta 2 (06.01.2001)
-======================================================================
-- Tooltips for disabled buttons
-- Menu enries grayed out when not needed
-- Crash when trying to create a directory via menu. Fixed.
-======================================================================
-Changes to Beta 3 (09.01.2001)
-======================================================================
-- Progress bar added
-- Nicer about-box ;-)
-- Tried to implement XModem (sending to calc only). See Below...
-======================================================================
-Changes to Beta 4 (15.01.2001)
-======================================================================
-- Improved multithreading. This speeds things up to 30% ;-)
-  The program changed quite a bit internally. I hope I did not intro-
-  duce new bugs...
-- Transfer details like BPS, CPS etc. added
-- XModem also multithreaded
-======================================================================
-Changes to Beta 4 (15.01.2001)
-======================================================================
-- If you created (many :-) screenshot, they could be created out of
-  scope. This is fixed now
-- To copy a screenshot to the clipboard you can now press Ctrl-C
-- A new option File-Open is introduced in the screenshot menu.
-  It opens the current-screenshot in your registered drawing program.
-======================================================================
-
-
-======================================================================
-XModem
-======================================================================
-We (me and Colin) decided not to support XModem with more effort.
-You can at least download (some special) aplets to your calc.
-The aplets must be present in binary format. This is the case for most
-all for the games out there ;-)
-======================================================================
-
-
-We hope to hear from you! Take the opportunity to co-design your
-software...
 
 Regards
 

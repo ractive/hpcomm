@@ -27,12 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "HPComm38.h"
 #include "HPComm38Dlg.h"
 #include <afxadv.h>
+#include <HtmlHelp.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CHPComm38App
@@ -142,3 +144,32 @@ void CHPComm38App::RemoveMRU(int nIndex)
 	m_pRecentFileList->Remove(nIndex);
 }
 
+
+void CHPComm38App::WinHelp(DWORD dwData, UINT nCmd) 
+{
+	return;
+	DWORD i = 0;
+	switch (nCmd) {
+		case HELP_CONTEXT:
+
+		// If it is a help context command, search for the
+		// control ID in the array.
+		/*for (i= 0; i < numHelpIDs*2; i+=2) {
+			if (aMenuHelpIDs[i] == LOWORD (dwData) ) {
+				i++;  // pass the help context id to HTMLHelp
+				HtmlHelp(m_pMainWnd->m_hWnd,"sample.chm", HH_HELP_CONTEXT,aMenuHelpIDs[i]);
+				return;
+			}
+		}*/
+
+		// If the control ID cannot be found,
+		// display the default topic.
+			HtmlHelp(m_pMainWnd->m_hWnd,"HPGComm.chm",HH_DISPLAY_TOPIC,0);
+
+		break;
+
+		case HELP_FINDER:
+			int x = 2;
+			break;
+	}
+}

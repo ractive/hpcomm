@@ -1,0 +1,4 @@
+// Microsoft Developer Studio generated Help ID include file.
+// Used by HPComm38.rc
+//
+#define HIDC_COMPORT                    0x81300420    // IDD_HPCOMM38_DIALOG [English (U.S.)]

@@ -1,0 +1,20 @@
+======================================================================
+!!!!! ATTENTION !!!!!
+======================================================================
+
+THERE IS A BUG LEFT IN THE PROGRAM WHICH COULD NOT BE FIXED YET. IF YOU
+ARE RUNNING WINDOWS 95/98/ME IT MAY HAPPEN THAT HPGCOMM OR EVEN THE
+OPERATING SYSTEM CRASHES UNDER CERTAIN RARE CIRCUMSTANCES!
+Windows NT/2000 is not affected by this!
+
+So make sure you saved all open documents or, even better, close all
+other programs. Otherwise, data may possibly be lost!
+
+NOTE: This ONLY HAPPENS if an ongoing file transfer is interrupted, 
+i.e. by pulling out the cable, or by pressing CANCEL on the calculator 
+in mid transfer.
+
+HPGComm detects this situation and advises you to close the application
+before doing any further file transfers. To avoid any risk of a crash, hit 
+"Yes" and restart the program. If you do this, the bug won't show up!
+======================================================================

@@ -2,6 +2,11 @@
 //
 #include "resource.h"
 
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -71,6 +76,12 @@ BEGIN
     VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
 END
 
+IDD_GROBVIEW ACCELERATORS DISCARDABLE 
+BEGIN
+    "^B",           ID_BORDERADD,           ASCII,  NOINVERT
+    "^C",           IDC_COPY,               ASCII,  NOINVERT
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -109,20 +120,29 @@ IDC_MAGNI               CURSOR  DISCARDABLE     "res\\magni.cur"
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 282, 114
+IDD_ABOUTBOX DIALOGEX 0, 0, 296, 137
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About HPComm38"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "HPGComm 2 beta 4\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software licensed under the GNU GPL:",
-                    IDC_STATIC,106,10,164,42,SS_NOPREFIX
-    DEFPUSHBUTTON   "OK",IDOK,106,93,65,14,WS_GROUP
+    LTEXT           "HPGComm 2.01\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software is licensed under the GNU GPL:",
+                    IDC_STATIC,114,12,164,42,SS_NOPREFIX
+    DEFPUSHBUTTON   "OK",IDOK,23,105,65,14,BS_FLAT | WS_GROUP
     LTEXT           "For the source code and other goodies visit:",
-                    IDC_STATIC,106,64,138,8
-    LTEXT           "GNU General Public License",IDC_GPL,106,52,74,8
-    LTEXT           "http://www.hpcomm.org",IDC_WWWHPCOMM,106,75,78,8
-    CONTROL         284,IDC_STATIC,"Static",SS_BITMAP,7,7,94,84,
+                    IDC_STATIC,114,64,138,8
+    LTEXT           "GNU General Public License",IDC_GPL,114,54,74,8
+    LTEXT           "http://www.hpcomm.org",IDC_WWWHPCOMM,114,74,78,8
+    CONTROL         284,IDC_STATIC,"Static",SS_BITMAP,9,12,94,84,
                     WS_EX_STATICEDGE
+    LTEXT           "Thanks go to Colin Croft for beta-testing.",IDC_STATIC,
+                    114,86,128,8
+    LTEXT           "Visit his homepage for HP38/39 goodies:",IDC_STATIC,114,
+                    99,130,8
+    LTEXT           "http://members.iinet.net.au/~ccroft",IDC_COLINGURL,114,
+                    110,112,8
+    GROUPBOX        "",IDC_STATIC,109,3,179,121
+    GROUPBOX        "",IDC_STATIC,2,0,290,128
+    GROUPBOX        "",IDC_STATIC,5,3,101,121
 END
 
 IDD_GROBVIEW DIALOGEX 0, 0, 131, 77
@@ -151,24 +171,24 @@ BEGIN
 END
 
 IDD_HPCOMM38_DIALOG DIALOGEX 0, 0, 235, 215
-STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+STYLE DS_MODALFRAME | DS_CENTER | DS_CONTEXTHELP | WS_POPUP | WS_VISIBLE | 
     WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "HPGComm 2b5"
+CAPTION "HPGComm 2.0"
 FONT 8, "MS Sans Serif"
 BEGIN
     PUSHBUTTON      "...",IDC_CHANGEDIR,163,105,16,15,BS_ICON | BS_FLAT | 
                     WS_GROUP
     COMBOBOX        IDC_COMPORT,161,78,57,63,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+                    WS_VSCROLL | WS_TABSTOP,0,HIDC_COMPORT
     LTEXT           "Serial Port:",IDC_STATIC,121,80,34,8
     CONTROL         336,IDC_CALCPIC,"Static",SS_BITMAP | SS_SUNKEN,14,11,94,
                     84,WS_EX_STATICEDGE
-    LTEXT           "To begin transmission, press SEND or RECV on the calculator.\n\nTo capture an image of the screen, press ON + 1.",
-                    IDC_STATIC,121,14,94,54,NOT WS_GROUP
+    LTEXT           "To begin transmission, press SEND or RECV on the calculator.",
+                    IDC_SENDRECV,121,14,94,28,NOT WS_GROUP
     PUSHBUTTON      "Show calculator files...",IDC_SHOWVD,205,105,16,15,
                     BS_ICON | BS_FLAT | WS_GROUP
-    GROUPBOX        "",IDC_STATIC,7,0,221,128
+    GROUPBOX        "",IDC_STATIC,7,3,221,125
     EDITTEXT        IDC_INFO,7,145,192,53,ES_MULTILINE | ES_AUTOVSCROLL | 
                     ES_READONLY | WS_VSCROLL,WS_EX_DLGMODALFRAME | 
                     WS_EX_STATICEDGE
@@ -182,6 +202,8 @@ BEGIN
     LTEXT           "Info:",IDC_INFOSTATIC,7,134,15,8
     COMBOBOX        IDC_DIRECTORY,14,106,144,83,CBS_DROPDOWN | 
                     CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "To capture an image of the screen, press ON + 1.",
+                    IDC_SCREENCAP,121,46,94,21
 END
 
 IDD_RESIZEDLG DIALOGEX 0, 0, 80, 57
@@ -273,9 +295,9 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 275
+        RIGHTMARGIN, 289
         TOPMARGIN, 7
-        BOTTOMMARGIN, 107
+        BOTTOMMARGIN, 130
     END
 
     IDD_GROBVIEW, DIALOG
@@ -372,8 +394,8 @@ IDR_GROBVIEW MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Save",                       IDC_SAVE
-        MENUITEM "&Open",                       IDC_OPEN
+        MENUITEM "&Save...",                    IDC_SAVE
+        MENUITEM "&Open externally",            IDC_OPEN
     END
     MENUITEM "&Copy",                       IDC_COPY
     POPUP "&Options"
@@ -398,7 +420,7 @@ BEGIN
             MENUITEM "&Custom size",                ID_CUSTOMSIZE
         END
         MENUITEM SEPARATOR
-        MENUITEM "&With border",                ID_BORDERADD
+        MENUITEM "&With border\tCtrl+B",        ID_BORDERADD
         POPUP "&Border style"
         BEGIN
             MENUITEM "&Thick",                      ID_BORDERTHICK
@@ -420,13 +442,12 @@ BEGIN
         MENUITEM "C&reate Directory...",        IDC_CREATEDIR
         MENUITEM "&Show calculator files...",   IDC_SHOWVD
         MENUITEM SEPARATOR
-        MENUITEM "Get file by XModem...",       IDC_GETXMODEM, GRAYED
-        MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "&Topics...",                  ID_HELP_FINDER
+        MENUITEM "&Content...",                 ID_HELP_CONTENT
+        MENUITEM "&Search",                     ID_HELP_SEARCH
         MENUITEM "Choose help &language...",    ID_HELP_LANGUAGE
         MENUITEM "&About...",                   ID_HELP_ABOUT
     END
@@ -470,15 +491,15 @@ BEGIN
             VALUE "Comments", "Visit us at http://www.hpcomm.org\0"
             VALUE "CompanyName", "HP & The HPComm Project\0"
             VALUE "FileDescription", "HPComm\0"
-            VALUE "FileVersion", "2 beta 5\0"
+            VALUE "FileVersion", "2.0\0"
             VALUE "InternalName", "HPGComm\0"
             VALUE "LegalCopyright", "Copyright (C) 2001 Hewlett Packard and Jean-Pierre Bergamin.\0"
             VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
             VALUE "OriginalFilename", "HPGComm.exe\0"
-            VALUE "PrivateBuild", "15. Feb 2001\0"
+            VALUE "PrivateBuild", "10. June 2001\0"
             VALUE "ProductName", "Hewlett Packard Graphing Calculator HP38G/HP39G PC Connectivity Kit\0"
             VALUE "ProductVersion", "2\0"
-            VALUE "SpecialBuild", "2 beta 5\0"
+            VALUE "SpecialBuild", "2.0\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -518,7 +539,7 @@ BEGIN
     IDC_HIDEINFO            "Hide the information dialog"
     IDC_SHOWVD_DIS          "Choose a directory that contains calculator file to show them"
     IDC_CREATEDIR_DIS       "Enter the name of the directory you want to create in the edit box"
-    IDC_DIRECTORY           "Enter the directory name where the calculator files are stored or the name of the directory you want to create"
+    IDC_DIRECTORY           "Directory name where calculator files are stored or the name of the directory to create"
 END
 
 STRINGTABLE DISCARDABLE 
@@ -538,6 +559,7 @@ BEGIN
     ID_RESTORE              "Restore window"
     ID_FILE_GETFILEBYXMODEM "Receive a file by XModem"
     IDC_GETXMODEM           "Receive a file via XModem..."
+    IDC_OPEN                "Open the screenshot with your Graphics program"
 END
 
 STRINGTABLE DISCARDABLE 
@@ -578,6 +600,11 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     IDC_SAVE                "Save picture as BMP file"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_BORDERADD            "Add a border around the picture"
 END
 
 #endif    // English (U.S.) resources

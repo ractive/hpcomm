@@ -64,6 +64,9 @@
 #define IDC_BPS                         1220
 #define IDC_REMAINING                   1221
 #define IDC_PERCENT                     1222
+#define IDC_COLINGURL                   1223
+#define IDC_SENDRECV                    1224
+#define IDC_SCREENCAP                   1225
 #define IDC_COPY                        5120
 #define IDC_FLIP                        5136
 #define IDC_INVERT                      5152
@@ -91,14 +94,16 @@
 #define ID_FILE_GETFILEBYXMODEM         32794
 #define IDC_GETXMODEM                   32795
 #define IDC_OPEN                        32796
+#define ID_HELP_CONTENT                 32797
+#define ID_HELP_SEARCH                  32798
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        288
-#define _APS_NEXT_COMMAND_VALUE         32797
-#define _APS_NEXT_CONTROL_VALUE         1223
+#define _APS_NEXT_RESOURCE_VALUE        289
+#define _APS_NEXT_COMMAND_VALUE         32799
+#define _APS_NEXT_CONTROL_VALUE         1226
 #define _APS_NEXT_SYMED_VALUE           256
 #endif
 #endif

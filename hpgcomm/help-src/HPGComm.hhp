@@ -1,0 +1,48 @@
+[OPTIONS]
+Binary Index=No
+Display compile progress=No
+Compatibility=1.1 Or later
+Compiled file=HPGComm.chm
+Contents file=HPGComm.hhc
+Index file=
+Language=0x409 English (United Stated)
+Default Window=Default
+Default topic=SampleTopic.html
+
+[WINDOWS]
+Default="HPGComm Help","HPGComm.hhc","",,,,,,,0x40420,,0x100E,[0,0,450,350],0x10870000,,,,,,
+
+[FILES]
+SampleTopic.html
+HowHPGCommworks1.html
+StartingHPGComm.html
+TroubleShooting.html
+ScreenCaptures.html
+TheFilemenu.html
+TheEditmenu.html
+TheOptionsmenu.html
+
+[ALIAS]
+IDH_ID1=SampleTopic.html
+IDH_ID2=HowHPGCommworks1.html
+IDH_ID3=StartingHPGComm.html
+IDH_ID8=TroubleShooting.html
+IDH_ID4=ScreenCaptures.html
+IDH_ID7=TheFilemenu.html
+IDH_ID6=TheEditmenu.html
+IDH_ID5=TheOptionsmenu.html
+
+
+[MAP]
+#define IDH_ID1 1
+#define IDH_ID2 2
+#define IDH_ID3 3
+#define IDH_ID8 8
+#define IDH_ID4 4
+#define IDH_ID7 7
+#define IDH_ID6 6
+#define IDH_ID5 5
+
+
+[TEXT POPUPS]
+HPGComm.txt

@@ -41,6 +41,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
+	CHyperLink	m_ColinUrl;
 	CHyperLink	gplURL;
 	CHyperLink	hpcommURL;
 	//}}AFX_DATA

@@ -80,6 +80,7 @@ BOOL CXModem::SendFile()
 	
 	if (bRet != IDOK) {
 		Cancel(); // FIXME!!!
+		return FALSE;
 	}
     
 	m_sCurPCPath = sReqFileName.Left(sReqFileName.ReverseFind('\\'));
@@ -391,7 +392,14 @@ void CXModem::Cancel()
 	TRACE("CANCELLING...\r\n");
 	m_bCancel = FALSE;
 	SendChar(CAN);
+	CHAR ch;
+	ReadCharFromCom(&ch);
+	TRACE("Got %x\r\n", ch);
 	SendChar(CAN);
+	ReadCharFromCom(&ch);
+	TRACE("Got %x\r\n", ch);
+
+	FlushComPort();
 	ThrowProtException(CProtException::CANCELLED);
 }
 

@@ -34,7 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define WM_TRANSFERINFOCLOSED (WM_USER + 5)
 
 /////////////////////////////////////////////////////////////////////////////
 // CTransferInfo dialog
@@ -51,6 +50,7 @@ CTransferInfo::CTransferInfo(CWnd* pParent /*=NULL*/)
 	
 	TimerID = 1;
 	QuitTimerID = 2;
+	HideTimerID = 3;
 	m_bVisible = FALSE;
 }
 
@@ -105,6 +105,7 @@ void CTransferInfo::UpdateDlg(CString &sFileName, BOOL bRecv, int nPackets)
 		return;
 	}
 
+	pseudoThis->KillTimer(pseudoThis->HideTimerID);
 	pseudoThis->KillTimer(pseudoThis->TimerID);
 	
 	if (!pseudoThis->m_bPlaying && ::IsWindow(pseudoThis->m_Animation.m_hWnd)) {
@@ -276,6 +277,7 @@ BOOL CTransferInfo::OnInitDialog()
 
 void CTransferInfo::ShowInitScreen(BOOL bXModem)
 {
+	KillTimer(HideTimerID);
 	KillTimer(TimerID);
 	m_Animation.Seek(22);
 	m_Animation.Stop();
@@ -327,7 +329,7 @@ void CTransferInfo::OnTimer(UINT nIDEvent)
 	}
 	else if (nIDEvent == HideTimerID) {
 		KillTimer(nIDEvent);
-		ShowWindow(SW_HIDE);
+		PostMessage(WM_CLOSE, 0, 0);
 		TRACE("Hide window\r\n");
 	}
 
@@ -338,17 +340,15 @@ void CTransferInfo::OnClose()
 {
 	//AfxGetMainWnd()->EnableWindow(m_bMainWndWasEnabled);
 
-	if (m_hCancelEvent != NULL) {
+	/*if (m_hCancelEvent != NULL) {
 		SetEvent(m_hCancelEvent);
-	}
-
+	}*/
+	TRACE("OnClose\n");
 	if (::IsWindow(pseudoThis->m_hWnd)) {
-		AfxGetMainWnd()->PostMessage(WM_TRANSFERINFOCLOSED);
+		AfxGetMainWnd()->SendMessage(WM_TRANSFERINFOCLOSED);
 	}
 
 	m_bShowDetails = m_bDetailsShown;
-
-	ShowWindow(SW_HIDE);
 
 	CDialog::OnClose();
 }
@@ -380,14 +380,12 @@ void CTransferInfo::ShowDetails(BOOL bShow /* = TRUE */)
 		dlgrect.bottom += ((inforect.bottom - inforect.top) + offset);
 		SetDlgItemText(IDC_DETAILS, "<<< Details");
 		m_bDetailsShown = TRUE;
-		//m_ToolTip.UpdateTipText("Close the filter settings...", GetDlgItem(IDC_FILTERBUTTON));
 	}
 	else {
 		// Make the dialog smaller.
 		dlgrect.bottom -= ((inforect.bottom - inforect.top) + offset);
 		SetDlgItemText(IDC_DETAILS, "Details >>>");
 		m_bDetailsShown = FALSE;
-		//m_ToolTip.UpdateTipText("Open the filter settings...", GetDlgItem(IDC_FILTERBUTTON));
 	}
 	
 	MoveWindow(&dlgrect);
@@ -434,6 +432,7 @@ void CTransferInfo::OnFileInfo(UINT pParam, long lParam)
 
 void CTransferInfo::OnInit(UINT pParam, long lParam)
 {
+	KillTimer(HideTimerID);
 	if (lParam == TRUE) {
 		ShowInitScreen(lParam);
 	}

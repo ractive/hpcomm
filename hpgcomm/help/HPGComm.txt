@@ -1,0 +1,19 @@
+.topic 20000
+Many views on the calculator have SEND & RECV functions linked to the buttons immediatly under the screen.  To see an example, change into the LIST view on your calculator.
+
+.topic IDH_COMPORT
+Choose the Com-Port
+
+.topic IDH_CALCPIC
+Which blab albalblabl alhblh
+
+.topic IDH_DIRECTORY
+From/to this directory send files yes calc doooo
+
+.topic IDH_ICON_DIRECTORYPICK
+Choose a new dir
+
+.topic IDH_ICON_NEWDIR
+Write and click to create a new dir
+
+Cool

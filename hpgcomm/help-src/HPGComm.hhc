@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta name="GENERATOR" content="DevComponents.comHelpKit HTML Help Authoring Solution">
+</head>
+<body>
+<ul>
+	<li><object type="text/sitemap">
+		<param name="Name" value="Introduction">
+		<param name="Local" value="SampleTopic.html">
+		</object>
+	<li><object type="text/sitemap">
+		<param name="Name" value="How HPGComm works">
+		<param name="Local" value="HowHPGCommworks1.html">
+		</object>
+	<ul>
+		<li><object type="text/sitemap">
+			<param name="Name" value="Starting HPGComm">
+			<param name="Local" value="StartingHPGComm.html">
+			</object>
+		<li><object type="text/sitemap">
+			<param name="Name" value="TroubleShooting">
+			<param name="Local" value="TroubleShooting.html">
+			</object>
+	</ul>
+	<li><object type="text/sitemap">
+		<param name="Name" value="Screen Captures">
+		<param name="Local" value="ScreenCaptures.html">
+		</object>
+	<ul>
+		<li><object type="text/sitemap">
+			<param name="Name" value="The File menu">
+			<param name="Local" value="TheFilemenu.html">
+			</object>
+		<li><object type="text/sitemap">
+			<param name="Name" value="The Edit menu">
+			<param name="Local" value="TheEditmenu.html">
+			</object>
+		<li><object type="text/sitemap">
+			<param name="Name" value="The Options menu">
+			<param name="Local" value="TheOptionsmenu.html">
+			</object>
+	</ul>
+</ul>
+</body>
+</html>

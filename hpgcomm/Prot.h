@@ -109,7 +109,7 @@ private:
 protected:
 	void SetSendPos(unsigned long ulBytes);
 	void FileInfo(LPCTSTR sFilename, BOOL bRecv);
-	void CloseTransferWnd(UINT nWait = 3000);
+	void CloseTransferWnd(UINT nWait = 1000);
 	void SetPos(unsigned long ulEffBytes, unsigned long ulTotal);
 	void SetRange(unsigned long ulRange);
 	BOOL m_bIsXModem;

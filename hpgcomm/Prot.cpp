@@ -62,7 +62,7 @@ CProt::CProt()
 
 	m_hStop = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	m_pTransferDlg = NULL;
+	m_pTransferDlg = 0;
 }
 
 CProt::~CProt()
@@ -250,7 +250,7 @@ void CProt::Transfer(bool bRecv /* = false */)
 	handleArray[1] = m_hStop;
 
 	m_bTransfering = TRUE;
-	m_pTransferDlg->PostMessage(WM_TRANSFER_INIT, 0, m_bIsXModem);
+	m_pTransferDlg->SendMessage(WM_TRANSFER_INIT, 0, m_bIsXModem);
 	m_pTransferDlg->m_bVisible = TRUE;
 	m_pTransferDlg->ShowWindow(SW_SHOW);
 
@@ -285,7 +285,7 @@ void CProt::Transfer(bool bRecv /* = false */)
 	delete pThread;
 
 	if ((m_bTransactionFinished || m_bSendingOnly) /*&& m_pInfoDlg*/) {
-		CloseTransferWnd();
+		CloseTransferWnd(3000);
 	}
 	else if (m_bVDFilesSent) {
 		m_pTransferDlg->PostMessage(WM_TRANSFER_INFO, 0, 0);
@@ -357,10 +357,10 @@ void CProt::SetSendPos(unsigned long ulBytes)
 }
 
 
-void CProt::CloseTransferWnd(UINT nWait /* = 3000 */)
+void CProt::CloseTransferWnd(UINT nWait /* = 1000 */)
 {
 	if (m_pTransferDlg) {
-		m_pTransferDlg->PostMessage(WM_TRANSFER_HIDE, 0, nWait);
+		m_pTransferDlg->SendMessage(WM_TRANSFER_HIDE, 0, nWait);
 	}
 }
 
@@ -377,6 +377,6 @@ void CProt::StopAll()
 		SetEvent(m_hStop);
 	}
 	else {
-		CloseTransferWnd(50);
+		CloseTransferWnd();
 	}
 }

@@ -145,7 +145,7 @@ BOOL CGrobDlg::OnInitDialog()
 	bBorderThin = true;
 	pMenu->GetSubMenu(2)->GetSubMenu(13)->CheckMenuItem(ID_BORDERTHIN, MF_BYCOMMAND | MF_CHECKED);
 	
-	m_hAccel = LoadAccelerators(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDR_MAINFRAME));
+	m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDD_GROBVIEW));
 
 	AssureVisible();
 
@@ -500,14 +500,11 @@ BOOL CGrobDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	if(pMsg->message == WM_CHAR) {
-		if (pMsg->wParam == 3 && pMsg->lParam == 3014657) {
+		/*if (pMsg->wParam == 3 && pMsg->lParam == 3014657) {
 			//SendMessage(WM_COMMAND, 0, IDC_COPY);
 			image.CopyToClipboard(this);
-		}
-		/*if (TranslateAccelerator(m_hWnd, m_hAccel, pMsg) == 0) {
-			DWORD dwError = GetLastError();
-			int x = 3;
 		}*/
+		return ::TranslateAccelerator(m_hWnd, m_hAccel, pMsg);
 	}
 	return CDialog::PreTranslateMessage(pMsg);
 }

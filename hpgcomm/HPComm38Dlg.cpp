@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "VD.h"
 #include "XModem.h"
 #include "TransferInfo.h"
+#include "HtmlHelp.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,6 +45,41 @@ static char THIS_FILE[] = __FILE__;
 
 CHPComm38Dlg *CHPComm38Dlg::m_pPseudoThis = 0;
 CTransferInfo * CHPComm38Dlg::m_pTransferWnd = 0;
+
+#include "help\HelpDef.h"
+
+static const DWORD aMenuHelpIDs[] =	{
+	IDC_COMPORT, IDH_COMPORT,			
+	IDC_DIRECTORY, IDH_DIRECTORY,
+	IDC_CHANGEDIR, IDH_ICON_DIRECTORYPICK,
+	IDC_CREATEDIR, IDH_ICON_NEWDIR,	
+	IDC_SHOWVD, IDH_ICON_SHOWCALCFILES,
+	IDC_CALCPIC, IDH_CALCPIC,
+	IDC_SAVE, IDH_SFILE_SAVE,			
+	IDC_OPEN, IDH_SFILE_OPENEXT,
+	IDC_COPY, IDH_SCOPY,		
+	IDC_RELOAD, IDH_SOPTIONS_RELOAD,
+	IDC_MIRROR, IDH_SOPTIONS_MIRROR,	
+	IDC_FLIP, IDH_SOPTIONS_FLIP,	
+	IDC_ROTATE, IDH_SOPTIONS_ROTATE,
+	IDC_INVERT, IDH_SOPTIONS_INVERT,	
+	IDC_MAGNIFY, IDH_SOPTIONS_MAGNIFY,	
+	IDC_SHRINK, IDH_SOPTIONS_SHRINK,	
+	ID_STANDARDSIZE, IDH_SOPTIONS_STANDARDSIZE,
+	ID_CUSTOMSIZE, IDH_SOPTIONS_CUSTOMSIZE,
+	ID_BORDERTHIN, IDH_SOPTIONS_BORDERTHIN,
+	ID_BORDERTHICK, IDH_SOPTIONS_BORDERTHICK,
+	ID_BORDERWHITE, IDH_SOPTIONS_BORDERWHITE,
+	ID_BORDERBLACK, IDH_SOPTIONS_BORDERBLACK,
+	IDC_SENDRECV, IDH_SENDRECV,
+	IDC_SCREENCAP, IDH_SCREENSHOT,
+	0,    0
+};
+
+ // Subtract 1 from the total number of ID pairs to account
+ // for the NULL pair at the end of the array.
+DWORD numHelpIDs = (sizeof(aMenuHelpIDs)/sizeof(DWORD))/2 - 1;
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CHPComm38Dlg dialog
@@ -99,6 +135,9 @@ void CHPComm38Dlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
 	//{{AFX_MSG_MAP(CHPComm38Dlg)
+	ON_WM_HELPINFO()
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(ID_HELP_CONTENT, OnHelpContent)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -106,7 +145,6 @@ BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(ID_HELP_ABOUT, OnHelpAbout)
 	ON_BN_CLICKED(IDC_SHOWVD, OnShowVD)
-	ON_COMMAND(ID_HELP_FINDER, OnHelpFinder)
 	ON_COMMAND(ID_HELP_LANGUAGE, OnHelpLanguage)
 	ON_CBN_SELCHANGE(IDC_COMPORT, OnSelchangeComport)
 	ON_BN_CLICKED(IDC_CREATEDIR, OnCreateDir)
@@ -121,7 +159,7 @@ BEGIN_MESSAGE_MAP(CHPComm38Dlg, CDialog)
     ON_COMMAND(ID_HELP, OnHelpFinder)
 	ON_COMMAND(ID_DEFAULT_HELP, OnHelpFinder)
 	ON_CBN_DROPDOWN(IDC_DIRECTORY, OnDropdownDirectory)
-	ON_NOTIFY_EX( TTN_NEEDTEXT, 0, ToolTipCallback)
+	ON_COMMAND(ID_HELP_SEARCH, OnHelpSearch)
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_COMDAEMON, OnComdaemonMsg)
 	ON_MESSAGE(WM_TRANSFERINFOCLOSED, OnTransferInfoClosed)
@@ -135,7 +173,7 @@ BOOL CHPComm38Dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	CreateTransferWnd();
+//	CreateTransferWnd();
 
 	//m_pTransferWnd->PostMessage(WM_TRANSFER_HIDE, 0, 1);
 
@@ -185,7 +223,7 @@ BOOL CHPComm38Dlg::OnInitDialog()
 		return false;
 	}
 
-	m_pProt->m_pTransferDlg = m_pTransferWnd;
+	//m_pProt->m_pTransferDlg = m_pTransferWnd;
 
 	try {
 		m_pProt->OpenPort(m_nComPort);
@@ -234,14 +272,12 @@ BOOL CHPComm38Dlg::OnInitDialog()
 	m_ToolTip.Create(this);
 	m_ToolTip.SetDelayTime(500);
 
-	//m_ToolTip.AddTool(&m_CreateDir, _T("Create new directory"));
-	m_ToolTip.AddTool(&m_CreateDir);
-	m_ToolTip.AddTool(GetDlgItem(IDC_CHANGEDIR));
-	//m_ToolTip.AddTool(&m_ShowVD, _T("Show the calculator files"));
-	m_ToolTip.AddTool(&m_ShowVD);
-	m_ToolTip.AddTool(GetDlgItem(IDC_COMPORT));
-	m_ToolTip.AddTool(GetDlgItem(IDC_DIRECTORY));
-	m_ToolTip.AddTool(GetDlgItem(IDC_HIDEINFO));
+	m_ToolTip.AddTool(&m_CreateDir, IDC_CREATEDIR);
+	m_ToolTip.AddTool(GetDlgItem(IDC_CHANGEDIR), IDC_CHANGEDIR);
+	m_ToolTip.AddTool(&m_ShowVD, IDC_SHOWVD);
+	m_ToolTip.AddTool(GetDlgItem(IDC_COMPORT), IDC_COMPORT);
+	m_ToolTip.AddTool(GetDlgItem(IDC_DIRECTORY), IDC_DIRECTORY);
+	m_ToolTip.AddTool(GetDlgItem(IDC_HIDEINFO), IDC_HIDEINFO);
 	
 	m_CalcPic.GetClientRect(&rect);
 	m_CalcPic.ClientToScreen(&rect);
@@ -253,6 +289,8 @@ BOOL CHPComm38Dlg::OnInitDialog()
 	rect.right = rect.left + nWidth;
 
 	m_ToolTip.AddTool(this, _T(""), &rect, IDC_CALCPIC);
+
+	m_ToolTip.Activate(TRUE);
 
 	m_pProt->CreateComDaemon(m_hWnd);
 	m_pProt->UnleashDaemon();
@@ -272,6 +310,8 @@ BOOL CHPComm38Dlg::OnInitDialog()
 	EnableWindow(TRUE);
 	SetForegroundWindow();
 	SetFocus();
+
+	ChooseHelpFileName();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -335,8 +375,13 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
 		HideInfo();
 
 		UpdateData();
-
+		
+		CProt * pOld = m_pProt;
+		
 		try {
+
+			CreateTransferWnd();
+			m_pProt->m_pTransferDlg = m_pTransferWnd;
             // First we have to check if the data at the Com-port is a screenshot
             // of a kermit-packet.
             // If the first char is 27 it's a screenshot for 48 & 38
@@ -347,23 +392,26 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
             if (!m_pProt->ReadCharFromCom(&cFirstChar)) {
 				throw new CProtException(CProtException::TIMEOUT, 0, "");
             }
+			if (cFirstChar == 0x18) {
+				// This is the CAN char of the XModem protocol to cancel a transfer
+				// Ignore this as the first character...
+				CString sError = "The Transfer was cancelled.";
+				ShowInfo(sError);
+				m_pProt->UnleashDaemon();
+				return;
+			}
             if (cFirstChar == 0x15 || cFirstChar == 'D') {
 				CXModem XModem(m_pProt->hComPort);
 				XModem.m_pTransferDlg = m_pTransferWnd;
 				bIsXModem = TRUE;
-				/*m_pProt->ClosePort();
-				XModem.OpenPort(m_nComPort);*/
 				XModem.m_sCurPCPath = m_sPath;
+				m_pProt = &XModem;
 				XModem.Transfer(true);
-
-				/*XModem.ClosePort();
-				m_pProt->OpenPort(m_nComPort);
-				m_pProt->Reset();
-				m_pProt->KillComDaemon();
-				m_pProt->CreateComDaemon(m_hWnd);*/
+				m_pProt = pOld;
 				m_pProt->FlushComPort();
 				m_pProt->UnleashDaemon();
 				bIsXModem = FALSE;
+
 				//return;
 			}
             else if (cFirstChar == 27) {
@@ -388,6 +436,8 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
         }
 
 		catch (CProtException * pEx) {
+			m_pProt->m_pTransferDlg = m_pTransferWnd;
+			m_pProt = pOld;
 			ExceptionHandler(pEx);
 			m_pProt->Reset();
 			m_pProt->UnleashDaemon();
@@ -413,6 +463,7 @@ void CHPComm38Dlg::OnComdaemonMsg(UINT pParam, long lParam)
 		m_pProt->UnleashDaemon();
 	}
 
+	//CloseTransferWnd();
 }
 
 void CHPComm38Dlg::ExceptionHandler(CProtException *pEx)
@@ -827,8 +878,8 @@ void CHPComm38Dlg::ChooseHelpFileName()
 		// process it.  CDialog::OnHelpFinder will display an appropriate
 		// help message.
 		CFileFind finder;
-		if (!finder.FindFile(sHelpFilePath + "*.hlp")) {
-            MessageBox("There are no help (*.hlp) files available.", "Help language", MB_OK | MB_ICONSTOP);
+		if (!finder.FindFile(sHelpFilePath + "\\*.chm")) {
+            MessageBox("There are no help (*.chm) files available.", "Help language", MB_OK | MB_ICONSTOP);
 			m_sHelpLanguage.Empty();
 			return;
 		}
@@ -844,7 +895,7 @@ void CHPComm38Dlg::ChooseHelpFileName()
         {
             res = finder.FindNextFile();
             CString sHFName = finder.GetFileTitle();
-            if (sHFName == "HPComm38")
+            if (sHFName == "HPGComm")
                 sHFName = "English";
 			sa.Add(sHFName);
 		}
@@ -862,9 +913,9 @@ void CHPComm38Dlg::ChooseHelpFileName()
 	}
 
     if (m_sHelpLanguage == "English")
-        m_sHelpLanguage = "HPComm38";
+        m_sHelpLanguage = "HPGComm";
 
-	strcpy((char *)pApp->m_pszHelpFilePath, sHelpFilePath + m_sHelpLanguage + ".hlp");
+	strcpy((char *)pApp->m_pszHelpFilePath, sHelpFilePath + "help\\" + m_sHelpLanguage + ".chm");
 	// OK, done!
 }
 
@@ -965,8 +1016,9 @@ void CHPComm38Dlg::HideInfo()
 
 BOOL CHPComm38Dlg::PreTranslateMessage(MSG* pMsg) 
 {
-	if(pMsg->message== WM_LBUTTONDOWN || pMsg->message== WM_LBUTTONUP || pMsg->message== WM_MOUSEMOVE)
-		m_ToolTip.RelayEvent(pMsg);	
+	if(pMsg->message== WM_LBUTTONDOWN || pMsg->message== WM_LBUTTONUP || pMsg->message== WM_MOUSEMOVE) {
+		m_ToolTip.RelayEvent(pMsg);
+	}
 
 	return CDialog::PreTranslateMessage(pMsg);
 }
@@ -1286,20 +1338,20 @@ void CHPComm38Dlg::OnGetXModem()
 
 void CHPComm38Dlg::CreateTransferWnd()
 {
-	m_pTransferWndThread = AfxBeginThread(TransferWndThreadProc, NULL);
+	// Create the Transfer window if it's not created yet
+	if (m_pTransferWnd == NULL) {
+		m_pTransferWndThread = AfxBeginThread(TransferWndThreadProc, NULL);
 
-	VERIFY(m_pTransferWndThread);
-	//Sleep(1000);
-	// Wait until the dialog is created
-	while (m_pTransferWnd == NULL) {
-		Sleep(0);
-	}
-	/*Sleep(1000);
-	while (m_pTransferWnd->m_hWnd == NULL) {
-		Sleep(0);
-	}*/
-	while (!::IsWindow(m_pTransferWnd->m_hWnd)) {
-		m_pTransferWnd->Pump();
+		VERIFY(m_pTransferWndThread);
+
+		// Wait until the dialog is created
+		while (m_pTransferWnd == NULL) {
+			Sleep(0);
+		}
+
+		while (!::IsWindow(m_pTransferWnd->m_hWnd)) {
+			m_pTransferWnd->Pump();
+		}
 	}
 }
 
@@ -1314,4 +1366,63 @@ UINT CHPComm38Dlg::TransferWndThreadProc(LPVOID lParam)
 	m_pTransferWnd = NULL;
 
 	return 0;
+}
+
+void CHPComm38Dlg::CloseTransferWnd()
+{
+	if (m_pTransferWndThread && m_pTransferWnd) {
+		m_pTransferWnd->PostMessage(WM_TRANSFER_HIDE, 0, 2500);
+	}
+}
+
+BOOL CHPComm38Dlg::OnHelpInfo(HELPINFO* pHelpInfo) 
+{
+	//HtmlHelp((HWND)pHelpInfo->hItemHandle, "help\\HPGComm.chm::/HPGComm.txt",HH_TP_HELP_WM_HELP,(DWORD)aMenuHelpIDs);
+	if (pHelpInfo->iContextType != HELPINFO_WINDOW) {
+		return HtmlHelp((HWND)pHelpInfo->hItemHandle, "help\\HPGComm.chm::/HPGComm.txt", HH_TP_HELP_WM_HELP, (DWORD)aMenuHelpIDs) != NULL;
+	}
+	else {
+		BOOL bRet = FALSE;
+		// HtmlHelp((HWND)pHelpInfo->hItemHandle, "help\\HPGComm.chm", HH_HELP_CONTEXT, aMenuHelpIDs[IDC_COMPORT]);
+		// If it is a help context command, search for the
+		// control ID in the array.
+		for (unsigned int i= 0; i < numHelpIDs*2; i+=2) {
+			if (aMenuHelpIDs[i] == (DWORD)pHelpInfo->iCtrlId ) {
+				i++;  // pass the help context id to HTMLHelp
+				bRet = HtmlHelp((HWND)pHelpInfo->hItemHandle, AfxGetApp()->m_pszHelpFilePath, HH_HELP_CONTEXT, aMenuHelpIDs[i]) != NULL;
+			}
+		}
+		if (!bRet) {
+			OnHelpContent();
+		}
+
+	}
+
+	return TRUE;
+	//return CDialog::OnHelpInfo(pHelpInfo);
+}
+
+void CHPComm38Dlg::OnContextMenu(CWnd* pWnd, CPoint point) 
+{
+	//HtmlHelp(pWnd->GetSafeHwnd(), "help\\HPGComm.chm::/HPGComm.txt", HH_TP_HELP_CONTEXTMENU, (DWORD)(LPVOID)aMenuHelpIDs);
+}
+
+void CHPComm38Dlg::OnHelpContent() 
+{
+	HtmlHelp(m_hWnd, AfxGetApp()->m_pszHelpFilePath, HH_DISPLAY_TOPIC, NULL);	
+}
+
+void CHPComm38Dlg::OnHelpSearch() 
+{
+	HH_FTS_QUERY q;
+	q.cbStruct = sizeof(q);
+	q.fUniCodeStrings = FALSE;        
+	q.pszSearchQuery = "";
+	q.iProximity = 0;
+	q.fStemmedSearch = FALSE;;
+	q.fTitleOnly = FALSE; 
+	q.fExecute = FALSE;
+	q.pszWindow = "";     
+	HtmlHelp(m_hWnd, AfxGetApp()->m_pszHelpFilePath, HH_DISPLAY_SEARCH, (DWORD)&q);	
+	
 }

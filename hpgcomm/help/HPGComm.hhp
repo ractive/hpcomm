@@ -1,0 +1,39 @@
+[OPTIONS]
+Binary Index=No
+Compatibility=1.1 or later
+Compiled file=HPGComm.chm
+Contents file=HPGComm.hhc
+Default Window=Default
+Default topic=SampleTopic.html
+Display compile progress=No
+Language=0x409 Englisch (USA)
+
+[WINDOWS]
+Default="HPGComm Help","HPGComm.hhc",,,,,,,,0x40520,,0x100e,[0,0,450,350],0x10870000,,,,,,0
+
+
+[FILES]
+SampleTopic.html
+HowHPGCommworks1.html
+StartingHPGComm.html
+TroubleShooting.html
+ScreenCaptures.html
+TheFilemenu.html
+TheEditmenu.html
+TheOptionsmenu.html
+
+[ALIAS]
+IDH_CALCPIC=StartingHPGComm.html
+IDH_COMPORT=TroubleShooting.html
+IDH_SCREENSHOT=ScreenCaptures.html
+IDH_SENDRECV=StartingHPGComm.html
+
+[MAP]
+#include HelpDef.h
+
+[TEXT POPUPS]
+HelpDef.h
+HPGComm.txt
+
+[INFOTYPES]
+

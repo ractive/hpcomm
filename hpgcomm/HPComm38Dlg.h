@@ -77,6 +77,11 @@ protected:
 
 	// Generated message map functions
 	//{{AFX_MSG(CHPComm38Dlg)
+	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnHelpContent();
+	afx_msg void OnHelpSearch();
+	//}}AFX_MSG
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
@@ -100,12 +105,12 @@ protected:
 	afx_msg void OnSelchangeDirectory();
 	afx_msg void OnDropdownDirectory();
 	afx_msg void OnGetXModem();
-	//}}AFX_MSG
 	afx_msg void OnComdaemonMsg(UINT pParam, long lParam);
 	afx_msg void OnTransferInfoClosed(UINT pParam, long lParam);
 	afx_msg BOOL ToolTipCallback( UINT id, NMHDR * pTTTStruct, LRESULT * pResult );
 	DECLARE_MESSAGE_MAP()
 private:
+	void CloseTransferWnd();
 	static CTransferInfo * m_pTransferWnd;
 	CWinThread * m_pTransferWndThread;
 	static UINT TransferWndThreadProc(LPVOID lParam);

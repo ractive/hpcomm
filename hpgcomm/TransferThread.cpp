@@ -32,6 +32,7 @@ BOOL CTransferThread::InitInstance()
 	m_pInfoDlg = &dlg;
 	dlg.DoModal();*/
 	m_pInfoDlg = new CTransferInfo;
+	m_pInfoDlg->m_hCancelEvent = m_hCancelEvent;
 	m_pInfoDlg->Create(IDD_TRANSFERINFO, AfxGetMainWnd());
 	return TRUE;
 }

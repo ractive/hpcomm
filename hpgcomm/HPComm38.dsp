@@ -53,8 +53,12 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /machine:I386 /out:"Release\HPGComm.exe"
+# ADD LINK32 imagehlp.lib htmlhelp.lib /nologo /subsystem:windows /machine:I386 /out:"Release\HPGComm.exe"
 # SUBTRACT LINK32 /debug
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=e:\programme\nsis\makensis HPGComm.nsi
+# End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "HPComm38 - Win32 Debug"
 
@@ -80,7 +84,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 imagehlp.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug\HPGComm.exe" /pdbtype:sept
+# ADD LINK32 imagehlp.lib htmlhelp.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug\HPGComm.exe" /pdbtype:sept
 
 !ENDIF 
 
@@ -250,6 +254,10 @@ SOURCE=.\GrobDlg.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\help\HelpDef.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\HelpFileDlg.h
 # End Source File
 # Begin Source File
@@ -325,6 +333,14 @@ SOURCE=.\VDDlg.h
 SOURCE=.\XModem.h
 # End Source File
 # End Group
+# Begin Group "Helpfiles"
+
+# PROP Default_Filter ".htm;hhp;css;txt"
+# Begin Source File
+
+SOURCE=.\help\HPGComm.hhp
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\res\calctrans.avi
@@ -340,10 +356,6 @@ SOURCE=.\res\dog.wav
 # Begin Source File
 
 SOURCE=.\ReadMe.txt
-# End Source File
-# Begin Source File
-
-SOURCE=.\res\swap.avi
 # End Source File
 # End Target
 # End Project

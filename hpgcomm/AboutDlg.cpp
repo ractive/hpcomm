@@ -40,6 +40,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CAboutDlg)
+	DDX_Control(pDX, IDC_COLINGURL, m_ColinUrl);
 	DDX_Control(pDX, IDC_GPL, gplURL);
 	DDX_Control(pDX, IDC_WWWHPCOMM, hpcommURL);
 	//}}AFX_DATA_MAP

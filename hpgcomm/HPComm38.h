@@ -69,6 +69,7 @@ public:
 	//{{AFX_VIRTUAL(CHPComm38App)
 	public:
 	virtual BOOL InitInstance();
+	virtual void WinHelp(DWORD dwData, UINT nCmd = HELP_CONTEXT);
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -76,6 +77,8 @@ public:
 	//{{AFX_MSG(CHPComm38App)
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
+
 };
 
 /////////////////////////////////////////////////////////////////////////////
