@@ -1,0 +1,577 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            IDC_COPY,               VIRTKEY, CONTROL, NOINVERT
+    VK_ESCAPE,      ID_ESC,                 VIRTKEY, NOINVERT
+    VK_F1,          ID_HELP_FINDER,         VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\spot38.ico"
+IDI_NEWDIR              ICON    DISCARDABLE     "res\\newdir.ico"
+IDI_CHANGEDIR           ICON    DISCARDABLE     "res\\changedi.ico"
+IDI_CALC                ICON    DISCARDABLE     "res\\calc.ico"
+IDI_HIDEINFO            ICON    DISCARDABLE     "res\\hideinfo.ico"
+IDI_HP38DIR             ICON    DISCARDABLE     "res\\hp38dir.ico"
+IDI_HP39DIR             ICON    DISCARDABLE     "res\\hp39dir.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_VDICONS             BITMAP  DISCARDABLE     "res\\vditems.bmp"
+IDB_CALCIMAGE           BITMAP  DISCARDABLE     "res\\newcalcimage.bmp"
+IDB_CALCIMAGE38         BITMAP  DISCARDABLE     "res\\38g_image.bmp"
+IDB_NOCALC              BITMAP  DISCARDABLE     "res\\nocalc.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_MAGNI               CURSOR  DISCARDABLE     "res\\magni.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 280, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About HPComm38"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "HPGComm 2001 beta 1\n\nCopyright (C) 2001 HP and Jean-Pierre Bergamin.\n\nThis software licensed under the GNU GPL:",
+                    IDC_STATIC,40,10,174,42,SS_NOPREFIX
+    DEFPUSHBUTTON   "OK",IDOK,223,7,50,14,WS_GROUP
+    LTEXT           "For the source code and other goodies visit:",
+                    IDC_STATIC,40,64,138,8
+    LTEXT           "GNU General Public License",IDC_GPL,40,52,74,8
+    LTEXT           "http://www.hpcomm.org",IDC_WWWHPCOMM,40,75,78,8
+END
+
+IDD_GROBVIEW DIALOGEX 0, 0, 131, 77
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Image Viewer"
+MENU IDR_GROBVIEW
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_GROB,"Static",SS_BITMAP | SS_NOTIFY | SS_SUNKEN,3,
+                    3,19,17,WS_EX_CLIENTEDGE
+END
+
+IDD_HELPFILEDLG DIALOGEX 0, 0, 131, 126
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Help File..."
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,105,35,14
+    PUSHBUTTON      "Cancel",IDCANCEL,89,105,35,14
+    LISTBOX         IDC_HELPFILES,7,41,117,54,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Please select the language\nof your help file.",
+                    IDC_STATIC,7,7,117,21
+    LTEXT           "These languages were found:",IDC_STATIC,7,28,95,8
+END
+
+IDD_HPCOMM38_DIALOG DIALOGEX 0, 0, 235, 215
+STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "HPGComm 2b2"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "...",IDC_CHANGEDIR,163,105,16,15,BS_ICON | BS_FLAT | 
+                    WS_GROUP
+    COMBOBOX        IDC_COMPORT,161,78,57,63,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Serial Port:",IDC_STATIC,121,80,34,8
+    CONTROL         336,IDC_CALCPIC,"Static",SS_BITMAP | SS_SUNKEN,14,11,94,
+                    84,WS_EX_STATICEDGE
+    LTEXT           "To begin transmission, press SEND or RECV on the calculator.\n\nTo capture an image of the screen, press ON + 1.",
+                    IDC_STATIC,121,14,94,54,NOT WS_GROUP
+    PUSHBUTTON      "Show calculator files...",IDC_SHOWVD,205,105,16,15,
+                    BS_ICON | BS_FLAT | WS_GROUP
+    GROUPBOX        "",IDC_STATIC,7,0,221,128
+    EDITTEXT        IDC_INFO,7,145,192,53,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_READONLY | WS_VSCROLL,WS_EX_DLGMODALFRAME | 
+                    WS_EX_STATICEDGE
+    ICON            IDR_MAINFRAME,IDC_STATIC,205,177,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE
+    PUSHBUTTON      "Create Directory",IDC_CREATEDIR,184,105,16,15,BS_ICON | 
+                    BS_FLAT
+    PUSHBUTTON      "^^",IDC_HIDEINFO,205,145,20,9,BS_ICON | BS_FLAT
+    GROUPBOX        "",IDC_STATIC,113,7,110,64
+    GROUPBOX        "",IDC_STATIC,113,70,110,25
+    LTEXT           "Info:",IDC_INFOSTATIC,7,134,15,8
+    COMBOBOX        IDC_DIRECTORY,14,106,144,83,CBS_DROPDOWN | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_RESIZEDLG DIALOGEX 0, 0, 80, 57
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Resize Image"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,38,25,12
+    PUSHBUTTON      "Cancel",IDCANCEL,48,38,25,12
+    EDITTEXT        IDC_WIDTH,48,6,25,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "New width:",IDC_STATIC,7,8,36,8
+    LTEXT           "New height:",IDC_STATIC,7,23,39,8
+    EDITTEXT        IDC_HEIGHT,48,21,25,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_TRANSFERINFO DIALOGEX 0, 0, 148, 103
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CTEXT           "\n\nInitializing file transfer....",IDC_INFO,7,36,134,
+                    42,SS_SUNKEN
+    PUSHBUTTON      "&Cancel",IDC_CLOSE,55,84,38,12
+    CONTROL         "Animate1",IDC_ANIMATE,"SysAnimate32",ACS_TRANSPARENT | 
+                    WS_TABSTOP,18,7,110,20,WS_EX_TRANSPARENT
+END
+
+IDD_WAITINFO DIALOGEX 0, 0, 177, 46
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CTEXT           "Please wait while the directories are being read...\n\nThis can take a while.",
+                    IDC_STATIC,36,7,119,32
+    ICON            IDR_MAINFRAME,IDC_STATIC,2,13,20,20
+END
+
+IDD_VDDLG DIALOG DISCARDABLE  0, 0, 186, 194
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "39G files"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&Close",IDOK,129,166,50,14
+    CONTROL         "Tree1",IDC_VDTREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | 
+                    WS_BORDER | WS_TABSTOP,7,7,172,153
+    PUSHBUTTON      "Create virtual directory",IDC_CREATEDIR,7,166,83,14
+END
+
+IDD_NEWVD DIALOG DISCARDABLE  0, 0, 186, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New virtual directory"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NEWNAME,7,19,172,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,28,40,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,108,40,50,14
+    LTEXT           "Plese enter the name of the new virtual directory:",
+                    IDC_STATIC,7,7,154,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_GROBVIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 128
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 75
+    END
+
+    IDD_HELPFILEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+
+    IDD_HPCOMM38_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_RESIZEDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 73
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 50
+    END
+
+    IDD_TRANSFERINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 141
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+
+    IDD_WAITINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 174
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 45
+    END
+
+    IDD_VDDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 187
+    END
+
+    IDD_NEWVD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_HPCOMM38_DIALOG DLGINIT
+BEGIN
+    IDC_COMPORT, 0x403, 6, 0
+0x4f43, 0x204d, 0x0031, 
+    IDC_COMPORT, 0x403, 6, 0
+0x4f43, 0x204d, 0x0032, 
+    IDC_COMPORT, 0x403, 6, 0
+0x4f43, 0x204d, 0x0033, 
+    IDC_COMPORT, 0x403, 6, 0
+0x4f43, 0x204d, 0x0034, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_GROBVIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Save as...",                 IDC_SAVE
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy to clipboard",          IDC_COPY
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Reload",                     IDC_RELOAD
+        POPUP "Reload &GROB as"
+        BEGIN
+            MENUITEM "&B/W GROB",                   ID_BWGROB
+            MENUITEM "&Grayscale GROB",             ID_GRAYGROB
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Mirror",                     IDC_MIRROR
+        MENUITEM "&Flip",                       IDC_FLIP
+        MENUITEM "Ro&tate",                     IDC_ROTATE
+        MENUITEM "&Invert",                     IDC_INVERT
+        MENUITEM SEPARATOR
+        MENUITEM "M&agnify",                    IDC_MAGNIFY
+        MENUITEM "&Shrink",                     IDC_SHRINK
+        POPUP "Resi&ze to"
+        BEGIN
+            MENUITEM "&Standard size",              ID_STANDARDSIZE
+            MENUITEM "&Custom size",                ID_CUSTOMSIZE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&With border",                ID_BORDERADD
+        POPUP "&Border style"
+        BEGIN
+            MENUITEM "&Thick",                      ID_BORDERTHICK
+            MENUITEM "Th&in",                       ID_BORDERTHIN
+        END
+        POPUP "Border co&lor"
+        BEGIN
+            MENUITEM "&White",                      ID_BORDERWHITE
+            MENUITEM "&Black",                      ID_BORDERBLACK
+        END
+    END
+END
+
+IDR_MAINFRAME MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Change Directory...",        IDC_CHANGEDIR
+        MENUITEM "C&reate Directory...",        IDC_CREATEDIR
+        MENUITEM "&Show calculator files...",   IDC_SHOWVD
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Topics...",                  ID_HELP_FINDER
+        MENUITEM "Choose help &language...",    ID_HELP_LANGUAGE
+        MENUITEM "&About...",                   ID_HELP_ABOUT
+    END
+END
+
+IDR_TRAY MENU DISCARDABLE 
+BEGIN
+    POPUP "TrayMenu"
+    BEGIN
+        MENUITEM "&Restore",                    ID_RESTORE
+        MENUITEM "E&xit",                       ID_APP_EXIT
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",                   ID_HELP_ABOUT
+    END
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,0,0
+ PRODUCTVERSION 2,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x29L
+#else
+ FILEFLAGS 0x28L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Visit us at http://www.hpcomm.org\0"
+            VALUE "CompanyName", "HP & The HPComm Project\0"
+            VALUE "FileDescription", "HPComm\0"
+            VALUE "FileVersion", "2 beta 2\0"
+            VALUE "InternalName", "HPGComm\0"
+            VALUE "LegalCopyright", "Copyright (C) 2001 Hewlett Packard and Jean-Pierre Bergamin.\0"
+            VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
+            VALUE "OriginalFilename", "HPGComm.exe\0"
+            VALUE "PrivateBuild", "3. Jan 2001 16:28 EST\0"
+            VALUE "ProductName", "Hewlett Packard Graphing Calculator HP38G/HP39G PC Connectivity Kit\0"
+            VALUE "ProductVersion", "2\0"
+            VALUE "SpecialBuild", "2 beta 2\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AVI
+//
+
+IDR_CALCTRANS           AVI     DISCARDABLE     "res\\calctrans.avi"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "&About HPGComm..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_STANDARDSIZE         "Resizes the image to 131 x 64"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_CREATEDIR           "Creates the directory entered in the directory filed."
+    IDC_HIDEINFO            "Hide the information dialog"
+    IDC_SHOWVD_DIS          "Choose a directory that contains calculator file to show them"
+    IDC_CREATEDIR_DIS       "Enter the name of the directory you want to create in the edit box"
+    IDC_DIRECTORY           "Enter the directory name where the calculator files are stored or the name of the directory you want to create"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_CASCADE       "Restore the window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "About this program..."
+    ID_APP_EXIT             "Exit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_TRAYMENU_ABOUT       "About the program..."
+    ID_RESTORE              "Restore window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDM_ABOUTBOX            "About this program..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_HELP_ABOUT           "About this program..."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "HPGComm"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_SHOWVD              "Show the calculator files"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_COMPORT             "Choose the COM-Port"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDC_CHANGEDIR           "Change directory"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
