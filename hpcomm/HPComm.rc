@@ -1,6 +1,7 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resrc1.h"
+#include "resource.h"
+#include "Version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -8,13 +9,13 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "resource.h"
-#include "version.h"
 #include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+//
 // English (U.S.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
@@ -39,7 +40,11 @@ BEGIN
     VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     VK_DELETE,      ID_DELETE,              VIRTKEY, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+#if 0
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+#else
     VK_F1,          ID_HELP_FINDER,         VIRTKEY, NOINVERT
+#endif
     VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
     VK_F2,          ID_RENAME,              VIRTKEY, NOINVERT
     VK_F5,          ID_REFRESH,             VIRTKEY, NOINVERT
@@ -126,15 +131,15 @@ BEGIN
     LTEXT           "S2",IDC_STAGE2,151,58,90,8
     LTEXT           "S3",IDC_STAGE3,151,68,90,8
     LTEXT           "S4",IDC_STAGE4,151,78,90,8
-    CONTROL         2208,IDC_TICK0,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+    CONTROL         IDB_TICK,IDC_TICK0,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
                     39,4,4
-    CONTROL         2208,IDC_TICK1,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+    CONTROL         IDB_TICK,IDC_TICK1,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
                     49,4,4
-    CONTROL         2208,IDC_TICK2,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+    CONTROL         IDB_TICK,IDC_TICK2,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
                     59,4,4
-    CONTROL         2208,IDC_TICK3,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+    CONTROL         IDB_TICK,IDC_TICK3,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
                     69,4,4
-    CONTROL         2208,IDC_TICK4,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
+    CONTROL         IDB_TICK,IDC_TICK4,"Static",SS_BITMAP | NOT WS_VISIBLE,144,
                     79,4,4
     PUSHBUTTON      "OK",IDOK,232,19,30,12,NOT WS_VISIBLE
 END
@@ -170,8 +175,7 @@ BEGIN
 END
 
 IDD_CONNECTFAILED DIALOG DISCARDABLE  0, 0, 195, 140
-STYLE DS_MODALFRAME | DS_SETFOREGROUND | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Connection failed"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -255,13 +259,26 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Confirm Overwrite"
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         352,IDC_OVERWRITE,"Static",SS_BITMAP,14,13,16,16
+    CONTROL         IDB_OVERWRITE,IDC_OVERWRITE,"Static",SS_BITMAP,14,13,16,16
+#if 1
     DEFPUSHBUTTON   "&Yes",IDYES,94,53,50,14
     PUSHBUTTON      "&No",IDNO,152,53,50,14
+#else
+    DEFPUSHBUTTON   "&Yes",IDYES,105,53,33,14
+    PUSHBUTTON      "&No",IDNO,169,53,33,14
+
+    CONTROL         "For all entries:",IDC_ALLFILES,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,37,55,64,10
+    CONTROL         352,IDC_OVERWRITE,"Static",SS_BITMAP,14,13,21,20
+#endif
     LTEXT           """Directory"" already contains an entry called ""entry"".",
                     IDC_OVER1,38,14,164,21
     LTEXT           "Would you like to replace the existing entry?",
+#if 1
                     IDC_OVER2,38,37,164,10
+#else
+                    IDC_OVER2,38,35,164,10
+#endif
 END
 
 IDD_PROGRESSDLG DIALOG DISCARDABLE  0, 0, 233, 130
@@ -523,6 +540,13 @@ BEGIN
             MENUITEM "&Standard size",              ID_STANDARDSIZE
             MENUITEM "&Custom size",                ID_CUSTOMSIZE
         END
+#if 0
+        POPUP "&Convert to"
+        BEGIN
+            MENUITEM "&Monochrome image",           ID_MONOCHROMEIMAGE
+            MENUITEM "&Grayscale image",            ID_GRAYSCALEIMAGE
+        END
+#endif
         MENUITEM SEPARATOR
         MENUITEM "&With border",                ID_BORDERADD
         POPUP "&Border style"
@@ -586,6 +610,9 @@ BEGIN
     BEGIN
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+#if 0
+        MENUITEM "&Viewer Setup...",            ID_VIEW_SETUP, GRAYED
+#endif
         MENUITEM "&Refresh",                    ID_REFRESH
     END
     POPUP "&Help"
@@ -609,6 +636,140 @@ BEGIN
     END
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "HPComm\n\nHPComm\n\n\nHPComm.Document\nHPComm Document"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "HPComm"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEWFOLDER       "Create a new folder\nNew Folder"
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open the directory in Windows Explorer\nOpen"
+    ID_RENAME               "Rename a file or directory\nRename"
+    ID_DELETE               "Delete the selected files\nDelete"
+    ID_FILE_PROPERTIES      "Inspect file properties\nProperties"
+    ID_FILE_SET38GFOLDER    "Set the HP38G virtual folder\nHP38G Folder"
+    ID_BOOKMARK             "Saves the current directory for easy access later.\nSet bookmark"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_COMMSET              "Change the communication settings\nSettings"
+    ID_CALCULATOR_XMODEM    "Use the XModem transfer protocol\nXModem"
+    ID_CALCULATOR_KERMIT    "Use the Kermit transfer protocol\nKermit"
+    ID_ASCII                "Transfer files in ASCII mode\nASCII"
+    ID_BINARY               "Transfer files in Binary mode\nBinary"
+    ID_CALCULATOR_BACKUP    "Back up the calculator to the PC\nBackup"
+    ID_CALCULATOR_RESTORE   "Restore to the calculator from the PC\nRestore"
+    ID_CALCULATOR_UPGRADEHP49G "Upgrade the HP49G operating system\nUpgrade HP49G"
+    ID_CAPTURE              "Capture screen image\nCapture"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToolbar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nStatusbar"
+    ID_VIEW_SETUP           "File viewer setup\nViewer setup"
+    ID_SELECTALL            "Select all entries in the list\nSelect all"
+    ID_REFRESH              "Refresh the contents of a window\nRefresh"
+
+    ID_VIEW_SMALLICON       "Display items by using small icons.\nSmall Icons"
+    ID_VIEW_LARGEICON       "Display items by using large icons.\nLarge Icons"
+    ID_VIEW_LIST            "Displays items in a list.\nList"
+    ID_VIEW_DETAILS         "Displays detailed information about each item in the window.\nDetails"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_HELP_FINDER          "List Help topics\nHelp Topics"
+    ID_HELP_INDEX           "Search Help index\nHelp Index"
+    ID_HELPLANGUAGE         "Select the language for the help file\nHelp language"
+    ID_HELP_LICENSE         "Display the GNU General Public License\nLicense info"
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this directory"
+    ID_FILE_MRU_FILE2       "Open this directory"
+    ID_FILE_MRU_FILE3       "Open this directory"
+    ID_FILE_MRU_FILE4       "Open this directory"
+    ID_FILE_MRU_FILE5       "Open this directory"
+    ID_FILE_MRU_FILE6       "Open this directory"
+    ID_FILE_MRU_FILE7       "Open this directory"
+    ID_FILE_MRU_FILE8       "Open this directory"
+    ID_FILE_MRU_FILE9       "Open this directory"
+    ID_FILE_MRU_FILE10      "Open this directory"
+    ID_FILE_MRU_FILE11      "Open this directory"
+    ID_FILE_MRU_FILE12      "Open this directory"
+    ID_FILE_MRU_FILE13      "Open this directory"
+    ID_FILE_MRU_FILE14      "Open this directory"
+    ID_FILE_MRU_FILE15      "Open this directory"
+    ID_FILE_MRU_FILE16      "Open this directory"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_STANDARDSIZE         "Resizes the image to 131 x 64"
+    ID_MONOCHROMEIMAGE      "Convert the image to a black and white image."
+    ID_GRAYSCALEIMAGE       "Convert the image to a grayscale image with 4 colors."
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -664,15 +825,15 @@ BEGIN
             VALUE "Comments", "Visit us at http://www.hpcomm.org!!\0"
             VALUE "CompanyName", "HP & The HPComm Project\0"
             VALUE "FileDescription", "HPComm\0"
-            VALUE "FileVersion", "3.0r3\0"
+            VALUE "FileVersion", HPCOMM_SUBREV
             VALUE "InternalName", "HPComm\0"
             VALUE "LegalCopyright", "Copyright (C) 2000 Hewlett Packard and Jean-Pierre Bergamin.\0"
             VALUE "LegalTrademarks", "This program is licensed under the GNU General Public License.\0"
             VALUE "OriginalFilename", "HPComm.exe\0"
-            VALUE "PrivateBuild", "Thu Mar 23 01:23:07 EST 2000\0"
+            VALUE "PrivateBuild", HPCOMM_DATE
             VALUE "ProductName", "Hewlett Packard Graphing Calculator PC Connectivity Kit\0"
-            VALUE "ProductVersion", "3.0r3\0"
-            VALUE "SpecialBuild", "3.0r3\0"
+            VALUE "ProductVersion", HPCOMM_REVISION
+            VALUE "SpecialBuild", HPCOMM_SUBREV
         END
     END
     BLOCK "VarFileInfo"
@@ -684,284 +845,5 @@ END
 #endif    // !_MAC
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// String Table
-//
-
-STRINGTABLE PRELOAD DISCARDABLE 
-BEGIN
-    IDR_MAINFRAME           "HPComm\n\nHPComm\n\n\nHPComm.Document\nHPComm Document"
-END
-
-STRINGTABLE PRELOAD DISCARDABLE 
-BEGIN
-    AFX_IDS_APP_TITLE       "HPComm"
-    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
-    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
-END
-
-STRINGTABLE PRELOAD DISCARDABLE 
-BEGIN
-    AFX_IDS_SCSIZE          "Change the window size"
-    AFX_IDS_SCMOVE          "Change the window position"
-    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
-    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
-    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
-    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
-    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
-END
-
-STRINGTABLE PRELOAD DISCARDABLE 
-BEGIN
-    AFX_IDS_SCRESTORE       "Restore the window to normal size"
-    AFX_IDS_SCTASKLIST      "Activate Task List"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_INDICATOR_EXT        "EXT"
-    ID_INDICATOR_CAPS       "CAP"
-    ID_INDICATOR_NUM        "NUM"
-    ID_INDICATOR_SCRL       "SCRL"
-    ID_INDICATOR_OVR        "OVR"
-    ID_INDICATOR_REC        "REC"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_NEWFOLDER       "Create a new folder\nNew Folder"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_NEW             "Create a new document\nNew"
-    ID_FILE_OPEN            "Open the directory in Windows Explorer\nOpen"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_RENAME               "Rename a file or directory\nRename"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_DELETE               "Delete the selected files\nDelete"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_PROPERTIES      "Inspect file properties\nProperties"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_SET38GFOLDER    "Set the HP38G virtual folder\nHP38G Folder"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_BOOKMARK             "Saves the current directory for easy access later.\nSet bookmark"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
-    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
-    ID_HELP_INDEX           "Search Help index\nHelp Index"
-    ID_HELP_FINDER          "List Help topics\nHelp Topics"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
-    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
-    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_COMMSET              "Change the communication settings\nSettings"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CALCULATOR_XMODEM    "Use the XModem transfer protocol\nXModem"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CALCULATOR_KERMIT    "Use the Kermit transfer protocol\nKermit"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_ASCII                "Transfer files in ASCII mode\nASCII"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_BINARY               "Transfer files in Binary mode\nBinary"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CALCULATOR_BACKUP    "Back up the calculator to the PC\nBackup"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CALCULATOR_RESTORE   "Restore to the calculator from the PC\nRestore"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CALCULATOR_UPGRADEHP49G 
-                            "Upgrade the HP49G operating system\nUpgrade HP49G"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_CAPTURE              "Capture screen image\nCapture"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToolbar"
-    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nStatusbar"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_VIEW_SETUP           "File viewer setup\nViewer setup"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_SELECTALL            "Select all entries in the list\nSelect all"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_REFRESH              "Refresh the contents of a window\nRefresh"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_VIEW_SMALLICON       "Display items by using small icons.\nSmall Icons"
-    ID_VIEW_LARGEICON       "Display items by using large icons.\nLarge Icons"
-    ID_VIEW_LIST            "Displays items in a list.\nList"
-    ID_VIEW_DETAILS         "Displays detailed information about each item in the window.\nDetails"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_HELPLANGUAGE         "Select the language for the help file\nHelp language"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_HELP_LICENSE         "Display the GNU General Public License\nLicense info"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
-    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_MRU_FILE1       "Open this directory"
-    ID_FILE_MRU_FILE2       "Open this directory"
-    ID_FILE_MRU_FILE3       "Open this directory"
-    ID_FILE_MRU_FILE4       "Open this directory"
-    ID_FILE_MRU_FILE5       "Open this directory"
-    ID_FILE_MRU_FILE6       "Open this directory"
-    ID_FILE_MRU_FILE7       "Open this directory"
-    ID_FILE_MRU_FILE8       "Open this directory"
-    ID_FILE_MRU_FILE9       "Open this directory"
-    ID_FILE_MRU_FILE10      "Open this directory"
-    ID_FILE_MRU_FILE11      "Open this directory"
-    ID_FILE_MRU_FILE12      "Open this directory"
-    ID_FILE_MRU_FILE13      "Open this directory"
-    ID_FILE_MRU_FILE14      "Open this directory"
-    ID_FILE_MRU_FILE15      "Open this directory"
-    ID_FILE_MRU_FILE16      "Open this directory"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_STANDARDSIZE         "Resizes the image to 131 x 64"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_MONOCHROMEIMAGE      "Convert the image to a black and white image."
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_GRAYSCALEIMAGE       "Convert the image to a grayscale image with 4 colors."
-END
-
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// German (Switzerland) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DES)
-#ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_SWISS
-#pragma code_page(1252)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "resrc1.h\0"
-END
-
-2 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "#include ""resource.h""\r\n"
-    "#include ""version.h""\r\n"
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // German (Switzerland) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-

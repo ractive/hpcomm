@@ -1208,7 +1208,7 @@ void CMainFrame::ChooseHelpFileName()
         {
             res = finder.FindNextFile();
             CString sHFName = finder.GetFileTitle();
-            if (sHFName == "HPCOMM")
+            if (sHFName.CompareNoCase("HPComm") == 0)
                 sHFName = "English";
 			sa.Add(sHFName);
 		}
@@ -1225,8 +1225,8 @@ void CMainFrame::ChooseHelpFileName()
 		}
 	}
 
-    if (sHelpLanguage == "English")
-        sHelpLanguage = "HPCOMM";
+    if (sHelpLanguage.CompareNoCase("English") == 0)
+        sHelpLanguage = "HPComm";
 
 	strcpy((char *)pApp->m_pszHelpFilePath, sHelpFilePath + sHelpLanguage + ".hlp");
 	// OK, done!

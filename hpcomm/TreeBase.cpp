@@ -293,6 +293,7 @@ void CTreeBase::OnBeginlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
 	TV_DISPINFO* pTVDispInfo = (TV_DISPINFO*)pNMHDR;
 
 	CTreeCtrl& TreeCtrl = GetTreeCtrl();
+	TreeCtrl.GetEditControl()->LimitText(_MAX_DIR);
 
 	// Don't allow renaming of the root and of the drive names.
 	if (pTVDispInfo->item.hItem == TreeCtrl.GetRootItem()) {

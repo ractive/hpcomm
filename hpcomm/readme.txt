@@ -3,7 +3,7 @@
 =======================================================
 Hewlett Packard Graphing Calculator PC Connectivity Kit
 =======================================================
-Release Notes         HPComm 3.0r3          23-Mar-2000
+Release Notes         HPComm 3.0r4           1-Jun-2000
 =======================================================
 
 Welcome:
@@ -14,12 +14,12 @@ software.  It is the result of a partnership between
 Hewlett Packard and the HPComm Project, and is being
 released simultaneously by both parties.
 
-This is version 3.0r3, which fixes a number of defects in
-version 3.0r2.  Improvements continue to be made, so it
+This is version 3.0r4, which fixes a number of defects in
+version 3.0r3.  Improvements continue to be made, so it
 is very likely that an improved version of this software
 will be available by the time you read this. 
 
-A list of enhancements and bug fixes since HPComm 3.0r2
+A list of enhancements and bug fixes since HPComm 3.0r3
 may be found at the end of this document.
 
 You may download source code and free updates over the
@@ -67,12 +67,14 @@ System Requirements:
 ====================
 
  - An HP Graphing Calculator.  All calculators in
-   the HP48 series, and the HP49G are supported.  The
-   HP38G is not supported at this time.
+   the HP48 series, and the HP49G are supported.  (The
+   HP38G, HP39G and HP40G are not supported by HPComm.
+   You should use the separate HPComm38 program for
+   those calculators).
 
  - This software is designed to run under Windows 95,
    Windows 98, Windows NT 4.0 and Windows 2000.  No other
-   OS versions are supported at present.
+   OS versions are supported.
 
  - Your display must be set to 256 colors or higher.
    Most modern displays are.
@@ -122,58 +124,22 @@ create it.  Also, you are very welcome to help improve
 the program or report bugs.  Please visit the HPComm
 website (http://www.hpcomm.org) for more information.
 
-Bugs fixed since HPComm 3.0r2:
+Bugs fixed since HPComm 3.0r3:
 ==============================
 
+ - Fixed a problem where the transfer of a file from
+   the PC to the calculator would fail under certain
+   circumstances.
+ - Fixed a problem where refreshing HPComm would cause
+   the report of a protocol error. 
+ - Fixed a problem where the file icon would go blank when
+   renaming a file on the calculator. 
+ - When a directory is re-read, make sure that the
+   current directory on the calculator matches the one
+   on the PC.
+ - Fixed a problem when translation Mode 0 was set,
+   where the first entry was not shown.
+ - When a file on the PC is renamed, the icon must be
+   recalculated.
 
- - HPComm now works correctly when connected to an HP49G
-   calculator set in French or Spanish mode. (Symptoms were
-   object types and icons not correctly displayed).
-
- - HPComm has been updated with new icons for every possible
-   official object type. No exceptions!
-
- - Removed the about box.  Instead, we reuse the splash
-   screen.
-
- - Fixed a bug in the copying of files where a failure of the
-   last item would cause a crash.
-
- - Added checking to see if an item can be dragged, to prevent
-   problems if a PC drive or the calc HOME dir are dragged.
-
- - If an object could not be fetched from the calc (and hence
-   it had no data) HPComm was creating a 0-byte file on the
-   PC.  Fixed.
-
- - Enhanced the GROB-handling dialog and menus to have the
-   same functionality as HPComm.  Also, fixed some bugs.
-
- - Added the ability to select the language of the help file.
-
- - Removed lots of unneeded files.
-
- - Oops, the home of HPComm is http://www.hpcomm.org, not
-   http://www.hpcalc.org!  (Hi Eric!)
-
- - When we send the end-of-file packet, hang around to pick up
-   the acknowledge packet from the calculator.
-
- - Fixed many bugs with renaming files.
-
- - Fixed some bugs with creating directories.
-
- - Added code to sort the checksum column on the calculator.
-
- - Added the hourglass cursor in more places.
-
- - If during a file transfer the connection gets lost and we
-   get a RETRIES error we must clean up first, otherwise
-   causes problems.
-
- - If a directory in the tree is renamed, ensure the list view 
-   is updated as well.
-
- - Added code to scroll if dragging an object.
-
- END
+END

@@ -1372,6 +1372,7 @@ void CListBase::OnClose()
 	// TODO: Add your message handler code here and/or call default
 //	GetListCtrl().GetImageList(LVSIL_NORMAL)->Detach();
 //	GetListCtrl().GetImageList(LVSIL_SMALL)->Detach();
+	
 	CListView::OnClose();
 }
 
@@ -1620,3 +1621,4 @@ void CListBase::newFolder()
 	bNewFolder = true;
 	ListCtrl.EditLabel(nCount);
 }
+

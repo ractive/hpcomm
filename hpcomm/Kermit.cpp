@@ -815,24 +815,13 @@ bool CKermit::hasEightbitChar(CString &sName, CString& sNewName)
 		if ((ch = (unsigned char) sName[i]) >= 127) {
 			// This is a 8bit char.
 			bRet = true;
-			break;
 		}
-		/*else {
+		else {
 			// The 7 bit chars are taken for the new name.
 			sNewName += ch;
-		}*/
-	}
-	
-	if (bRet) {
-		// We generate a random name for this variable which contains special chars
-		// So we can avoit the problem that two or more variables have the same name
-		// (i.e. 'omega't and 'alpha't
-		for (i = 0; i < 8; i++) {
-			// Use only capitals from 'A' to 'Z'
-			sNewName += (char)((rand() % 26) + 'A');
 		}
 	}
-	
+
 	return bRet;
 }
 

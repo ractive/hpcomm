@@ -24,7 +24,6 @@ public:
 class CCalcTypes
 {
 public:
-	static void Destroy();
     static CCalcTypes *instance();
 
     // const char *lookup(const char *key);

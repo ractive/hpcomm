@@ -49,6 +49,10 @@ private:
 	COLORREF m_crBkColor;
 
 	CBrush m_brBkgnd;
+
+	CWnd* m_pParent;
+	UINT m_nMsg;
+
 };
 
 /////////////////////////////////////////////////////////////////////////////

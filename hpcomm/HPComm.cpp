@@ -73,11 +73,6 @@ BOOL CHPCommApp::InitInstance()
 		return FALSE;
 	}
 
-
-/*	HINSTANCE hInst = LoadLibrary("ResDLL.dll");
-	if (hInst != NULL)
-		AfxSetResourceHandle(hInst);*/
-
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
 	//  of your final executable, you should remove from the following
@@ -135,7 +130,19 @@ BOOL CHPCommApp::InitInstance()
 	pWnd->pKermit->pfConnectDeleteCb();
 
 	pWnd->ShowPanes();
-
+//#define FILENAMETEST
+#ifdef FILENAMETEST
+	CNewFilename dlg;
+	dlg.sOldFilename = "Oldname";
+	dlg.sNewFilename = "NewName";
+	CString sRes;
+	switch(dlg.DoModal()) {
+	case IDOK: sRes = "OK"; break;
+	case IDCANCEL: sRes = "Cancel"; break;
+	case IDIGNORE: sRes = "Skip"; break;
+	}
+	MessageBox(NULL, dlg.sNewFilename + "\n" + sRes + " was hit.", "Test", MB_OK);
+#endif
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 

@@ -237,6 +237,15 @@ _rename(CFilerEntry *pEntry, const CString &sNewName)
 	if (shFile.fAnyOperationsAborted == TRUE)
 		return false;
 	
+
+	// If it was successful, rename the entry...
+	pEntry->Name(sNewName);
+
+	// ...and force a recalculation of the icons
+	// next time they're used.
+	pEntry->IconIndex(true, -1);
+	pEntry->IconIndex(false, -1);
+
 	return true;
 }
 
@@ -400,7 +409,7 @@ getDateTime(CFilerEntry *pEntry, SYSTEMTIME &st)
 		// Before we can do that, we must call FindNextFile.
         finder.FindNextFile();
 		FILETIME ftutc, ft;
-        bool bRet = (finder.GetLastWriteTime(&ftutc) == TRUE);
+        bool bRet = (finder.GetCreationTime(&ftutc) == TRUE);
 		FileTimeToLocalFileTime(&ftutc, &ft);
 		FileTimeToSystemTime(&ft, &st);
 		return bRet;

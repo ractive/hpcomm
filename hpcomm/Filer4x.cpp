@@ -32,7 +32,6 @@ CFiler4x(CProt *prot)
 CFiler4x::
 ~CFiler4x()
 {
-	CCalcTypes::Destroy();
 }
 
 
@@ -195,7 +194,22 @@ _rename(CFilerEntry *pEntry, const CString &sNewName)
 	if (currentCalcDir(parent) == false)
 		return false;
 
-	return prot_->rename(pEntry->Name(), sNewName);
+	bool ret = prot_->rename(pEntry->Name(), sNewName);
+
+	if (ret == false)
+		return false;
+
+	// If it was successful, rename the entry...
+	pEntry->Name(sNewName);
+
+	// Note, we DONT force the recalculation of the icons
+	// because we only know this when the calc tell us.
+	// (And the type is unlikely to change because of a rename...
+	// pEntry->IconIndex(true, -1);
+	// pEntry->IconIndex(false, -1);
+
+	return true;
+
 }
 
 
@@ -318,24 +332,14 @@ readDir(CFilerDir *dir, bool reRead /* = false */)
 
 	// Have we already read this directory?
 	if (!reRead && hasBeenRead(dir))
-	{
-		// FIXME: Hmm, is this right place?  Try putting it into findFile
-		// or findFileNext.  These are just the known directory right?  In
-		// CFiler::findFirst, put a call to calcIcons.  Then make CFiler4x
-		// have another think about what icon a directory should be.  By
-		// the time findFirst returns, the icons should have been updated.
-		dir->IconIndex(false, ct->directoryIcon());
-		dir->IconIndex(true, ct->openDirectoryIcon());
-
 		return true;
-	}
 
 	bool res;
 
 	if (reRead) {
 		// If we re-read a directory, we have to make sure that the directory on the calc
 		// is set correctly (i.e. if the user was browsing "offline" and makes a refresh.
-		changeDir(&toString(dir));
+		currentCalcDir(dir);
 	}
 
     // First we ensure that the parent is read in.  This is recursive.
@@ -347,8 +351,18 @@ readDir(CFilerDir *dir, bool reRead /* = false */)
 		if (res == false)
 			return false;
 	}
-	else if (currentDir() == 0)
-		currentDir(dir);
+	else
+    {
+        // We're reading the root.  Set the directory on the calc if we've never done it.
+        if (currentDir() == 0)
+            currentDir(dir);
+
+        // These are the icons for the HP HOME dir.
+        int icon = ct->icon("HOME");
+        dir->IconIndex(false, icon);
+        dir->IconIndex(true, icon);
+    }
+
 
     // Now we read this directory in.
 	if (currentCalcDir(dir) == false)
@@ -376,13 +390,10 @@ readDir(CFilerDir *dir, bool reRead /* = false */)
 	}
 
 	// The HP48GX sends the current dir with the directory content, whereas
-	// the HP48SX does not. So we just remove the current dir to handle both the same
+	// the HP48SX does not.  So we just remove the current dir to handle both the same
 	// way.
 	if (sRemoteDir.Left(1) == "{") {
-		// "Delete" the first line which contains the { HOME } etc.
-		sRemoteDir = sRemoteDir.Mid(sRemoteDir.Find('\n'));
-		// Remove any whitespaces including carrage returns from the beginning of the string
-		sRemoteDir.TrimLeft();
+		sRemoteDir = sRemoteDir.Mid(sRemoteDir.Find('\r') + 2);
 	}
 
 	char name[50], sType[30]; // What's the max. filename length on the HP???
@@ -497,6 +508,13 @@ readDir(CFilerDir *dir, bool reRead /* = false */)
 		dir->IconIndex(false, ct->directoryIcon());
 		dir->IconIndex(true, ct->openDirectoryIcon());
 	}
+    else
+    {
+        // These are the icons for the HP HOME dir.
+        int icon = ct->icon("HOME");
+        dir->IconIndex(false, icon);
+        dir->IconIndex(true, icon);
+    }
 
 	if (reRead)
 		cleanUp(&sa, dir);
@@ -514,17 +532,14 @@ readDir(CFilerDir *dir, bool reRead /* = false */)
 void CFiler4x::
 calcIcons(CFilerEntry *entry)
 {
-    if (isRoot(entry))
-    {
-		// These are the icons for the HP HOME dir.
-        CCalcTypes *ct = CCalcTypes::instance();
-
-        int icon = ct->icon("HOME");
-		entry->IconIndex(false, icon);
-		entry->IconIndex(true, icon);
-
+	// This next line avoids calculating the icon if it's been done
+	// before.  If the icon has changed, then invalidate() should be
+	// called.
+	if (entry->IconIndex(false) != -1 && entry->IconIndex(true) != -1)
 		return;
-    }
+
+    // Note, this function doesn't do much, because the icons
+    // are computed when we read the dir in.
 }
 
 

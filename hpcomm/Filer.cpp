@@ -233,16 +233,6 @@ rename(CFilerEntry *pEntry, const CString &sNewName)
 
 	bool res = _rename(pEntry, sNewName);
 
-	if (res == true) {
-		// If it was successful, rename the entry...
-		pEntry->Name(sNewName);
-
-		// ...and recalculate the icon.
-		pEntry->IconIndex(true, -1);
-		pEntry->IconIndex(false, -1);
-		calcIcons(pEntry);
-	}
-
 	return res;
 }
 

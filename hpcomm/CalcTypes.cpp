@@ -224,11 +224,3 @@ openDirectoryIcon()
 {
     return openDirectoryIcon_;
 }
-
-void CCalcTypes::Destroy()
-{
-    if (instance_ != 0) {
-        delete instance_;
-		instance_ = 0;
-	}
-}

@@ -161,9 +161,9 @@ CProt::ERRCODE XModem::SendFiles()
 
 CProt::ERRCODE XModem::RecvFiles()
 {
-
+/*
 	SetTimeout(5);
-/*	::PostMessage(hTransWnd, WM_MSGFROMTHREAD, BYTES, 0);
+	::PostMessage(hTransWnd, WM_MSGFROMTHREAD, BYTES, 0);
 	for (int i = 0; i < pDoc->aFiles.GetSize(); i++) {
 		OpenRecvFile(pDoc->aFiles.GetFileName(i));
 		::PostMessage(hTransWnd, WM_MSGFROMTHREAD, FILENO, i);
