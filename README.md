@@ -137,7 +137,7 @@ README (`hpgcomm/README.TXT`) explains:
 
 HPGComm went through eight betas between January and April 2001; version 2.0
 was released on 12 June 2001 and 2.01 on 1 July 2001. The last edit to the
-HPGComm sources dates from May 2003.
+HPGComm sources dates from 3 July 2001.
 
 ## Repository layout
 
@@ -218,15 +218,63 @@ commit per tree, with the author date set to the newest file modification
 time in the snapshot:
 
 1. HPGComm 2.0 beta 5 working copy (February 2001)
-2. HPComm 3.0r3 (working copy on the `TR3_0_R2_FIX` CVS branch, last edited
-   September 2001)
+2. HPComm 3.0r3 working copy from a machine backup made in 2001 (last edited
+   July 2001), followed by the later archived copy of the same working copy
+   (September 2001). Both sit on the `TR3_0_R2_FIX` branch of the hpcomm.org
+   CVS repository: their `CVS/Entries` files list revisions such as
+   `Filer.cpp 1.43.2.2` (28 February 2000), `HPComm.dsp 1.24.2.3`
+   (22 March 2000) and `.cvsignore 1.3` (13 June 1999).
 3. HPCommShell (June 2001)
-4. HPGComm 2.01 final, help source and DLLTest (July 2001 to May 2003)
+4. HPGComm 2.01 final, help source and DLLTest (July 2001)
 5. HPComm 3.0r4 and HPComm38 1.0r4 release sources from hpcalc.org (dated
    2 June 2000, added last because they were recovered last)
 
-The earlier CVS history of HPComm itself (1997–2000, hosted on hpcomm.org)
-has not been recovered.
+The hpcomm.org CVS repository itself (HPComm 1997–2000, HPComm38, and the
+website before 2001) was not recoverable. The 2001 machine backup also held
+a working copy of its `HPComm-web` module, last updated 19 June 2000. Its
+content is byte-for-byte the tree of the second SourceForge website commit
+(`website/`), so it was not imported separately. Its `CVS/Entries` is the
+only remaining trace of that repository's revision numbering:
+
+<details>
+<summary>CVS/Entries of the HPComm-web working copy (file, revision, checkout timestamp)</summary>
+
+```
+.cvsignore                 1.1      Tue Jan 11 04:46:25 2000
+Makefile                   1.1      Tue Jan 11 04:45:09 2000
+comctl32.html              1.3      Mon Jan 10 15:32:42 2000
+devsetup.html              1.4      Mon Jan 10 15:34:01 2000
+hp.html                    1.2      Tue Sep 21 12:25:17 1999
+lists.html                 1.8      Mon Apr  3 06:39:37 2000
+makefaq                    1.2      Tue Jan 11 05:16:44 2000
+products.html              1.5      Mon Apr  3 06:50:04 2000
+untarring.html             1.2      Tue Sep 21 12:25:17 1999
+beta.html                  1.17     Sat Jun 17 16:51:48 2000
+changes.html               1.2      Sat Jun 17 16:05:51 2000
+faq.dat                    1.4      Sat Jun 17 16:51:48 2000
+lists.cgi                  1.2      Sat Jun 17 18:42:37 2000
+cvs.html                   1.8      Mon Jun 19 18:05:29 2000
+devel.html                 1.11     Result of merge
+index.html                 1.21     Result of merge
+images                     .cvsignore 1.1
+images                     a.gif    1.1
+images                     adn.gif  1.1
+images                     badcapture.gif 1.1
+images                     bluediamond.gif 1.1
+images                     garrow.gif 1.1
+images                     heart.gif 1.2
+images                     jump.gif 1.1
+images                     new.gif  1.1
+images                     q.gif    1.1
+images                     reddiamond.gif 1.1
+images                     ss1.gif  1.2
+images                     ss1small.gif 1.1
+images                     ss2.gif  1.1
+images                     vh40.gif 1.1
+images                     ss2small.gif 1.2
+```
+
+</details>
 
 ## Credits
 
