@@ -16,6 +16,12 @@ Two programs were produced:
 
 All code is released under the GNU General Public License, version 2.
 
+![HPComm splash screen with the dog logo](docs/screenshots/splash.png)
+
+The dog logo on the splash screen and the program icon was drawn by
+[ishadyn](https://ishadyn.ch/illustrationen/)
+([@ishadyn_comic on Instagram](https://www.instagram.com/ishadyn_comic/)).
+
 ## History
 
 HPComm began as Jean-Pierre Bergamin's own open-source replacement for HP's
@@ -115,7 +121,7 @@ HPGComm sources dates from 3 July 2001.
 | `hpgcomm/DLLTest/` | A small MFC DLL test project (June 2001). |
 | `hpcommshell/` | HPCommShell, an unfinished Windows Explorer namespace extension (June 2001) that was meant to show the calculator as a folder inside Explorer. Reuses the Kermit and protocol classes from HPComm. |
 | `website/` | The www.hpcomm.org website as kept in CVS: HTML pages, the FAQ source (`faq.dat`, built by `makefaq`), the mailing-list CGI and the screenshots in `images/`. |
-| `docs/screenshots/` | Screenshots from the website and the HPGComm help, as the original GIFs and as PNG conversions. |
+| `docs/screenshots/` | Screenshots from the website and the HPGComm help, as the original GIFs and as PNG conversions, plus `splash.png`, the HPComm splash screen converted from `hpcomm/res/Splash.bmp`. |
 | `LICENSE` | GNU General Public License, version 2 (copy of `hpcomm/copying.txt`). |
 
 Compiled binaries, help files (`.HLP`, `.chm`), Visual C++ workspace state
@@ -252,6 +258,9 @@ images                     ss2small.gif 1.2
   the HPGComm README.
 - **Hewlett-Packard** — partnered with the HPComm Project to distribute HPComm
   as the "HP Graphing Calculator PC Connectivity Kit".
+- **ishadyn** — drew the dog logo used on the splash screen and as the
+  program icon. Website: <https://ishadyn.ch/illustrationen/>, Instagram:
+  [@ishadyn_comic](https://www.instagram.com/ishadyn_comic/).
 
 ## Where it was published
 
