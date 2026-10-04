@@ -3,7 +3,7 @@
 HPComm is a family of Windows programs for transferring files between a PC
 and Hewlett-Packard graphing calculators over a serial cable. This repository
 archives the source code, help files and website of the HPComm project
-(1997–2003) by Jean-Pierre "James" Bergamin, with contributions by Mitch Davis
+(1999–2001) by Jean-Pierre "James" Bergamin, with contributions by Mitch Davis
 and Colin Croft.
 
 Two programs were produced:
