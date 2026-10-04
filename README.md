@@ -71,7 +71,7 @@ Timeline, as documented on hpcomm.org, hpcalc.org and SourceForge:
 | 24 Dec 1999 | HPComm38 1.0 for the HP38G split out of a 3.1 beta |
 | 23 Mar 2000 | HPComm 3.0r3 and HPComm38 1.0r3 |
 | 2 Jun 2000 | HPComm 3.0r4 and HPComm38 1.0r4, the final releases |
-| Jan–Mar 2001 | HPGComm 2.0 betas 1–6 (SourceForge) |
+| Jan–Apr 2001 | HPGComm 2.0 betas 1 to 8 (b5 and b6 are on SourceForge) |
 | 12 Jun 2001 | HPGComm 2.0; 2.01 on 1 Jul 2001 |
 | 14 May 2002 | Project declared finished on hpcomm.sourceforge.net |
 
