@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>Using CVS: Getting the latest source</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+<table width="100%"><tr><td bgcolor="#6699ff"><font size="-2" color="#6699ff">_</font></td></tr></table>
+<font size="+3">Using CVS: Getting the latest source</font>
+<table width="100%"><tr><td bgcolor="#6699ff" align="right"><font size="-2" color="#3300cc">
+<!-- Created: Fri Sep 17 12:16:14 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Sun Jun 18 07:19:47 EST 2000
+<!-- hhmts end -->
+</font></td></tr></table>
+
+<b>How do I get the latest source for HPComm using CVS?</b>
+
+<!--
+<p> A snapshot of the current development code is made every day;
+simply retrieve the
+<A HREF="http://www.hpcomm.org/latest.html">latest version</A> 
+with your browser.
+-->
+
+<p> For read-only access to the very latest HPComm source, you can use CVS.
+This is <em><u>development</u></em> code; it may contain new features,
+bugs, and incompatibilities with older versions.
+
+<p> Please note that if you are behind a firewall, it may not be possible
+for you to access CVS in this manner.  You might try asking your system
+administrator to "pass through TCP port 2401".  If this still doesn't help,
+please get in touch with us.
+
+<p> <b>To use CVS under Unix:</b>
+
+<table border="1" cellpadding="10">
+<tr>
+ <td>
+  <p>
+  <ol>
+  <li>
+   Obtain, compile and install CVS on your Unix machine.  You can get CVS
+   from <a href="http://www.cvshome.org/">CVShome</a>.
+   <p>
+  </li>
+  <li>
+   Set your CVSROOT environment variable:
+   <p>
+   <ul>
+    <li>
+     If you're using Bourne shell (or bash), do it like this:
+     <pre>       CVSROOT=:pserver:cvs@cvs.hpcomm.org:/home/hpcomm/CVS-Repository</pre>
+     <pre>       export CVSROOT</pre>
+
+     Your shell might allow you to combine these two lines like this:
+     <pre>       export CVSROOT=:pserver:cvs@cvs.hpcomm.org:/home/hpcomm/CVS-Repository</pre>
+    <p>
+    </li>
+    <li>
+     If you're using the C shell (or tcsh), do it like this:
+     <pre>       setenv CVSROOT :pserver:cvs@cvs.hpcomm.org:/home/hpcomm/CVS-Repository</pre>
+    </li>
+   </ul>
+   <br>
+  </li>
+  <li> 
+   Tell the CVS server who you are:
+
+   <pre>       cvs login</tt> &nbsp;&nbsp;&nbsp;&nbsp;(the password is <tt>cvs</tt>)</pre>
+   <p>
+  </li>
+  <li> 
+   Grab yourself the source!  (Note, do this once only)
+
+   <pre>       cvs co HPComm</pre>
+
+or
+  
+   <pre>       cvs co HPComm38</pre>
+  
+   <p>This creates a subdirectory called <tt>HPComm</tt> or
+   <tt>HPComm38</tt>, with the latest source.
+
+   <p>
+  </li>
+  <li>
+   If you want to update your source code with changes from the
+   CVS repository, <tt>cd</tt> into the subdirectory, then use this:
+
+   <pre>       cvs update</pre>
+
+   (If you add a filename to this, only that file will be updated.)
+   <p>
+  </li>
+  <li>
+   Another useful cvs command is:
+
+   <pre>       cvs diff -u</pre>
+
+   This shows you the changes you've made to the source.
+   <p>
+  </li>
+  </ol>
+
+  <p><em>Note:</em> For HPComm, the main branch is what will become HPComm
+  3.1.  Only bug-fixes will be made to 3.0.  These have been most recently
+  released as HPComm 3.0r3.  The main branch may not be compilable for a
+  while, so if you want to get the source to what has been shipped in the
+  HP PC Connectivity Kit, it's probably best to add
+  "<tt>-rR3_0_R2_FIX</tt>" just after the "<tt>cvs co</tt>" and "<tt>cvs
+  update</tt>" commands.  This will give you the stable, HPComm 3.0r3
+  branch.
+
+  <p>Also, to speed things up over the network, add a <tt>-z9</tt> flag 
+  immediately after the <tt>cvs</tt> command. This causes all network 
+  traffic to be compressed.  You can also create a file in your home
+  directory called <tt>.cvsrc</tt> containing the line "<tt>cvs -z9</tt>".
+  This will have the same effect.
+ </td>
+</tr>
+</table>
+
+<p> <b>To use CVS under Windows:</b>
+
+<table border="1" cellpadding="10">
+<tr>
+ <td>
+  <p>
+  <ol>
+  <li>
+   Obtain, and install WinCVS on your Windows machine.  You can get WinCVS
+   from the <a href="http://www.wincvs.org">WinCVS homepage</a>.  (We have
+   tested this with version 1.1b12).
+   <p>
+  </li>
+  <li>
+   In WinCVS, open the preferences dialog box (under the
+   <I>Admin-&gt;Preferences</I> menu) and change the following
+   settings:
+   <br><br> In section <b>"General"</b>:<p>
+   <ul>
+    <li>
+     For CVSROOT enter:<br>
+     <pre>:pserver:cvs@cvs.hpcomm.org:/home/hpcomm/CVS-Repository</pre>
+    </li>
+    <li>
+     In the <tt>"Authentication"</tt> box choose:<br>
+     <pre>"passwd" file on the cvs server</pre>
+    </li>
+    <li>
+     In the <tt>"Use version"</tt> box choose:<br>
+     <pre>cvs 1.10 (Standard)</pre>
+    </li>
+   </ul>
+   In section <b>"Globals"</b>:<p>
+   <ul>
+    <li>
+    Select <tt>"Checkout text file with Unix LF (0x10)"</tt><p>
+    </li>		
+    <li>
+     To enable compressed data-transfer (especially useful for modem
+     users), check <tt>"Use TCP/IP compression"</tt> and set the value to
+     9.
+    </li>
+   </ul>
+   <p>
+  </li>
+  <li> 
+   Now you can grab the source.<p>
+   <ul>
+    <li>
+     Using the directory tree and list, choose a directory where the
+     source should be downloaded. A subdirectory (either HPComm or
+     HPComm38) will be created for the source files.<p>
+    </li>
+    <li>
+     Choose <i>"Checkout module..."</i> in the <i>Create</i> menu:<br>
+     <font size=-1>
+      (If the entry is grayed out, you haven't selected a directory).
+     </font>
+     <p>
+    </li>
+    <li>
+     Confirm the directory where the sources should be downloaded to.
+     It should already be correct.<P>
+    </li>
+    <li>
+     Enter the name of the module you want to check out (= download).
+     This will be either <tt>HPComm</tt> or <tt>HPComm38</tt>.<p>
+    </li>
+    <li>
+     After pressing OK the download should start and you will see the
+     progress in the output window.
+    </li>
+   </ul>
+   <p>
+  </li>
+  <li>
+   <p> To see the differences between your version and the version in the
+   CVS repository, right-click on a file and choose <tt>Diff
+   selection</tt>.  You'll see the changes in the ouput window.
+   <p>
+  </li>
+  <li>
+   If you want to merge your source file with the one in the CVS
+   repository, right-click on the file and choose <tt>Query
+   update</tt>. CVS then tries to merge your changes and the changes in the
+   CVS repository and puts the result back in this file.<p>
+  </li>
+  </ol>
+ </td>
+</tr>
+</table>
+
+<p>We really suggest becoming familiar with CVS, as it's a very powerful
+tool!  If you'd like to know more about CVS, try <a
+href="http://www.loria.fr/cgi-bin/molli/wilma.cgi/doc"> here </a>.
+<p>
+<p>
+<center>
+<A href="index.html">Home</a> |
+<a href="devel.html">Development</a> |
+<a href="devsetup.html">Development setup</a>
+</center>
+<p>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>How to untar the source.</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+    <hr><h1>How to untar the source.</h1><hr>
+
+<p> These notes are provided for people who are unfamiliar with the
+"<tt>.tar.bz2</tt>" format used for distributing the HPComm source.
+
+<p> In the Windows world, it's common to use a program like 
+<a href="http://www.pkware.com">pkzip</a> or 
+<a href="http://www.winzip.com">WinZip</a> to group and compress files into
+"<tt>.zip</tt>" files.  
+
+<p> In the Unix world, the job of grouping files is usually done by a
+program called <a href="http://www.faqs.org/faqs/compression-faq/part1/section-24.html">tar</a>, and the compression is done by some separate program
+such as <a href="http://www.gnu.org/software/gzip/gzip.html">gzip</a> or
+<a href="http://sourceware.cygnus.com/bzip2/">bzip2</a>.
+
+<p> In the case of HPComm, first we group the files with <tt>tar</tt>,
+then we use <tt>bzip2</tt> to compress them.  That's why the name of the 
+source file ends with "<tt>.tar.bz2</tt>".
+
+<h3>For Linux and Unix users:</h3>
+
+<p> Most modern installations of Linux are shipped with the <tt>bzip2</tt>
+program, so untarring the source should be this easy:
+
+<pre>
+    bunzip2 -c HPComm-src-30r2.tar.bz2 | tar -xvf -
+</pre>
+
+If <tt>bunzip2</tt> is not installed on your system, you can obtain it
+from the <a href="http://sourceware.cygnus.com/bzip2/">bzip2 home page</a>.
+
+<h3>For Windows users:</h3>
+
+There are two ways to untar the source code.
+
+<h2>The long-but-recommended way:</h2>
+
+The first method is to download <a
+href="http://sourceware.cygnus.com/cygwin/">Cygwin</a>, which provides a
+Unix-like environment, and an almost complete set of the tools you'd expect
+to find under Unix.  We suggest downloading and installing
+"<tt>full.exe</tt>" (about 14Mbytes).  This will install both
+"<tt>tar</tt>" and "<tt>bunzip2</tt>" on your Windows PC, and you will be
+able to untar the source as for the Unix method.  It's my understanding
+that long filenames, case sensitivity and line ends are correctly handled
+with this method.
+
+<h2>The quick-and-dirty method:</h2>
+
+If you only want to look at the source, and aren't interested in doing
+further development, here's what to do:
+
+<ul>
+ <li>Download 
+ <a href="ftp://garbo.uwasa.fi/pc/unix/tar320g.zip">tar320g.zip</a> and
+install it on your machine.  You should arrange to have "<tt>tar.exe</tt>"
+in your <tt>PATH</tt>.</li>
+ <li>Download
+ <a href="ftp://sourceware.cygnus.com/pub/bzip2/v095/bzip2095d_win32.exe">bzip2095d_win32.exe</a> and
+install it on your machine.  You should rename it to "<tt>bzip2.exe</tt>"
+and arrange to have this in your <tt>PATH</tt>.</li>
+ <li>Run this command:
+  <pre>
+    bzip2 -d -c HPComm-src-30r2.tar.bz2 | tar -xvf -
+  </pre>
+ </li>
+ <li>The source will now reside in a subdirectory called "HPComm-3".</li>
+</ul>
+
+Note that this version of <tt>tar</tt> does <em>not</em> support
+long filenames and case preservation, so you will not be able to
+rebuild the program from source untarred in this fashion.  If you
+want to rebuild the source, you must use either the Unix method, or
+the Cygwin Windows method.
+
+<p> If you have any good ideas or alternative strategies to add to this
+page, please don't hesistate to let us know.
+
+    <hr>
+    <address><a href="mailto:mjd@hpcomm.org">Mitch Davis</a></address>
+<!-- Created: Sun Sep 19 15:43:58 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Tue Sep 21 21:28:43 EST 1999
+<!-- hhmts end -->
+  </body>
+</html>

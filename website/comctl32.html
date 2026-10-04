@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>Updating the Windows 95 "comctl32.dll" library</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+  <hr><h1>Updating the Windows 95 "comctl32.dll" library</h1><hr>
+
+<h3>v1.0: 8-Sep-1999</h3>
+
+Many computers running Windows 95 have a system library
+which has bugs.  Symptoms of this are a weird-looking
+toolbar, and not being able to double-click on files or get
+right-mousebutton menus.
+
+<p><em> ### DO NOT APPLY THIS PATCH UNLESS YOUR SYSTEM ###
+<br>### EXACTLY MEETS THE DESCRIPTION BELOW.       ###</em>
+
+<p> The following excerpts are reproduced from the Microsoft website, and
+will help you determine whether your system needs upgrading.
+
+
+<pre>
+  <a href="http://support.microsoft.com/support/kb/articles/q186/1/76.asp">http://support.microsoft.com/support/kb/articles/q186/1/76.asp</a>
+
+  o To use the latest versions of the common controls with
+    Windows, you must have the latest version of
+    Comctl32.dll installed. You can obtain and distribute
+    the latest version of Comctl32.dll appropriate to a
+    particular operating system in either one of the
+    following ways:
+
+        In all cases, you can upgrade Comctl32.dll by
+        installing the latest version of Internet Explorer
+        (currently 5) intended for the particular platform:
+
+           <a href="http://www.microsoft.com/windows/ie/download/windows.htm">http://www.microsoft.com/windows/ie/download/windows.htm</a>
+
+    This is the preferred method of upgrading Comctl32.dll
+    for all platforms.
+
+  o You can use the file 401comupd.exe to install
+    Comctl32.dll (version 4.72.3611.1900) on Windows 95,
+    Windows 98, and Windows NT 4.0. You cannot use
+    401comupd.exe for Windows 3.x, Windows for Workgroups
+    3.x, Windows NT 3.x, Windows 98 SE, or Windows 2000. Do
+    not attempt to run 401comupd.exe on any system with
+    Internet Explorer 5.x installed. You must install
+    Service Pack 3 or later on Windows NT 4.0 before
+    installing 401comupd.exe. As with all operating system
+    changes, administrator privileges are required to use
+    401comupd.exe on Windows NT 4.0.
+</pre>
+
+Note: We suggest applying the patch below, not 401comupd.exe.
+
+<pre>
+  <a href="http://support.microsoft.com/support/kb/articles/Q165/4/87.asp">http://support.microsoft.com/support/kb/articles/Q165/4/87.asp</a>
+
+  This issue is resolved by the following updated file for Windows 95: 
+
+     Comctl32.dll version 4.70 (dated 5/19/97) and later 
+
+  Microsoft does not allow the separate redistribution of
+  the Comctl32.dll file at this time. Note that Microsoft
+  does allow the redistribution of the complete
+  self-extracting archive file Com32upd.exe.
+</pre>
+
+We suggest you visit the Microsoft website at the above addresses to find
+full information on correcting this problem.
+
+<p> As a convenience to you, you may download this file here:
+
+<pre>
+  <a href="ftp://hpcomm.sourceforge.net/pub/hpcomm/com32upd.exe">ftp://hpcomm.sourceforge.net/pub/hpcomm/com32upd.exe</a>
+
+</pre>
+
+<p> The Hewlett Packard PC Connectivity Kit CD (which includes HPComm 3.0)
+also includes "<tt>com32upd.exe</tt>", and can be found in the
+"<tt>\msw95patch</tt>" directory of the CD.
+
+<p> To install the patch, download it to your computer, then double-click
+on it using Windows Explorer.
+
+<hr>
+<a href="mailto:mjd@hpcomm.org">Mitch Davis</a>
+<br>
+<!-- Created: Fri Sep 17 12:16:14 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Tue Jan 11 02:30:44 EST 2000
+<!-- hhmts end -->
+  </body>
+</html>

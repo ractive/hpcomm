@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>How we set up our computers.</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+    <hr><h1>How we set up our computers.</h1><hr>
+
+<p> Here are some quick notes on how James and I have our computers set up.
+You might find it useful for setting up your development environment.
+
+<p> We both have two computers, one for Linux and the other for Windows.
+The computers are connected to each other with Ethernet.
+
+<p> The Linux box has a modem, which is used to dial our ISPs.  Using "<a
+href="http://howto.tucows.com/LDP/HOWTO/IPCHAINS-HOWTO.html">IP
+masquerading</a>", the Linux box provides the Windows box (and as many
+other boxes as you like) with transparent and secure Internet access.
+
+We run <a href="http://www.samba.org">Samba</a> on the Linux box, which
+lets the Windows box see files stored on the Linux box.  We run Visual C++
+on the Windows box for development, and CVS, 
+<a href="http://subzero.campus.luth.se/FreeDocs/emacs-19.34/ediff/ediff_1.html">ediff</a>
+and other neat tools on the Linux box to keep source synchronised.
+
+I have a switch box so I can switch between computers, and James uses a
+Windows "X server" so he can run programs on the Linux box and display
+them on the monitor attached to his Windows box.
+
+    <hr>
+    <address><a href="mailto:mjd@hpcomm.org">Mitch Davis</a></address>
+<!-- Created: Sun Sep 19 15:43:58 EST 1999 -->
+<!-- hhmts start -->
+Last modified: Tue Jan 11 02:42:31 EST 2000
+<!-- hhmts end -->
+  </body>
+</html>
+
