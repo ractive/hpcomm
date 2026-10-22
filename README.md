@@ -293,3 +293,14 @@ images                     ss2small.gif 1.2
 
 GNU General Public License, version 2. See [LICENSE](LICENSE) and
 the original license files `hpcomm/copying.txt` and `hpgcomm/license.txt`.
+
+Exceptions bundled with the code keep their own terms:
+
+- `hpcommshell/DockingWindow.cpp`, `DockingWindow.h` and `GUID.H` come from
+  Microsoft's 1997 RegView namespace-extension sample ("Copyright 1997
+  Microsoft Corporation", provided as is); HPCommShell as a whole is derived
+  from that sample.
+- `hpgcomm/HyperLink.cpp`/`.h` is Chris Maunder's CHyperLink (free for any use
+  except selling the control itself), `hpcomm/dib256.*`, `dibpal.*` and
+  `BitmapDialog.*` are Jörg König's (GPL by written arrangement), and
+  `RegBinding.*` is Jörg Dentler's.
