@@ -18,7 +18,7 @@ All code is released under the GNU General Public License, version 2.
 
 ![HPComm splash screen with the dog logo](docs/screenshots/splash.png)
 
-The dog logo on the splash screen and the program icon was drawn by
+The dog logo, Spot, on the splash screen and the program icon was drawn by
 [ishadyn](https://ishadyn.ch/illustrationen/)
 ([@ishadyn_comic on Instagram](https://www.instagram.com/ishadyn_comic/)).
 
